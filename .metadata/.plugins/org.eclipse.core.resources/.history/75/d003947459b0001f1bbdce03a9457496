@@ -1,0 +1,28 @@
+package com.springproject.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.springproject.domain.Diary;
+import com.springproject.repository.DiaryRepository;
+
+@Service	//저는 서비스에요
+public class DiaryServiceImpl implements DiaryService
+{
+	@Autowired
+	private DiaryRepository diaryRepository;
+	
+	@Override
+	public Diary create(Diary diary) 
+	{
+		System.out.println("DiaryServiceImpl - create in - 레파지토리 함수 호출");
+		return diaryRepository.create(diary);
+	}
+
+	@Override
+	public Diary read(String diaryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

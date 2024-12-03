@@ -1,0 +1,14 @@
+package com.springproject.service;
+
+import java.util.List;
+
+import com.springproject.domain.Diary;
+
+public interface DiaryService 
+{
+	Diary create(Diary diary);
+	Diary read(String diaryId);
+	void setNewDiary(Diary diary);
+	List<Diary> getAllDiary();
+	List<Diary> getMyDiary();
+}

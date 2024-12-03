@@ -1,0 +1,66 @@
+package com.springproject.repository;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Repository;
+
+import com.springproject.domain.Diary;
+
+@Repository	//이거 안하니까 객체 생성 못한다고 화냄
+public class DiaryRepositoryImpl implements DiaryRepository
+{
+	//private Map<String, Diary> diaryList;	// 목적 : 멤버 아이디 별로 각각 다이어리 만들어서 담아주기
+	//private Map<String, List<Diary>> diaryIdList;	//여기는 멤버 아이디만 담고, 멤버별 다이어리는 리스트에 담음
+	private List<Diary> diaryList;
+	
+	public DiaryRepositoryImpl()
+	{
+		System.out.println("DiaryRepositoryImpl 생성자 함수 호출 - 다이어리 담을 맵 만들기");
+		//diaryList = new HashMap<String, Diary>();	
+		//diaryIdList = new HashMap<String, List<Diary>>();
+		diaryList = new ArrayList<Diary>();
+	}
+	
+	@Override
+	public Diary create(Diary diary) //다이어리 객체 를 받아와서
+	{
+		System.out.println("DiaryRepositoryImpl create in");
+//		if(diaryIdList.keySet().contains(diary.getDiaryId()))
+//		{			//리스트에 담긴 모든 키 값 가져와서 (전체 다이어리 아이디)
+//								//멤버의 다이어리 아이디 있는지 확인
+//			throw new IllegalArgumentException(String.format("다이어리 id 가 존재합니다.", diary.getDiaryId()));
+//		}
+//		//다이어리 아이디 없으면 리스트에 다이어리 추가
+//		diaryIdList.put(diary.getDiaryId(), diary);
+//		System.out.println("diaryList 에 새 다이어리 추가완료 "+diaryIdList);
+		return diary;
+	}
+
+	@Override
+	public Diary read(String diaryId) 
+	{
+		System.out.println("DiaryRepositoryImpl read in");
+		return null;
+	}
+
+	@Override
+	public void setNewDiary(Diary diary) 
+	{	//다이어리 등록하기
+		System.out.println("DiaryRepositoryImpl setNewDiary in");
+		diaryList.add(diary);
+		System.out.println("diaryList 저장완료 "+diaryList);
+	}
+
+	@Override
+	public List<Diary> getAllDiary() 
+	{
+		System.out.println("DiaryRepositoryImpl getAllDiary in");
+		
+		
+		return null;
+	}
+
+}

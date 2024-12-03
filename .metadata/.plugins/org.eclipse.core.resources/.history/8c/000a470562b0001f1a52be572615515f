@@ -1,0 +1,10 @@
+package com.springproject.service;
+
+import com.springproject.domain.Diary;
+
+public interface DiaryService 
+{
+	Diary create(Diary diary);
+	Diary read(String diaryId);
+	void setNewDiary(Diary diary);
+}
