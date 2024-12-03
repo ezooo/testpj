@@ -4,26 +4,59 @@ import java.util.Date;
 
 public class Recommendation 
 {
-	String recommend_title;
-	String recommend_content;
-	Date recommend_date;
+	private long recommendId;	//기본키
+	private String userId;	//작성자 아이디
+	private String recommendTitle;	//제목
+	private String recommendContent;	//내용
+	private Date recommendDate;	//작성일자
 	
-	public String getRecommend_title() {
-		return recommend_title;
+	// 1. 생성자 만들기
+	public Recommendation() 
+	{
+		super();
+		System.out.println("Recommendation 기본생성자");
 	}
-	public void setRecommend_title(String recommend_title) {
-		this.recommend_title = recommend_title;
+	public Recommendation(String recommendTitle, String recommendContent) 
+	{
+		super();
+		System.out.println("Recommendation 매개변수 생성자 in");
+		
+		this.recommendTitle = recommendTitle;
+		this.recommendContent = recommendContent;
+		
 	}
-	public String getRecommend_content() {
-		return recommend_content;
+
+
+	public long getRecommendId() {
+		return recommendId;
 	}
-	public void setRecommend_content(String recommend_content) {
-		this.recommend_content = recommend_content;
+	public void setRecommendId(long recommendId) {
+		this.recommendId = recommendId;
 	}
-	public Date getRecommend_date() {
-		return recommend_date;
+	public String getUserId() {
+		return userId;
 	}
-	public void setRecommend_date(Date recommend_date) {
-		this.recommend_date = recommend_date;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
+	public String getRecommendTitle() {
+		return recommendTitle;
+	}
+	public void setRecommendTitle(String recommendTitle) {
+		this.recommendTitle = recommendTitle;
+	}
+	public String getRecommendContent() {
+		return recommendContent;
+	}
+	public void setRecommendContent(String recommendContent) {
+		this.recommendContent = recommendContent;
+	}
+	public Date getRecommendDate() {
+		return recommendDate;
+	}
+	public void setRecommendDate(Date recommendDate) {
+		this.recommendDate = recommendDate;
+	}
+	
+
 }
