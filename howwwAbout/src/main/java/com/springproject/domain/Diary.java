@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class Diary 
 {
 	//String diaryId;	//이 아이디 가지고 멤버의 다이어리 찾아줘야 함
+	private long diaryId;
 	private String userId;	//이 아이디 가진 다이어리 찾아줘야 함
 	private String visit_date;
 	private String visit_diary;
@@ -13,7 +14,7 @@ public class Diary
 	//private String diaryId;	//다이어리 수정 삭제하려니까 이거 필요함.. 이게 pk 인듯
 	//private int number = 0;
 	//private LocalDateTime diaryId;
-	private long diaryId;
+	
 	
 	public Diary(String userId, String visit_date, String visit_diary) 
 	{

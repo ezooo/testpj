@@ -1,0 +1,10 @@
+package com.springproject.repository;
+
+import org.springframework.jdbc.core.RowMapper;
+
+import com.springproject.domain.Diary;
+
+public class DiaryRowMapper implements RowMapper<Diary>
+{
+	
+}

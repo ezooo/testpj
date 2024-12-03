@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.springproject.domain.Diary;
@@ -18,6 +22,15 @@ public class DiaryRepositoryImpl implements DiaryRepository
 	//private Map<String, List<Diary>> diaryIdList;	//여기는 멤버 아이디만 담고, 멤버별 다이어리는 리스트에 담음
 	private List<Diary> diaryList = new ArrayList<Diary>();
 	List<Diary> myDiary;	// 내 아이디에 해당하는 다이어리만 가져와서 담을 객체
+	
+	//db 연결을 위한 설정추가
+	private JdbcTemplate template;
+	@Autowired
+	public void setJdbctemplate(DataSource dataSource)
+	{
+		this.template = new JdbcTemplate(dataSource);
+	}
+	//db설정end
 	
 	public DiaryRepositoryImpl()
 	{
@@ -64,8 +77,10 @@ public class DiaryRepositoryImpl implements DiaryRepository
 	{
 		System.out.println("DiaryRepositoryImpl getAllDiary in");
 		
+		String SQL = "select * from diary";
+		List<Diary> diaries = template.query(SQL, new DiaryRowMapper());	//sql을 
 		
-		return diaryList;
+		return diaries;
 	}
 
 	@Override
@@ -93,17 +108,15 @@ public class DiaryRepositoryImpl implements DiaryRepository
 		System.out.println("DiaryRepositoryImpl getDiaryById in");
 		Diary diaryInfo = null;		//원하는 다이어리 찾으면 여기에 정보담기
 		
-		for(Diary diary : diaryList)
+		String SQL = "select count(*) from diary where diaryId=?";
+		int rowCount = template.queryForObject(SQL, Integer.class, diaryId);	//레코드 갯수가 한 개 이상일 때
+		if(rowCount != 0)
 		{
-			System.out.println("다이어리 아이디 가졍모 :"+diary.getDiaryId());
-			//String di = String.valueOf(diary.getDiaryId());
-			if(diary!=null && diary.getDiaryId()==diaryId)
-			{
-				System.out.println("다이어리 안 비었고 매칭 완료");
-				diaryInfo = diary;
-				break;
-			}
+			System.out.println("DiaryRepositoryImpl getDiaryById rowCount != 0");
+			SQL = "select * from diary where diaryId=?";
+			diaryInfo = template.queryForObject(SQL, new Object[] {diaryId}, new DiaryRowMapper());
 		}
+		
 		if(diaryInfo == null)
 		{
 			System.out.println("다이어리 못 찾아서 정보가 비었다");

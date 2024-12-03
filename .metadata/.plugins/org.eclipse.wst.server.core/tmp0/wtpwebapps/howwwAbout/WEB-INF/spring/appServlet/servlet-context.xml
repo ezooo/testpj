@@ -25,10 +25,26 @@
 	</beans:bean>
 	
 	<!-- com.springmvc.* 이라고 표시하면 해당 패키지의 모든 클래스의 객체를 만들어서 보관 중 -->
-	<context:component-scan base-package="com.springproject.*" />
+	<context:component-scan base-package="com.springproject.controller" />
+	<context:component-scan base-package="com.springproject.domain" />
+	<context:component-scan base-package="com.springproject.exception" />
+	<context:component-scan base-package="com.springproject.repository" />
+	<context:component-scan base-package="com.springproject.service" />
 
 		<!-- 이미지 파일 업로드를 위한 객체 생성 -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="10240000" />
+	</beans:bean>
+	
+		<!-- 데이터베이스 연결을 위한 객체 생성 -->
+	<!-- datasource 설정과 jdbcTemplate 빈 객체 등록 -->
+	<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver"></beans:property>	<!-- 드라이버 클래스 설정 -->
+		<beans:property name="url" value="jdbc:mysql://localhost:3306/howAbout?serverTimezone=UTC"></beans:property>	<!-- 접속 db 이름 설정 -->
+		<beans:property name="username" value="root"></beans:property>
+		<beans:property name="password" value="1234"></beans:property>
+	</beans:bean>
+	<beans:bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<beans:property name="dataSource" ref="dataSource"></beans:property>
 	</beans:bean>
 </beans:beans>
