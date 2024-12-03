@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.springproject.domain.Diary;
 import com.springproject.domain.Member;
+import com.springproject.exception.DiaryIdException;
 
 @Repository	//이거 안하니까 객체 생성 못한다고 화냄
 public class DiaryRepositoryImpl implements DiaryRepository
@@ -76,7 +77,7 @@ public class DiaryRepositoryImpl implements DiaryRepository
 		myDiary = new ArrayList<Diary>();
 		for(Diary diary : diaryList)
 		{
-			if(diary.getuserId().equals(userId))
+			if(diary.getUserId().equals(userId))
 			{
 				System.out.println("내 다이어리 입니다.");
 				myDiary.add(diary);
@@ -85,4 +86,38 @@ public class DiaryRepositoryImpl implements DiaryRepository
 		System.out.println("내 다이어리 찾기 완료");
 		return myDiary;
 	}
+
+	@Override
+	public Diary getDiaryById(long diaryId)
+	{
+		System.out.println("DiaryRepositoryImpl getDiaryById in");
+		Diary diaryInfo = null;		//원하는 다이어리 찾으면 여기에 정보담기
+		
+		for(Diary diary : diaryList)
+		{
+			System.out.println("다이어리 아이디 가졍모 :"+diary.getDiaryId());
+			//String di = String.valueOf(diary.getDiaryId());
+			if(diary!=null && diary.getDiaryId()==diaryId)
+			{
+				System.out.println("다이어리 안 비었고 매칭 완료");
+				diaryInfo = diary;
+				break;
+			}
+		}
+		if(diaryInfo == null)
+		{
+			System.out.println("다이어리 못 찾아서 정보가 비었다");
+			throw new DiaryIdException();
+		}
+		System.out.println("getDiaryById 동작 완료");
+		return diaryInfo;
+	}
+
+	@Override
+	public void setUpdateDiary(Diary diary) 
+	{
+		System.out.println("DiaryRepositoryImpl setUpdateDiary in");
+	}
+	
+	
 }

@@ -11,4 +11,6 @@ public interface DiaryService
 	void setNewDiary(Diary diary);
 	List<Diary> getAllDiary();
 	List<Diary> getMyDiary();
+	Diary getDiaryById(long diaryId);
+	void setUpdateDiary(Diary diary);
 }

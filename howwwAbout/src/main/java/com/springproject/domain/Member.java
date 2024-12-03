@@ -8,6 +8,23 @@ public class Member
 	   private String userTel;            //유저 전화번호
 	   private String userAddr;         //유저 주소
 	   private String userDate;         //유저 가입일
+	   
+	   
+	   
+	public Member() {
+		super();
+		System.out.println("멤버 기본 생성자");
+		// TODO Auto-generated constructor stub
+	}
+
+	public Member(String userId, String userPw) 
+	{
+		super();
+		System.out.println("멤버 매개변수 생성자");
+		this.userId = userId;
+		this.userPw = userPw;
+	}
+	
 	public String getUserName() {
 		return userName;
 	}

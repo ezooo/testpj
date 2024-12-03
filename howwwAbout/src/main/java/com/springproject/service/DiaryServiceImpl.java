@@ -48,4 +48,18 @@ public class DiaryServiceImpl implements DiaryService
 		System.out.println("DiaryServiceImpl - getMyDiary in - 레파지토리 함수 호출");
 		return diaryRepository.getMyDiary("11");
 	}
+
+	@Override
+	public Diary getDiaryById(long diaryId) 
+	{
+		System.out.println("DiaryServiceImpl - getDiaryById in - 레파지토리 함수 호출");
+		return diaryRepository.getDiaryById(diaryId);
+	}
+
+	@Override
+	public void setUpdateDiary(Diary diary) 
+	{
+		System.out.println("DiaryServiceImpl - setUpdateDiary in - 레파지토리 함수 호출");
+		diaryRepository.setUpdateDiary(diary);
+	}
 }

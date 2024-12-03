@@ -1,0 +1,6 @@
+package com.springproject.repository;
+
+public class DiaryRowMapper
+{
+
+}

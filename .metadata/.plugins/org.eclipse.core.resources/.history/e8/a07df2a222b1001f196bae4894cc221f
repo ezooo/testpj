@@ -1,0 +1,53 @@
+package com.springproject.controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.springproject.domain.Member;
+import com.springproject.repository.MemberRepository;
+
+@Controller
+@RequestMapping
+public class LoginController 
+{
+	@Autowired
+	MemberRepository mr;
+	
+	@GetMapping("/login")
+	public String login(Model model)
+	{
+		model.addAttribute("member", new Member());
+		return "login";
+	}
+	
+	@PostMapping("/login")
+	public String gologin(@ModelAttribute Member member, HttpServletRequest request)
+	{
+		System.out.println("로그인하러옴");
+		String userId = member.getUserId();
+		String userPw = member.getUserPw();
+		//등록된 회원인지 검사
+		if(mr.getAllMember().contains(userId))
+		{
+			System.out.println("유효한 아이디다");
+			if(mr.getMember(userId).getUserPw() == userPw)
+			{
+				System.out.println("비밀번호 일치 : 로그인 성공");
+				//세션 생성
+				HttpSession ssn = request.getSession(true);
+				ssn.setAttribute("member", mr.getMember(userId));
+				return "redirect:/diary/addDiary";
+			}
+			return "login";
+		}
+		return "login";
+	}
+}

@@ -9,6 +9,11 @@ public class Diary
 	private String visit_date;
 	private String visit_diary;
 	private MultipartFile picture;
+	private String filename;
+	//private String diaryId;	//다이어리 수정 삭제하려니까 이거 필요함.. 이게 pk 인듯
+	//private int number = 0;
+	//private LocalDateTime diaryId;
+	private long diaryId;
 	
 	public Diary(String userId, String visit_date, String visit_diary) 
 	{
@@ -17,12 +22,19 @@ public class Diary
 		this.userId = userId;
 		this.visit_date = visit_date;
 		this.visit_diary = visit_diary;
+		//this.diaryId = userId + (++number);
+		this.diaryId = System.currentTimeMillis();
+		
+		System.out.println("다이어리 생성 완료 ! 다이어리 아이디는 : "+diaryId);
 	}
 	
 	public Diary() 
 	{
 		super();
 		System.out.println("다이어리 기본생성자");
+		this.diaryId = System.currentTimeMillis();
+		//this.diaryId = userId + number;
+		System.out.println("다이어리 생성 완료 ! 다이어리 아이디는 : "+diaryId);
 	}
 
 
@@ -45,10 +57,43 @@ public class Diary
 	public void setPicture(MultipartFile picture) {
 		this.picture = picture;
 	}
-	public String getuserId() {
+	
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	public String getUserId() {
 		return userId;
 	}
-	public void setuserId(String userId) {
+
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
+	public long getDiaryId() {
+		return diaryId;
+	}
+
+	public void setDiaryId(long diaryId) {
+		this.diaryId = diaryId;
+	}
+
+//	public String getDiaryId() {
+//		return diaryId;
+//	}
+//	public void setDiaryId(String diaryId) {
+//		this.diaryId = diaryId;
+//	}
+//	public int getNumber() {
+//		return number;
+//	}
+//
+//	public void setNumber(int number) {
+//		this.number = number;
+//	}
+	
 }
