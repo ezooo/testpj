@@ -25,4 +25,13 @@ public class RecommendationServiceImpl implements RecommendationService
 		return recommendationList;
 	}
 
+	@Override
+	public void addRecommend(Recommendation recommendation) 
+	{
+		System.out.println("RecommendationServiceImpl addRecommend in");
+		recommendation.setRecommendId(System.currentTimeMillis());
+		
+		recommendationList.add(recommendation);
+	}
+
 }

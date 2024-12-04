@@ -13,8 +13,10 @@
 <%
 	Diary diary = (Diary)request.getAttribute("diaryById");
 %>
-
-<form:form modelAttribute="diary" method="post" enctype="multipart/form-data">	
+<%@ include file="main.jsp" %>
+<br>
+<form:form modelAttribute="diary" method="post" enctype="multipart/form-data">
+	<form:input path="diaryId" value="<%=diary.getDiaryId() %>" type="hidden" />	
 	<p>방문일 : <form:input path="visit_date" name="visit_date" value="<%=diary.getVisit_date() %>" /> </p>
 	<p>메모 : <form:input path="visit_diary" name="visit_diary" value="<%=diary.getVisit_diary() %>" /> </p>
 	<p>사진 : <form:input path="picture"  type="file" name="picture"/> </p>

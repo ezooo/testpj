@@ -9,6 +9,8 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%@ include file="main.jsp" %>
+<br>
 로그인하세요.
 <form:form modelAttribute="member" method="post">
 	<p> 아이디 : <form:input path="userId" name="userId"/>

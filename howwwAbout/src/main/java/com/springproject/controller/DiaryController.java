@@ -38,14 +38,21 @@ public class DiaryController
 	{
 		System.out.println("다이어리 보여주기");
 		//로그인 되어있을 때 다이어리 보여주기
-		String sessionid = request.getSession(false).getId();
-		if(sessionid != null)
+		//String sessionid = request.getSession(false).getId();
+		String sessionid;
+		
+		if(request.getSession(false) != null)
 		{
-			System.out.println("DiaryController showDiary 세션아이디 있다 : 내 다이어리 가기");
-			//다이어리 갈 때 내 다이어리 다 보여줘야 함
-			List<Diary> list = diaryService.getAllDiary();
-			model.addAttribute("diaryList", list);
-			return "diaries";
+			sessionid = request.getSession(false).getId();
+			
+			if(sessionid != null)
+			{
+				System.out.println("DiaryController showDiary 세션아이디 있다 : 내 다이어리 가기");
+				//다이어리 갈 때 내 다이어리 다 보여줘야 함
+				List<Diary> list = diaryService.getAllDiary();
+				model.addAttribute("diaryList", list);
+				return "diaries";
+			}
 		}
 		System.out.println("로그인 안되어있다 : 다이어리 구조만 보여주기");
 		return "diary_beforeLogin";
@@ -112,6 +119,12 @@ public class DiaryController
 	public String submitDiaryForm(@ModelAttribute Diary diary, HttpServletRequest request)	//모델에 담긴 내용 받아오기
 	{	//addDiary 에서 제출한 내용 처리할 메서드
 		System.out.println("DiaryController - submitDiaryForm in");
+		//다이어리 아이디 주기
+		Member mb = (Member)request.getSession().getAttribute("member");
+		diary.setUserId(mb.getUserId());
+		System.out.println("유저 아이디 주기 : "+diary.getUserId());
+		diary.setDiaryId(System.currentTimeMillis());
+		System.out.println("다이어리 아이디 주기 : "+diary.getDiaryId());
 		
 		//이미지파일넣기
 		MultipartFile picture = diary.getPicture();	//다이어리에서 파일 받아오기
@@ -128,6 +141,7 @@ public class DiaryController
 			try
 			{
 				picture.transferTo(savefile);	//사진을 savepath 경로에 업로드
+				diary.setFilename(savename);	//db 연결 시 추가
 				System.out.println("파일 업로드 완료 !");
 			}
 			catch(Exception e)
@@ -135,9 +149,7 @@ public class DiaryController
 				System.out.println("submitDiaryForm 파일 작성 에러에러");
 			}
 		}
-		
 		diaryService.setNewDiary(diary);	//제출받은거 등록함수에게 주기
-		
 		return "redirect:/diaries";
 	}
 	
@@ -159,20 +171,22 @@ public class DiaryController
 		System.out.println("이미지 파일 수정할 때랑 안할 때 다르게 작업해야 함");
 		
 		MultipartFile picture = diary.getPicture();	//다이어리에서 파일 받아오기
-		String savepath = request.getServletContext().getRealPath("/resources/images/");	//저장소 경로 받아오기
-		System.out.println(savepath);
-		String savename = picture.getOriginalFilename();	//파일 이름 받아오기
-		System.out.println("파일이름은 : "+savename);
-		File savefile = new File(savepath, savename);	//변수에 저장해둔 경로+ 저장된 이름으로 새 파일 생성
 		
 		//유효성 검사
 		if( picture!=null && !picture.isEmpty())
 		{
-			System.out.println("submitDiaryForm 사진이 있습니다. 파일 저장하기");
+			System.out.println("submitDiaryForm 사진이 있습니다.");
+			String savepath = request.getServletContext().getRealPath("/resources/images/");	//저장소 경로 받아오기
+			System.out.println(savepath);
+			String savename = picture.getOriginalFilename();	//파일 이름 받아오기
+			System.out.println("파일이름은 : "+savename);
+			File savefile = new File(savepath, savename);	//변수에 저장해둔 경로+ 저장된 이름으로 새 파일 생성
+			System.out.println("submitDiaryForm 파일 저장하기");
 			try
 			{
 				picture.transferTo(savefile);	//사진을 savepath 경로에 업로드
-				System.out.println("파일 업로드 완료 !");
+				diary.setFilename(savename);
+				System.out.println("submitDiaryForm 파일 업로드 완료 !");
 			}
 			catch(Exception e)
 			{
@@ -185,13 +199,10 @@ public class DiaryController
 		return "redirect:/diaries";
 	}
 	
-	
-//	@PostMapping
-//	public  @ResponseBody Diary create(@RequestBody Diary diary)
-//	{
-//		System.out.println("diaryController - create 매핑 : 다이어리 만들기 - 다이어리 서비스로 감");
-//		return diaryService.create(diary);	//다이어리 새로 만들고 돌아오면
-//	}
-	
-	
+	@GetMapping("/deleteDiary")
+	public String deleteDiary(@ModelAttribute Diary diary, @RequestParam("id") long diaryId)
+	{
+		diaryService.deleteDiary(diaryId);
+		return "redirect:/diaries";
+	}
 }

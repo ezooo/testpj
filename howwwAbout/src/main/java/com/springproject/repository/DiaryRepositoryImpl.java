@@ -30,6 +30,7 @@ public class DiaryRepositoryImpl implements DiaryRepository
 	{
 		this.template = new JdbcTemplate(dataSource);
 	}
+	String SQL;
 	//db설정end
 	
 	public DiaryRepositoryImpl()
@@ -43,33 +44,15 @@ public class DiaryRepositoryImpl implements DiaryRepository
 	}
 	
 	@Override
-	public Diary create(Diary diary) //다이어리 객체 를 받아와서
-	{
-		System.out.println("DiaryRepositoryImpl create in");
-//		if(diaryIdList.keySet().contains(diary.getDiaryId()))
-//		{			//리스트에 담긴 모든 키 값 가져와서 (전체 다이어리 아이디)
-//								//멤버의 다이어리 아이디 있는지 확인
-//			throw new IllegalArgumentException(String.format("다이어리 id 가 존재합니다.", diary.getDiaryId()));
-//		}
-//		//다이어리 아이디 없으면 리스트에 다이어리 추가
-//		diaryIdList.put(diary.getDiaryId(), diary);
-//		System.out.println("diaryList 에 새 다이어리 추가완료 "+diaryIdList);
-		return diary;
-	}
-
-	@Override
-	public Diary read(String diaryId) 
-	{
-		System.out.println("DiaryRepositoryImpl read in");
-		return null;
-	}
-
-	@Override
 	public void setNewDiary(Diary diary) 
 	{	//다이어리 등록하기
 		System.out.println("DiaryRepositoryImpl setNewDiary in");
-		diaryList.add(diary);
-		System.out.println("diaryList 저장완료 "+diaryList);
+		
+		String SQL = "insert into diary values(?,?,?,?,?)";
+		template.update(SQL, diary.getDiaryId(), diary.getUserId(), diary.getVisit_date(), diary.getVisit_diary(), diary.getFilename());
+		System.out.println("setNewDiary 쿼리 업데이트 완료");
+		//diaryList.add(diary);
+		//System.out.println("diaryList 저장완료 "+diaryList);
 	}
 
 	@Override
@@ -77,7 +60,7 @@ public class DiaryRepositoryImpl implements DiaryRepository
 	{
 		System.out.println("DiaryRepositoryImpl getAllDiary in");
 		
-		String SQL = "select * from diary";
+		SQL = "select * from diary";
 		List<Diary> diaries = template.query(SQL, new DiaryRowMapper());	//sql을 
 		
 		return diaries;
@@ -130,6 +113,37 @@ public class DiaryRepositoryImpl implements DiaryRepository
 	public void setUpdateDiary(Diary diary) 
 	{
 		System.out.println("DiaryRepositoryImpl setUpdateDiary in");
+		SQL = "select count(*) from diary where diaryId=?";
+		int row = template.queryForObject(SQL, Integer.class, diary.getDiaryId());
+		if(row != 0)
+		{
+			System.out.println("발견 !");
+		}
+		
+		if(diary.getFilename()!=null)
+		{
+			System.out.println("수정할 다이어리 아이디 : "+diary.getDiaryId());
+			System.out.println("setUpdateDiary 파일 이미지도 수정");
+			SQL = "update diary set visit_date=?, visit_diary=?, filename=? where diaryId=?";
+			System.out.println("수정할 방문일: "+diary.getVisit_date());
+			template.update(SQL, diary.getVisit_date(), diary.getVisit_diary(), diary.getFilename(), diary.getDiaryId());
+		}
+		else
+		{
+			System.out.println("수정할 다이어리 아이디 : "+diary.getDiaryId());
+			System.out.println("setUpdateDiary 파일 이미지 수정 안함");
+			SQL = "update diary set visit_date=?, visit_diary=? where diaryId=?";
+			System.out.println("수정할 방문일: "+diary.getVisit_date());
+			template.update(SQL, diary.getVisit_date(), diary.getVisit_diary(), diary.getDiaryId());	
+		}
+	}
+
+	@Override
+	public void deleteDiary(long diaryId) 
+	{
+		System.out.println("DiaryRepositoryImpl deleteDiary in");
+		SQL = "delete from diary where diaryId=?";
+		template.update(SQL,diaryId);
 	}
 	
 	

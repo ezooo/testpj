@@ -9,7 +9,9 @@
 <title>다이어리 작성 폼</title>
 </head>
 <body>
-다이어리 작성 폼 입니다.
+<%@ include file="main.jsp" %>
+<br>
+<p>다이어리 작성 폼 입니다.<p>
 
 <form:form modelAttribute="diary" method="post" enctype="multipart/form-data">
 	<p>방문일 : <form:input path="visit_date" name="visit_date"/> </p>

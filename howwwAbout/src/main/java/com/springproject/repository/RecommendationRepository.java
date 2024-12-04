@@ -7,4 +7,5 @@ import com.springproject.domain.Recommendation;
 public interface RecommendationRepository 
 {
 	List<Recommendation> getAllRecommend();
+	void addRecommend(Recommendation recommendation);
 }

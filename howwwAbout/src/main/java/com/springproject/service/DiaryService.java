@@ -6,11 +6,10 @@ import com.springproject.domain.Diary;
 
 public interface DiaryService 
 {
-	Diary create(Diary diary);
-	Diary read(String diaryId);
 	void setNewDiary(Diary diary);
 	List<Diary> getAllDiary();
 	List<Diary> getMyDiary();
 	Diary getDiaryById(long diaryId);
 	void setUpdateDiary(Diary diary);
+	void deleteDiary(long diaryId);
 }

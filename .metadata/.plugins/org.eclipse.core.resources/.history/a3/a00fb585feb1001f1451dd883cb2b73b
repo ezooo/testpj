@@ -1,0 +1,11 @@
+package com.springproject.repository;
+
+import java.util.List;
+
+import com.springproject.domain.Recommendation;
+
+public interface RecommendationRepository 
+{
+	List<Recommendation> getAllRecommend();
+	Recommendation addRecommend();
+}

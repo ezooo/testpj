@@ -1,0 +1,28 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page session="false"%>
+<%@page import="com.springproject.domain.Recommendation"%>
+<%@page import="java.util.ArrayList"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>여행지 추천 게시판</title>
+</head>
+
+<body>
+<%
+	ArrayList<Recommendation> recommendationList = (ArrayList<Recommendation>)request.getAttribute("recommendationList");
+%>
+<p>새로운 여행지를 추천해주세요 !</p>
+<%
+	for(Recommendation rd : recommendationList)
+	{
+%>
+<p> 제 목 : <%= rd.getRecommendTitle() %> </p>
+<p> 내 용 : <%= rd.getRecommendContent() %> </p>
+<p> ===================================== </p>
+<%
+	}
+%>
+</body>
+</html>

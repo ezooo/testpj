@@ -13,20 +13,6 @@ public class DiaryServiceImpl implements DiaryService
 {
 	@Autowired
 	private DiaryRepository diaryRepository;
-	
-	@Override
-	public Diary create(Diary diary) 
-	{
-		System.out.println("DiaryServiceImpl - create in - 레파지토리 함수 호출");
-		return diaryRepository.create(diary);
-	}
-
-	@Override
-	public Diary read(String diaryId) 
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void setNewDiary(Diary diary) 
@@ -61,5 +47,11 @@ public class DiaryServiceImpl implements DiaryService
 	{
 		System.out.println("DiaryServiceImpl - setUpdateDiary in - 레파지토리 함수 호출");
 		diaryRepository.setUpdateDiary(diary);
+	}
+
+	@Override
+	public void deleteDiary(long diaryId) 
+	{
+		diaryRepository.deleteDiary(diaryId);
 	}
 }

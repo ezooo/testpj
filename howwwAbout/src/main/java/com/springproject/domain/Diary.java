@@ -24,7 +24,7 @@ public class Diary
 		this.visit_date = visit_date;
 		this.visit_diary = visit_diary;
 		//this.diaryId = userId + (++number);
-		this.diaryId = System.currentTimeMillis();
+		//this.diaryId = System.currentTimeMillis();
 		
 		System.out.println("다이어리 생성 완료 ! 다이어리 아이디는 : "+diaryId);
 	}
@@ -33,9 +33,9 @@ public class Diary
 	{
 		super();
 		System.out.println("다이어리 기본생성자");
-		this.diaryId = System.currentTimeMillis();
+		//this.diaryId = System.currentTimeMillis();
 		//this.diaryId = userId + number;
-		System.out.println("다이어리 생성 완료 ! 다이어리 아이디는 : "+diaryId);
+
 	}
 
 

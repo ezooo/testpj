@@ -12,8 +12,7 @@ import com.springproject.domain.Recommendation;
 public class RecommendationRepositoryImpl implements RecommendationRepository
 {
 	// 4. 일단 리스트가 있어야 뭐든 담을 수 있다.
-	@Autowired
-	List<Recommendation> recommendationList;
+	private List<Recommendation> recommendationList = new ArrayList<Recommendation>();
 	
 	public RecommendationRepositoryImpl() 
 	{	// 5. 생성자에서 add 해야하나..?
@@ -33,6 +32,15 @@ public class RecommendationRepositoryImpl implements RecommendationRepository
 		System.out.println("RecommendationRepositoryImpl getAllRecommend in");
 		// 3. 뭔가 기억이 희미한데... dto 생성자에서 add로 dto를 넣어줘야 했던 것 같다.
 		return recommendationList;	// 7. 리스트 리턴. ㅓ컨트롤러로 돌아감
+	}
+
+	@Override
+	public void addRecommend(Recommendation recommendation) 
+	{
+		System.out.println("RecommendationRepositoryImpl addRecommend in");
+		//입력받은 내용 모델에 담아서 여기까지 가지고 옴
+		//이거를 이제 어레이리스트에 담기
+		recommendationList.add(recommendation);
 	}
 
 }
