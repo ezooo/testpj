@@ -46,7 +46,7 @@ public class RecommendationRepositoryImpl implements RecommendationRepository
 		recommendation.setRecommendId(System.currentTimeMillis());
 		
 		LocalDateTime today = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년MM월dd일 HH:mm");
 		recommendation.setRecommendDate(today.format(formatter));
 		
 		System.out.println(recommendation.getRecommendId()+" / "+recommendation.getRecommendDate());

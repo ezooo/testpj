@@ -2,6 +2,7 @@
 <section name="Workbench">
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
+			<item value="D:\CEJ\teampj\jsontest"/>
 			<item value="D:\CEJ\Teamproject\howAbout"/>
 		</list>
 		<list key="projectNameTemplate">
