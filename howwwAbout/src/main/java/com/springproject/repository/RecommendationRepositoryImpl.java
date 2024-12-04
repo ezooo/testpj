@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -52,6 +53,26 @@ public class RecommendationRepositoryImpl implements RecommendationRepository
 		System.out.println(recommendation.getRecommendId()+" / "+recommendation.getRecommendDate());
 		
 		recommendationList.add(recommendation);
+	}
+
+	
+	@Override
+	public Recommendation getRecommend(long recommendId) 
+	{
+		System.out.println("RecommendationRepositoryImpl getRecommend in");
+		//추천글리스트에서 글아이디로 해당 글 찾기
+		for(Recommendation recommendation : recommendationList)
+		{
+			
+				if(recommendation.getRecommendId()==recommendId)
+				{
+					System.out.println("해당 게시글 찾았다");
+					return recommendation;
+				}
+			
+		}
+		System.out.println("없는뎅? 게시글 못찾음");
+		return null;
 	}
 
 }

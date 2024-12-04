@@ -21,12 +21,9 @@
 	for(Recommendation rd : recommendationList)
 	{
 %>
-<p> 제   목 : <%= rd.getRecommendTitle() %> </p>
-<p> 내   용 : <%= rd.getRecommendContent() %> </p>
-<p> 작성자 ID : <%= rd.getUserId() %> </p>
-<p> 추천게시글 ID : <%= rd.getRecommendId() %> </p>
-<p> 작 성 일 : <%= rd.getRecommendDate() %> </p>
-<p> ===================================== </p>
+<p><a href="recommend/recommendatioin?<%= rd.getRecommendId() %>"> <%= rd.getRecommendTitle() %> | <%= rd.getRecommendDate() %> </a></p>
+<hr>
+
 <%
 	}
 %>

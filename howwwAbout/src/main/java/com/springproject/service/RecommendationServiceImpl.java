@@ -2,6 +2,7 @@ package com.springproject.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,5 +32,14 @@ public class RecommendationServiceImpl implements RecommendationService
 		System.out.println("RecommendationServiceImpl addRecommend in");
 		recommendationRepository.addRecommend(recommendation);
 	}
+
+	@Override
+	public Recommendation getRecommend(long recommendId) 
+	{
+		System.out.println("RecommendationServiceImpl getRecommend in");
+		Recommendation recommendation = recommendationRepository.getRecommend(recommendId);
+		return recommendation;
+	}
+
 
 }
