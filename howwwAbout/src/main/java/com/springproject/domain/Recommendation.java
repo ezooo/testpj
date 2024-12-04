@@ -1,14 +1,12 @@
 package com.springproject.domain;
 
-import java.util.Date;
-
 public class Recommendation 
 {
 	private long recommendId;	//기본키
 	private String userId;	//작성자 아이디
 	private String recommendTitle;	//제목
 	private String recommendContent;	//내용
-	private Date recommendDate;	//작성일자
+	private String recommendDate;	//작성일자
 	
 	// 1. 생성자 만들기
 	public Recommendation() 
@@ -51,11 +49,11 @@ public class Recommendation
 	public void setRecommendContent(String recommendContent) {
 		this.recommendContent = recommendContent;
 	}
-	public Date getRecommendDate() {
+	public String getRecommendDate() {
 		return recommendDate;
 	}
-	public void setRecommendDate(Date recommendDate) {
-		this.recommendDate = recommendDate;
+	public void setRecommendDate(String string) {
+		this.recommendDate = string;
 	}
 	
 

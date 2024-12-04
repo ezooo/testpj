@@ -39,6 +39,7 @@ public class RecommendationController
 		return "recommendations";	//2. 이동할 뷰까지 작성해놓기
 	}
 	
+	// CREATE
 	@GetMapping("/addRecommend")
 	public String addRecommendation(Model model)
 	{
@@ -48,7 +49,6 @@ public class RecommendationController
 		model.addAttribute("recommendation", new Recommendation());	//이걸 안하니까 에러가 나
 		return "addRecommendation";
 	}
-	
 	@PostMapping("/addRecommend")
 	public String addSubmitRecommendation(@ModelAttribute Recommendation recommendation, Model model)
 	{

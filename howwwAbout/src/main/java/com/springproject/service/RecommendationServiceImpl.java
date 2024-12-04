@@ -29,9 +29,7 @@ public class RecommendationServiceImpl implements RecommendationService
 	public void addRecommend(Recommendation recommendation) 
 	{
 		System.out.println("RecommendationServiceImpl addRecommend in");
-		recommendation.setRecommendId(System.currentTimeMillis());
-		
-		recommendationList.add(recommendation);
+		recommendationRepository.addRecommend(recommendation);
 	}
 
 }

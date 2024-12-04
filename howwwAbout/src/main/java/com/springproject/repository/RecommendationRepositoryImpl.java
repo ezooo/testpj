@@ -1,6 +1,9 @@
 package com.springproject.repository;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +43,14 @@ public class RecommendationRepositoryImpl implements RecommendationRepository
 		System.out.println("RecommendationRepositoryImpl addRecommend in");
 		//입력받은 내용 모델에 담아서 여기까지 가지고 옴
 		//이거를 이제 어레이리스트에 담기
+		recommendation.setRecommendId(System.currentTimeMillis());
+		
+		LocalDateTime today = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm");
+		recommendation.setRecommendDate(today.format(formatter));
+		
+		System.out.println(recommendation.getRecommendId()+" / "+recommendation.getRecommendDate());
+		
 		recommendationList.add(recommendation);
 	}
 
