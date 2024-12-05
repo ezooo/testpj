@@ -5,6 +5,6 @@
 <h2>Hello World!</h2>
 <a href="diaries">다이어리 보기</a>
 <a href="recommend">관광지 추천 게시판</a>
-
+<a href="location">장소</a>
 </body>
 </html>

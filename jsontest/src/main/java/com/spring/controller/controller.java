@@ -4,19 +4,29 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.spring.domain.Location;
+import com.spring.repository.LocationRepository;
 
 
 @Controller
 @RequestMapping("/")
 public class controller 
 {
+	@Autowired
+	LocationRepository lr;
+	List<Location> list;
+	
 	@GetMapping("/case1")
 	public String index()
 	{
@@ -24,7 +34,7 @@ public class controller
 	}
 	
 	@GetMapping
-	public void test()
+	public void test(Model model)
 	{
 		System.out.println("테스트 인");
 		//api 요청 할 주소
@@ -70,6 +80,7 @@ public class controller
 //	            JSONObject body = gyeongnam.getJSONObject("body");	//바디 객체 꺼내기
 //	            System.out.println(body.toString());
 	            JSONObject json = new JSONObject(tokener);	//이게 최상위임 : json 객체
+	           
 	            JSONObject gyeongnam = json.getJSONObject("gyeongnamtournaturelist");	// json 객체에서 키로 경남꺼내기
 	            JSONObject body = gyeongnam.getJSONObject("body");	//바디 객체 꺼내기
 	            System.out.println("바디꺼냄 : "+body.toString());
@@ -77,6 +88,9 @@ public class controller
 	            JSONArray item = items.getJSONArray("item");
 	            JSONObject location = item.getJSONObject(0);
 	            System.out.println("location 0번째 꺼냄 : "+location);
+	            
+	            //model.addAttribute("location", location);
+	            lr.setting(location);
 	        } 
 	        else 
 	        {

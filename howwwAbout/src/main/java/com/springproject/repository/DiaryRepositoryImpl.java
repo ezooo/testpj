@@ -48,7 +48,7 @@ public class DiaryRepositoryImpl implements DiaryRepository
 	{	//다이어리 등록하기
 		System.out.println("DiaryRepositoryImpl setNewDiary in");
 		
-		String SQL = "insert into diary values(?,?,?,?,?)";
+		String SQL = "insert into diary(diaryId,userId,visit_date,visit_diary,filename) values(?,?,?,?,?)";
 		template.update(SQL, diary.getDiaryId(), diary.getUserId(), diary.getVisit_date(), diary.getVisit_diary(), diary.getFilename());
 		System.out.println("setNewDiary 쿼리 업데이트 완료");
 		//diaryList.add(diary);
