@@ -29,7 +29,7 @@ public class LocationController
 		
 		//api 요청 할 주소
 		String apiUrl = "http://apis.data.go.kr/6480000/gyeongnamtournature/gyeongnamtournaturelist?"
-			+ "serviceKey=axdk7ixVxHHdRzI6x1lL6%2FCGVvu%2BsCRNby2Z9thO7g6TdPJCowoZhR0q4PDgM59dCD9YX5EcHqKp0T%2BcSJoNXw%3D%3D&numOfRows=10&pageNo=2&resultType=json"; // 호출할 API URL
+			+ "serviceKey=axdk7ixVxHHdRzI6x1lL6%2FCGVvu%2BsCRNby2Z9thO7g6TdPJCowoZhR0q4PDgM59dCD9YX5EcHqKp0T%2BcSJoNXw%3D%3D&numOfRows=20&pageNo=1&resultType=json"; // 호출할 API URL
 			    
 		try 
 	    {
@@ -69,6 +69,7 @@ public class LocationController
 	            JSONObject json = new JSONObject(tokener);	//이게 최상위임 : json 객체
 	           
 	            JSONObject gyeongnam = json.getJSONObject("gyeongnamtournaturelist");	// json 객체에서 키로 경남꺼내기
+	            System.out.println(gyeongnam);
 	            JSONObject body = gyeongnam.getJSONObject("body");	//바디 객체 꺼내기
 	            System.out.println("바디꺼냄 : "+body.toString());
 	            JSONObject items = body.getJSONObject("items");
