@@ -15,7 +15,7 @@
 
 <form:form modelAttribute="recommendation" method="post">
 	<p>제 목 : <form:input path="recommendTitle" name="recommendTitle"/> </p>
-	<p>내 용 : <form:textarea path="recommendContent" name="recommendContent"/> </p>
+	<p>내 용 : <form:input path="recommendContent" name="recommendContent"/> </p>
 	<p><input type="submit" value="제출"> </p>
 </form:form>
 

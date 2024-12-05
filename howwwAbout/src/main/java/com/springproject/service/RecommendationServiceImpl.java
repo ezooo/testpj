@@ -41,5 +41,19 @@ public class RecommendationServiceImpl implements RecommendationService
 		return recommendation;
 	}
 
+	@Override
+	public void updateRecommend(Recommendation recommendation) 
+	{
+		System.out.println("RecommendationServiceImpl updateRecommend in");
+		recommendationRepository.updateRecommend(recommendation);
+	}
+
+	@Override
+	public void deleteRecommend(long recommendId) 
+	{
+		System.out.println("RecommendationServiceImpl deleteRecommend in");
+		recommendationRepository.deleteRecommend(recommendId);
+	}
+
 
 }

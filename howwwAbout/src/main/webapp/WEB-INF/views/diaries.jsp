@@ -16,7 +16,7 @@
 	Member mb = (Member)ssn.getAttribute("member");
 %>
 <%@ include file="main.jsp" %>
-<br>
+
 <%
 if(mb != null)
 {
@@ -26,7 +26,7 @@ if(mb != null)
 	for(Diary diary : diaryList)
 	{
 %>
-	<p>========================================= </p>
+	<hr><hr>
 	<p>userId : <%= mb.getUserId() %> </p>
 	<p>diaryId : <%= diary.getDiaryId() %> </p>
 	<p>방문일 : <%= diary.getVisit_date() %> </p>
@@ -50,7 +50,7 @@ else
 %>
 	<p> 로그인 후 아래와 같은 다이어리를 작성해보세요 </p>
 	<a href="login">로그인하고 다이어리 작성하기</a> <br>
-	<p>========================================= </p>
+	<hr><hr>
 	<p>userId : 홍길동 </p>
 	<p>diaryId : 00000 </p>
 	<p>방문일 : 24.09.09 </p>

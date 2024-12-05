@@ -14,14 +14,14 @@ public class Recommendation
 		super();
 		System.out.println("Recommendation 기본생성자");
 	}
-	public Recommendation(String recommendTitle, String recommendContent) 
+	public Recommendation(String recommendTitle, String recommendContent, long recommendId) 
 	{
 		super();
 		System.out.println("Recommendation 매개변수 생성자 in");
 		
 		this.recommendTitle = recommendTitle;
 		this.recommendContent = recommendContent;
-		
+		this.recommendId = recommendId;
 	}
 
 

@@ -23,6 +23,6 @@
 <br>
 <p> 추천내용 : <%= recommendation.getRecommendContent() %> </p>
 <p> </p>
-<p> <a href="#">수정</a> | <a href="#">삭제</a></p>
+<p> <a href="update/<%=recommendation.getRecommendId()%>">수정</a> | <a href="delete/<%=recommendation.getRecommendId()%>">삭제</a></p>
 </body>
 </html>

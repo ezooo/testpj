@@ -98,7 +98,7 @@ public class DiaryController
 //	}
 	
 	@GetMapping("/addDiary")
-	public String addDiaryForm(Diary diary, HttpSession session)
+	public String addDiaryForm(@ModelAttribute Diary diary, HttpSession session)
 	{
 		System.out.println("DiaryController - addDiaryForm in");
 		//세션에서 로그인된 멤버 정보 가져오기

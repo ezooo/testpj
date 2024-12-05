@@ -14,14 +14,15 @@
 	ArrayList<Recommendation> recommendationList = (ArrayList<Recommendation>)request.getAttribute("recommendationList");
 %>
 <%@ include file="main.jsp" %>
-<br>
+
 <p>새로운 여행지를 추천해주세요 !</p>
-<p> ===================================== </p>
+<hr><hr>
 <%
 	for(Recommendation rd : recommendationList)
 	{
 %>
-<p><a href="recommend/recommendatioin?<%= rd.getRecommendId() %>"> <%= rd.getRecommendTitle() %> | <%= rd.getRecommendDate() %> </a></p>
+<p><a href="recommend/recommendation/<%= rd.getRecommendId() %>"> <%= rd.getRecommendTitle() %> | <%= rd.getRecommendDate() %> </a></p>
+<p><%= rd.getRecommendId() %> </p>
 <hr>
 
 <%

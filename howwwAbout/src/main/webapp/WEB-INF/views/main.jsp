@@ -7,10 +7,12 @@
 <title>메뉴</title>
 </head>
 <body>
+<br>
 <a href="/howAbout/diaries">다이어리</a>
 <a href="/howAbout/diaries/addDiary">다이어리 작성하기</a>
 <a href="/howAbout/recommend">관광지추천게시판</a>
 <a href="/howAbout/recommend/addRecommend">추천 글 작성하기</a>
 <a href="/howAbout/login">로그인</a>
+<br><br><hr><hr>
 </body>
 </html>

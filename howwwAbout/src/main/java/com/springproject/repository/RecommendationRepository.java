@@ -10,4 +10,6 @@ public interface RecommendationRepository
 	List<Recommendation> getAllRecommend();
 	void addRecommend(Recommendation recommendation);
 	Recommendation getRecommend(long recommendId);
+	void updateRecommend(Recommendation recommendation);
+	void deleteRecommend(long recommendId);
 }

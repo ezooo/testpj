@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,35 +64,82 @@ public class RecommendationController
 	}
 	
 	// READ ONE : 제목만 보여주고 내용은 들어가야 볼 수 있음
-	@GetMapping("/recommendatioin")
-	public String getRecommend(@RequestParam Optional<Long> recommendId, Model model)	//변수 받아온다 
+	@GetMapping("/recommendation/{recommendId}")
+	public String getRecommend(@PathVariable long recommendId, Model model)	//변수 받아온다 
 	{//@PathParam("recommendId") long recommendId 이거 쓰려다 생각해보니까 파라미터로 받을거라 필요없을 듯
 		//뷰에서 제목 클릭했을 때 게시글아이디 받아와서 --> 보여준다
 		// 1. 뷰에서 받아오는게 있어야 하니까 model에 담아오기 -- 없다.그냥 파라미터 날림
 		System.out.println("RecommendationController getRecommend in");
 		// 3. 받아온 아이디 가지고 레파지토리가서 객체 받아와라. -- 앗.. 모델은 이때 필요하다
 		// 근데 이거 모델 new 안해도 되나? --- 안했던 것 같은데...
-		if(recommendId.isPresent())
+//		if(recommendId.isPresent())
+//		{
+//			try
+//			{
+//				Recommendation recommendation = recommendationService.getRecommend(recommendId.get());
+//				// 근데 게시글 받아온게 null 이면 에러남
+//				if(recommendation != null)
+//				{
+//					System.out.println(" 추천 게시글 잘 찾아서 컨트롤러로 돌아옴");
+//					model.addAttribute("recommendation",recommendation);	//뷰에 가서 꺼내려면 담아야 함
+//					return "recommendation";
+//				}
+//			}
+//			catch(Exception e)
+//			{
+//				System.out.println("RecommendationController getRecommend 에러에러");
+//				e.getStackTrace();
+//			}
+//		}
+		
+		try
 		{
-			
-			try
+			Recommendation recommendation = recommendationService.getRecommend(recommendId);
+			// 근데 게시글 받아온게 null 이면 에러남
+			if(recommendation != null)
 			{
-				Recommendation recommendation = recommendationService.getRecommend(recommendId.get());
-				// 근데 게시글 받아온게 null 이면 에러남
-				if(recommendation != null)
-				{
-					System.out.println(" 추천 게시글 잘 찾아서 컨트롤러로 돌아옴");
-					model.addAttribute("recommendation",recommendation);	//뷰에 가서 꺼내려면 담아야 함
-					return "recommendation";
-				}
-			}
-			catch(Exception e)
-			{
-				System.out.println("RecommendationController getRecommend 에러에러");
-				e.getStackTrace();
+				System.out.println(" 추천 게시글 잘 찾아서 컨트롤러로 돌아옴");
+				model.addAttribute("recommendation",recommendation);	//뷰에 가서 꺼내려면 담아야 함
+				return "recommendation";
 			}
 		}
+		catch(Exception e)
+		{
+			System.out.println("RecommendationController getRecommend 에러에러");
+			e.getStackTrace();
+		}
+		
 		System.out.println(" 추천 게시글 못찾음. 목록으로 가라");
+		System.out.println("recommendId : "+recommendId);
+		return "redirect:/recommend";
+	}
+
+	@GetMapping("/recommendation/update/{recommendId}")
+	public String updateRecommend(@PathVariable long recommendId, Model model)
+	{	//수정해야 하니까 기존 dto 정보 다 받아와야 함 @ModelAttribute Recommendation recommendation
+		System.out.println("RecommendationController updateRecommend get in");
+		//아니야.... 아이디만 받아와ㅓ서 정보를 찾아옴..
+		Recommendation recommendation = recommendationService.getRecommend(recommendId);
+		model.addAttribute("recommendation",recommendation);
+		System.out.println("수정할 게시글 찾ㅇ아옴. 수정페이지로 감");
+		return "updateRecommendation";
+	}
+	
+	@PostMapping("/recommendation/update/{recommendId}")
+	public String updateSubmitRecommend(@ModelAttribute Recommendation recommendation)
+	{
+		System.out.println("RecommendationController updateRecommend post in");
+		recommendationService.updateRecommend(recommendation);
+		
+		return "redirect:/recommend/recommendation/{recommendId}";
+	}
+	
+	@GetMapping("/recommendation/delete/{recommendId}")
+	public String deleteRecommend(@PathVariable long recommendId)
+	{
+		System.out.println("RecommendationController deleteRecommend  in");
+		recommendationService.deleteRecommend(recommendId);
+		
 		return "redirect:/recommend";
 	}
 }
