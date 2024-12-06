@@ -12,4 +12,5 @@ public interface DiaryService
 	Diary getDiaryById(long diaryId);
 	void setUpdateDiary(Diary diary);
 	void deleteDiary(long diaryId);
+	
 }
