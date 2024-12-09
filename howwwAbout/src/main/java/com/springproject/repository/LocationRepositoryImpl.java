@@ -87,7 +87,16 @@ public class LocationRepositoryImpl implements LocationRepository
 				+ "(select b.fileurl1 from location b where b.category_name1 = a.category_name1 LIMIT 1) as fileurl1"
 				+ " from location a group by a.category_name1";
 		List<Location> categoryList = template.query(SQL, new LocationCategoryRowMapper());
+		//List<Location> categoryList = template.query
+		
 		return categoryList;
+	}
+
+	@Override
+	public Location createLocation() 
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -14,4 +14,5 @@ public interface LocationRepository
 	Location getOneLocation(String title);
 	List<Location> getLocationOfCategory(String category);
 	List<Location> getAllCategory();
+	Location createLocation();
 }

@@ -272,4 +272,20 @@ public class LocationController
 		System.out.println("getAllCategory 카테고리 분류 fail...");
 		return "errorLocation";
 	}
+
+	@GetMapping("/create")
+	public String createLocation(Model model)
+	{
+		System.out.println("장소 추가하기 뷰 이동");
+		
+		return "createLocation";
+	}
+	
+	public String submitCreateLocation(Model model)
+	{
+		System.out.println("LocationController submitCreateLocation in");
+		Location location = locationService.createLocation();
+		model.addAttribute("location", location);
+		return null;
+	}
 }

@@ -63,4 +63,12 @@ public class LocationServiceImpl implements LocationService
 		return categoryList;
 	}
 
+	
+	@Override
+	public Location createLocation() 
+	{
+		System.out.println("LocationServiceImpl createLocation in");
+		return null;
+	}
+
 }

@@ -15,7 +15,8 @@
 <%
 	ArrayList<Location> categoryList = (ArrayList<Location>)request.getAttribute("categoryList");
 %>
-카테고리 보여주기
+카테고리별 여행지 
+<span><a href="">&raquo;지역별 여행지 보기</a></span>
 <hr><hr>
 <div class="container">
 <%
