@@ -55,4 +55,12 @@ public class LocationServiceImpl implements LocationService
 		return locations;
 	}
 
+	@Override
+	public List<Location> getAllCategory() 
+	{
+		System.out.println("LocationServiceImpl getAllCategory in");
+		List<Location> categoryList = locationRepository.getAllCategory();
+		return categoryList;
+	}
+
 }

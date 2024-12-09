@@ -13,15 +13,16 @@
 <%@ include file="main.jsp" %>
 <%
 	ArrayList<Location> locations = (ArrayList<Location>)request.getAttribute("locations");
+	String category = (String)request.getAttribute("category");
 %>
-<p> 카테고리 :  &raquo;  </p>
+	카테고리 :  &raquo; <%=category %> <span><a href="/howAbout/location/locations2">전체 카테고리 보기</a></span>
 <hr>
 <%
 	for(Location lt : locations)
 	{
 %>
 <%	String title = URLEncoder.encode(lt.getData_title(),"UTF-8").replace("+", "%20");	//한글을 파라미터로 주기 위해 인코딩 %>
-<p><a href="onelocation/<%= title %>"> <%= lt.getData_title() %> </a></p>
+<p><a href="/howAbout/location/onelocation/<%= title %>"> <%= lt.getData_title() %> </a></p>
 <img alt="사진없당" src="<%= lt.getFileurl1() %>" />
 <hr>
 <%

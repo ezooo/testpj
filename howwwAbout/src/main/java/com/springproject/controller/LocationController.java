@@ -251,10 +251,25 @@ public class LocationController
 		{
 			System.out.println("로케이션 카테고리 찾기 성공 !");
 			model.addAttribute("locations",locations);
+			model.addAttribute("category", category);
 			return "locationOfcategory";
 		}
 		System.out.println("로케이션 카테고리 못 찾음...");
 		return "errorLocation";
 	}
-	
+
+	@GetMapping("/locations2")
+	public String getAllCategory(Model model)
+	{
+		System.out.println("LocationController getAllCategory in");
+		ArrayList<Location> categoryList = (ArrayList<Location>) locationService.getAllCategory();
+		if(categoryList != null)
+		{
+			System.out.println("getAllCategory 카테고리 분류 성공 !");
+			model.addAttribute("categoryList",categoryList);
+			return "locations2";
+		}
+		System.out.println("getAllCategory 카테고리 분류 fail...");
+		return "errorLocation";
+	}
 }

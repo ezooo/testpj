@@ -13,4 +13,5 @@ public interface LocationRepository
 	List<Location> getAllLocation();
 	Location getOneLocation(String title);
 	List<Location> getLocationOfCategory(String category);
+	List<Location> getAllCategory();
 }

@@ -21,10 +21,9 @@
 <p> 설  명 : <%= location.getData_content() %> </p>
 <div class="container">
 	<img alt="image" src="<%= location.getFileurl1() %>" style="width:25%" />
-	<img alt="image" src="<%= location.getFileurl2() %>" style="width:25%" />
 	<img alt="image" src="<%= location.getFileurl3() %>" style="width:25%" />
 	<img alt="image" src="<%= location.getFileurl4() %>" style="width:25%" />
-	<img alt="image" src="<%= location.getFileurl5() %>" style="width:25%" />
+	<img alt="image" src="<% if(location.getFileurl5() != null && location.getCategory_name1() !=""){location.getCategory_name1();}  %>" style="width:25%" />
 </div>
 <p> <a href="/howAbout/location">location 홈으로</a> </p>
 </body>

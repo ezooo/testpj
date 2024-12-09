@@ -76,4 +76,18 @@ public class LocationRepositoryImpl implements LocationRepository
 		return locations;
 	}
 
+	@Override
+	public List<Location> getAllCategory() 
+	{
+		System.out.println("LocationRepositoryImpl getAllCategory in");
+		//SQL = "select distinct category_name1 from location";
+		//List<String> categoryList = template.query(SQL, new LocationTitleRowMapper());
+		
+		SQL = "select a.category_name1, "
+				+ "(select b.fileurl1 from location b where b.category_name1 = a.category_name1 LIMIT 1) as fileurl1"
+				+ " from location a group by a.category_name1";
+		List<Location> categoryList = template.query(SQL, new LocationCategoryRowMapper());
+		return categoryList;
+	}
+
 }
