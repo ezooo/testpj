@@ -18,8 +18,12 @@ public class MemberRepositoryImpl implements MemberRepository
 	{
 		super();
 		Member member1 = new Member("aaa", "1234");
+		Member member2 = new Member("qqq", "qqqq");
+		Member member3 = new Member("hhh", "hhhh");
 		
 		memberList.add(member1);
+		memberList.add(member2);
+		memberList.add(member3);
 		System.out.println("일단 멤버하나 만들어놓음 aaa");
 	}
 

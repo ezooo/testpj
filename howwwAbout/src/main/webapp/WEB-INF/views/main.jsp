@@ -8,6 +8,7 @@
 </head>
 <body>
 <br>
+<a href="/howAbout/">홈</a>
 <a href="/howAbout/diaries">다이어리</a>
 <a href="/howAbout/diaries/addDiary">다이어리 작성하기</a>
 <a href="/howAbout/recommend">관광지추천게시판</a>

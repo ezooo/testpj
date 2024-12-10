@@ -2,6 +2,7 @@ package com.springproject.domain;
 
 public class Location 
 {
+	
 	private String data_title;	//이름
 	private String user_address;	//주소
 	private String lattitude;	//위도
@@ -16,7 +17,8 @@ public class Location
 	private String fileurl3;
 	private String fileurl4;
 	private String fileurl5;
-	
+	private int num;
+
 	public String getData_title() {
 		return data_title;
 	}
@@ -100,6 +102,12 @@ public class Location
 	}
 	public void setFileurl5(String fileurl5) {
 		this.fileurl5 = fileurl5;
+	}
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
 	}
 	
 	

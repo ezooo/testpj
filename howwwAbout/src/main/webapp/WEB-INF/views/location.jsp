@@ -25,6 +25,8 @@
 	<img alt="image" src="<%= location.getFileurl4() %>" style="width:25%" />
 	<img alt="image" src="<% if(location.getFileurl5() != null && location.getCategory_name1() !=""){location.getCategory_name1();}  %>" style="width:25%" />
 </div>
+<p> <a href="/howAbout/location/update?lat=<%=location.getLattitude()%>&log=<%=location.getLogitude()%>">수정</a>
+	 | <a href="/howAbout/location/delete?lat=<%=location.getLattitude()%>&log=<%=location.getLogitude()%>">삭제</a></p>
 <p> <a href="/howAbout/location">location 홈으로</a> </p>
 </body>
 </html>

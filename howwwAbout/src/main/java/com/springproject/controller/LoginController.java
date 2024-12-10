@@ -52,7 +52,7 @@ public class LoginController
 					//세션 생성
 					HttpSession ssn = request.getSession(true);
 					ssn.setAttribute("member", mb);
-					return "redirect:/diaries/addDiary";
+					return "redirect:/";
 				}
 				System.out.println("비밀번호 일치하지않음");
 				return "login";

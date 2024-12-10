@@ -65,10 +65,32 @@ public class LocationServiceImpl implements LocationService
 
 	
 	@Override
-	public Location createLocation() 
+	public void createLocation(Location location) 
 	{
 		System.out.println("LocationServiceImpl createLocation in");
-		return null;
+		locationRepository.createLocation(location);
+
+	}
+
+	@Override
+	public Location findLocation(String[] find) 
+	{
+		System.out.println("LocationServiceImpl findLocation in");
+		Location location = locationRepository.findLocation(find);
+		return location;
+	}
+
+	@Override
+	public void submitUpdateLocation(Location location) 
+	{
+		System.out.println("LocationServiceImpl submitUpdateLocation in");
+		locationRepository.submitUpdateLocation(location);
+	}
+
+	@Override
+	public void deleteLocation(String lat, String log) 
+	{
+		locationRepository.deleteLocation(lat, log);
 	}
 
 }

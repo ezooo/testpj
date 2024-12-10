@@ -2,8 +2,10 @@ package com.springproject.controller;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.springproject.domain.Location;
 import com.springproject.service.LocationService;
@@ -274,18 +278,73 @@ public class LocationController
 	}
 
 	@GetMapping("/create")
-	public String createLocation(Model model)
+	public String createLocation(@ModelAttribute Location location)
 	{
 		System.out.println("장소 추가하기 뷰 이동");
 		
 		return "createLocation";
 	}
 	
-	public String submitCreateLocation(Model model)
+	@PostMapping("/create")
+	public String submitCreateLocation(Location location)
 	{
 		System.out.println("LocationController submitCreateLocation in");
-		Location location = locationService.createLocation();
-		model.addAttribute("location", location);
-		return null;
+		locationService.createLocation(location);
+		
+		return "redirect:/location/locations2";
+	}
+
+	@GetMapping("/update")
+	public String updateLocation(@RequestParam("lat") String lat, @RequestParam("log") String log, Model model)
+	{
+		System.out.println("LocationController updateLocation in : 폼으로 이동");
+		String[] find = {lat, log};
+		Location location = locationService.findLocation(find);
+		//int num = location.getNum();
+		if(location != null)
+		{
+			model.addAttribute("location",location);
+			//model.addAttribute("num", location.getNum());	//primary key 인 num값은 수정할 수 없도록 하기위해서 따로 담아서 이동
+			
+			return "updateLocation";
+		}
+		return "errorLocation";
+	}
+	
+	@PostMapping("/update")
+	public String submitUpdateLocation(@ModelAttribute Location location, Model model)
+	{
+		System.out.println("LocationController submitUpdateLocation in");
+		//모델에 담아 둔 num 꺼내서 DTO에 담기
+//		Integer num = (Integer)model.asMap().get("num");
+//		System.out.println("num : "+num);
+//		if(num!=null)	//받아온 num이 유효할 때
+//		{
+//			location.setNum(num);
+//			System.out.println("dto에 num 셋 완료");
+//		}
+		
+		String title = location.getData_title();
+		String title2=null;
+		try 
+		{
+			title2 = URLEncoder.encode(title, "UTF-8").replace("+", "%20");
+		} 
+		catch (UnsupportedEncodingException e) 
+		{
+			e.printStackTrace();
+		}
+		locationService.submitUpdateLocation(location);
+		System.out.println("LocationController submitUpdateLocation 수정완료");
+		return "redirect:/location/onelocation/"+title2 ;
+	}
+
+	@GetMapping("/delete")
+	public String deleteLocation(@RequestParam("lat") String lat, @RequestParam("log") String log)
+	{
+		System.out.println("LocationController deleteLocation in");
+		locationService.deleteLocation(lat, log);
+		System.out.println("로케이션 삭제 완료");
+		return "redirect:/location/locations2";
 	}
 }
