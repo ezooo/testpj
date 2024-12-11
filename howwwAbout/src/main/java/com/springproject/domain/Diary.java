@@ -10,7 +10,7 @@ public class Diary
 	private String visit_date;
 	private String visit_diary;
 	private MultipartFile picture;
-	private String filename;
+	private String filename = "image.jpg";
 	//private String diaryId;	//다이어리 수정 삭제하려니까 이거 필요함.. 이게 pk 인듯
 	//private int number = 0;
 	//private LocalDateTime diaryId;

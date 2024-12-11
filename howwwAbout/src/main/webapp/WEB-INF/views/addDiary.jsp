@@ -17,10 +17,8 @@
 <form:form modelAttribute="diary" method="post" enctype="multipart/form-data">
 	<p>방문일 : <form:input path="visit_date" name="visit_date"/> </p>
 	<p>메모 : <form:textarea path="visit_diary" name="visit_diary"/> </p>
-	<p>사진 : <form:input path="image1"  type="file" name="image1"/> </p>
-	<p>&nbsp;<form:input path="image2"  type="file" name="image2"/> </p>
-	<p>&nbsp;<form:input path="image3"  type="file" name="image3"/> </p>
-	<p>&nbsp;<form:input path="image4"  type="file" name="image4"/> </p>
+	<p>사진 : <form:input path="picture"  type="file" name="picture"/> </p>
+
 
 	<p><input type="submit" value="제출"> </p>
 </form:form>

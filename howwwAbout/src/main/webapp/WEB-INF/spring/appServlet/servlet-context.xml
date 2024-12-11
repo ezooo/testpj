@@ -40,7 +40,7 @@
 	<!-- datasource 설정과 jdbcTemplate 빈 객체 등록 -->
 	<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver"></beans:property>	<!-- 드라이버 클래스 설정 -->
-		<beans:property name="url" value="jdbc:mysql://localhost:3306/howAbout?serverTimezone=UTC"></beans:property>	<!-- 접속 db 이름 설정 -->
+		<beans:property name="url" value="jdbc:mysql://localhost:3306/whatAbout?serverTimezone=UTC"></beans:property>	<!-- 접속 db 이름 설정 -->
 		<beans:property name="username" value="root"></beans:property>
 		<beans:property name="password" value="1234"></beans:property>
 	</beans:bean>

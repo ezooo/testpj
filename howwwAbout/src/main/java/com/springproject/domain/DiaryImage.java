@@ -6,7 +6,7 @@ public class DiaryImage
 {
 	private long diaryId;
 	private MultipartFile image;
-	private String filename;
+	private String filename = "tree.jpg";
 	
 	public long getDiaryId() {
 		return diaryId;
