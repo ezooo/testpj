@@ -22,28 +22,30 @@ if(mb != null)
 {
 %>	
 	다이어리 입니다
+	<hr><hr>
+	<div>
 <%
 	for(Diary diary : diaryList)
 	{
 %>
-	<hr><hr>
-	<p>userId : <%= mb.getUserId() %> </p>
-	<p>diaryId : <%= diary.getDiaryId() %> </p>
-	<p>방문일 : <%= diary.getVisit_date() %> </p>
-	<p>메모 : <%= diary.getVisit_diary() %> </p>
-	<%
+	<div>
+		<a href="diaries/diary/<%= diary.getDiaryId()%>">
+		<p><%= diary.getVisit_date() %> &nbsp; 방문장소 : </p>
+		<%
 		if(diary.getFilename() != null)
 		{
-			System.out.println("diary에 보여줄 이미지가 있습니다.");
-	%>
-	<p>사진 : </p><img src="/howAbout/resources/images/<%=diary.getFilename()%>" style="width: 20%" /> 
-	<%
+		%>
+		<div style="width: 20%"> <img src="/howAbout/resources/images/<%=diary.getFilename()%>" style="width: 100%" /> </div>
+		<%
 		}
-	%>	
-	<p> <a href="/howAbout/diaries/updateDiary?id=<%=diary.getDiaryId()%>">수정하기</a> | <a href="/howAbout/diaries/deleteDiary?id=<%=diary.getDiaryId()%>">삭제하기</a> </p>
- 
+		%>	
+		</a>
+	</div>
 <%
 	}
+%>
+	</div>
+<%
 }
 else
 {
@@ -60,6 +62,6 @@ else
 <%
 }
 %>
-
+	
 </body>
 </html>

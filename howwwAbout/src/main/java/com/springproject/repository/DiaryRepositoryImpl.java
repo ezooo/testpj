@@ -73,8 +73,14 @@ public class DiaryRepositoryImpl implements DiaryRepository
 		// 회원 아이디에 맞는 다이어리만 가져와야 함
 		// 지금 로그인 한 회원 아이디 받아오는 법 ?
 		myDiary = new ArrayList<Diary>();
+		
+		diaryList = getAllDiary();	//이걸 해야 데이터베이스에 저장된 다이어리를 가져오지..
+		
+		System.out.println("getMyDiary 받아온 유저 아이디 : "+userId);
 		for(Diary diary : diaryList)
 		{
+			//System.out.println("다이어리 for 문 "+i+"번째 다이어리 userId : "+ diary.getUserId());
+			//내 다이어리 아니면 userid
 			if(diary.getUserId().equals(userId))
 			{
 				System.out.println("내 다이어리 입니다.");
@@ -97,7 +103,7 @@ public class DiaryRepositoryImpl implements DiaryRepository
 		{
 			System.out.println("DiaryRepositoryImpl getDiaryById rowCount != 0");
 			SQL = "select * from diary where diaryId=?";
-			diaryInfo = template.queryForObject(SQL, new Object[] {diaryId}, new DiaryRowMapper());
+			diaryInfo = template.queryForObject(SQL, new DiaryRowMapper(), new Object[] {diaryId});
 		}
 		
 		if(diaryInfo == null)
@@ -144,6 +150,15 @@ public class DiaryRepositoryImpl implements DiaryRepository
 		System.out.println("DiaryRepositoryImpl deleteDiary in");
 		SQL = "delete from diary where diaryId=?";
 		template.update(SQL,diaryId);
+	}
+
+	@Override
+	public Diary getOnediary(Long diaryId) 
+	{
+		System.out.println("DiaryRepositoryImpl getOnediary in");
+		SQL = "select * from diary where diaryId=?";
+		Diary diary = template.queryForObject(SQL, new DiaryRowMapper(), diaryId);
+		return diary;
 	}
 	
 	

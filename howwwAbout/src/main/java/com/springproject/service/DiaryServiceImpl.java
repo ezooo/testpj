@@ -29,10 +29,10 @@ public class DiaryServiceImpl implements DiaryService
 	}
 
 	@Override
-	public List<Diary> getMyDiary() 
+	public List<Diary> getMyDiary(String userId) 
 	{
 		System.out.println("DiaryServiceImpl - getMyDiary in - 레파지토리 함수 호출");
-		return diaryRepository.getMyDiary("11");
+		return diaryRepository.getMyDiary(userId);
 	}
 
 	@Override
@@ -53,5 +53,11 @@ public class DiaryServiceImpl implements DiaryService
 	public void deleteDiary(long diaryId) 
 	{
 		diaryRepository.deleteDiary(diaryId);
+	}
+
+	@Override
+	public Diary getOnediary(Long diaryId) 
+	{
+		return diaryRepository.getOnediary(diaryId);
 	}
 }

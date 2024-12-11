@@ -131,6 +131,12 @@ public class DiaryRepositoryImpl_copy implements DiaryRepository
 		System.out.println("DiaryRepositoryImpl deleteDiary in");
 		
 	}
+
+	@Override
+	public Diary getOnediary(Long diaryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,9 +50,20 @@ public class DiaryController
 			{
 				System.out.println("DiaryController showDiary 세션아이디 있다 : 내 다이어리 가기");
 				//다이어리 갈 때 내 다이어리 다 보여줘야 함
-				List<Diary> list = diaryService.getAllDiary();
-				model.addAttribute("diaryList", list);
-				return "diaries";
+				//List<Diary> list = diaryService.getAllDiary();
+				//세션에서 유저아이디 꺼내기
+				Member mb = (Member) request.getSession(false).getAttribute("member");
+				if(mb !=  null)
+				{
+					String userId = mb.getUserId();
+					System.out.println("로그인 한 유저 아이디는 : "+userId);
+					List<Diary> list = diaryService.getMyDiary(userId);
+					
+					model.addAttribute("diaryList", list);
+					return "diaries";
+				}
+				System.out.println("세션은 있는데 로그인 안됐음");
+				return "diary_beforeLogin";
 			}
 		}
 		System.out.println("로그인 안되어있다 : 다이어리 구조만 보여주기");
@@ -63,10 +75,18 @@ public class DiaryController
 	{
 		System.out.println("my 다이어리 보여주기");
 		
-			List<Diary> list = diaryService.getMyDiary();
+			List<Diary> list = diaryService.getMyDiary("11");
 			model.addAttribute("diaryList", list);
 			return "diaries";
-		
+	}
+	
+	@GetMapping("/diary/{diaryId}")
+	public String getOnediary(@PathVariable Long diaryId, Model model)
+	{
+		System.out.println("DiaryController getOnediary in");
+		Diary diary = diaryService.getOnediary(diaryId);
+		model.addAttribute("diary", diary);
+		return "diary";
 	}
 	//세션아이디 가지고 다이어리 가야 함
 	//@GetMapping
