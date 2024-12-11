@@ -31,8 +31,8 @@ public class DiaryController
 {
 	@Autowired	//객체 생성하기
 	private DiaryService diaryService;
-	@Autowired
-	private MemberRepository mbrp;	//회원등록 돼있는지 확인하려면 멤버리파지토리 멤버리스트 가져와야 함
+//	@Autowired
+//	private MemberRepository mbrp;	//회원등록 돼있는지 확인하려면 멤버리파지토리 멤버리스트 가져와야 함
 
 	@RequestMapping
 	public String showDiary(Model model, HttpServletRequest request)
@@ -69,17 +69,7 @@ public class DiaryController
 		System.out.println("로그인 안되어있다 : 다이어리 구조만 보여주기");
 		return "diary_beforeLogin";
 	}
-	
-	@GetMapping("/my")
-	public String showMyDiary(Model model, HttpServletRequest request)
-	{
-		System.out.println("my 다이어리 보여주기");
-		
-			List<Diary> list = diaryService.getMyDiary("11");
-			model.addAttribute("diaryList", list);
-			return "diaries";
-	}
-	
+
 	@GetMapping("/diary/{diaryId}")
 	public String getOnediary(@PathVariable Long diaryId, Model model)
 	{
@@ -88,34 +78,7 @@ public class DiaryController
 		model.addAttribute("diary", diary);
 		return "diary";
 	}
-	//세션아이디 가지고 다이어리 가야 함
-	//@GetMapping
-//	public String requestMemberId(HttpServletRequest request)
-//	{
-//		System.out.println("diaryController - requestMemberId 매핑");
-//		String sessionid = request.getSession(true).getId();	//멤버만 다이어리 쓸 수 있다	//세션 트루해서 멤버 아니라도 구성을 볼 수는 있게 해주자
-//																						//세션 안주고 보여주기
-//		System.out.println("세션아이디 담기 : "+sessionid);
-//		return "redirect:/diary/"+sessionid ;
-//	}
-	
-//	@GetMapping("/addDiary")
-//	public String addDiaryForm(Member member, Diary diary)
-//	{
-//		System.out.println("DiaryController - addDiaryForm in");
-//		System.out.println(member);
-//		
-//		//회원등록 돼있는지 확인하려면 멤버리파지토리 멤버리스트 가져와야 함
-//		List<Member> memberList = mbrp.getAllMember();
-//		
-//		if(member == null || member.getUserId() == null )
-//		{
-//			System.out.println("멤버 아니다 로그인하세요");
-//			//로그인 안되어있으면 로그인창으로 보내
-//			return "login";
-//		}
-//		return "addDiary";
-//	}
+
 	
 	@GetMapping("/addDiary")
 	public String addDiaryForm(@ModelAttribute Diary diary, HttpSession session)
@@ -142,9 +105,14 @@ public class DiaryController
 		//다이어리 아이디 주기
 		Member mb = (Member)request.getSession().getAttribute("member");
 		diary.setUserId(mb.getUserId());
-		System.out.println("유저 아이디 주기 : "+diary.getUserId());
+		System.out.println("유저 아이디 넣어주기 : "+diary.getUserId());
 		diary.setDiaryId(System.currentTimeMillis());
-		System.out.println("다이어리 아이디 주기 : "+diary.getDiaryId());
+		System.out.println("다이어리 아이디 넣어주기 : "+diary.getDiaryId());
+		System.out.println("다이어리 작성한 내용 받아왔고 userId 랑 diaryId 생성해서 set 완료");
+		
+		//이제 이미지 파일을 받아와서.. 다이어리 이미지 dto 에 집어넣어야 함
+		//근데 .. 폼에서 제출받는건 diary dto에 담겨서 오는건디..
+		
 		
 		//이미지파일넣기
 		MultipartFile picture = diary.getPicture();	//다이어리에서 파일 받아오기
