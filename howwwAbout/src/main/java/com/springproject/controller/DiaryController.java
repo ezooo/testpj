@@ -1,12 +1,15 @@
 package com.springproject.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.springproject.domain.Diary;
+import com.springproject.domain.DiaryImage;
 import com.springproject.domain.Member;
 import com.springproject.repository.MemberRepository;
 import com.springproject.service.DiaryService;
@@ -99,7 +103,7 @@ public class DiaryController
 	}
 	
 	@PostMapping("/addDiary")
-	public String submitDiaryForm(@ModelAttribute Diary diary, HttpServletRequest request)	//모델에 담긴 내용 받아오기
+	public ResponseEntity<Long> submitDiaryForm(@ModelAttribute Diary diary, HttpServletRequest request)	//모델에 담긴 내용 받아오기
 	{	//addDiary 에서 제출한 내용 처리할 메서드
 		System.out.println("DiaryController - submitDiaryForm in");
 		//다이어리 아이디 주기
@@ -115,30 +119,32 @@ public class DiaryController
 		
 		
 		//이미지파일넣기
-		MultipartFile picture = diary.getPicture();	//다이어리에서 파일 받아오기
-		String savepath = request.getServletContext().getRealPath("/resources/images/");	//저장소 경로 받아오기
-		System.out.println(savepath);
-		String savename = picture.getOriginalFilename();	//파일 이름 받아오기
-		System.out.println("파일이름은 : "+savename);
-		File savefile = new File(savepath, savename);	//변수에 저장해둔 경로+ 저장된 이름으로 새 파일 생성
-		
-		//유효성 검사
-		if( picture!=null && !picture.isEmpty())
-		{
-			System.out.println("submitDiaryForm 사진이 있습니다. 파일 저장하기");
-			try
-			{
-				picture.transferTo(savefile);	//사진을 savepath 경로에 업로드
-				diary.setFilename(savename);	//db 연결 시 추가
-				System.out.println("파일 업로드 완료 !");
-			}
-			catch(Exception e)
-			{
-				System.out.println("submitDiaryForm 파일 작성 에러에러");
-			}
-		}
+//		MultipartFile picture = diary.getPicture();	//다이어리에서 파일 받아오기
+//		String savepath = request.getServletContext().getRealPath("/resources/images/");	//저장소 경로 받아오기
+//		System.out.println(savepath);
+//		String savename = picture.getOriginalFilename();	//파일 이름 받아오기
+//		System.out.println("파일이름은 : "+savename);
+//		File savefile = new File(savepath, savename);	//변수에 저장해둔 경로+ 저장된 이름으로 새 파일 생성
+//		
+//		//유효성 검사
+//		if( picture!=null && !picture.isEmpty())
+//		{
+//			System.out.println("submitDiaryForm 사진이 있습니다. 파일 저장하기");
+//			try
+//			{
+//				picture.transferTo(savefile);	//사진을 savepath 경로에 업로드
+//				diary.setFilename(savename);	//db 연결 시 추가
+//				System.out.println("파일 업로드 완료 !");
+//			}
+//			catch(Exception e)
+//			{
+//				System.out.println("submitDiaryForm 파일 작성 에러에러");
+//			}
+//		}
 		diaryService.setNewDiary(diary);	//제출받은거 등록함수에게 주기
-		return "redirect:/diaries";
+		System.out.println("리파지토리 갔다가 컨트롤러 돌아옴");
+		//return "redirect:/diaries";
+		return ResponseEntity.ok(diary.getDiaryId());
 	}
 	
 	@GetMapping("/updateDiary")
@@ -191,6 +197,44 @@ public class DiaryController
 	public String deleteDiary(@ModelAttribute Diary diary, @RequestParam("id") long diaryId)
 	{
 		diaryService.deleteDiary(diaryId);
+		return "redirect:/diaries";
+	}
+
+	@PostMapping("/uploadfile")
+	public String uploadfile(@RequestParam("diaryId") Long diaryId, @RequestParam("uploadFile") MultipartFile[] uploadFile, HttpServletRequest req)
+	{
+		System.out.println("DiaryController uploadfile in");
+		//업로드 된 파일 처리하기
+		String path = "/resources/images";
+		String savepath = req.getServletContext().getRealPath(path);
+		
+		//이제 파일 하나씩 꺼내서 처리
+		for(MultipartFile multi : uploadFile)
+		{
+			String savename = multi.getOriginalFilename();
+			System.out.println("파일이름은 : "+savename);
+			
+			File savefile = new File(savepath, savename);
+			try 
+			{
+				multi.transferTo(savefile);
+				System.out.println("파일 작성 완료");
+				
+				//diaryImageDTO 객체 생성 후 DB에 저장
+				DiaryImage diaryImage = new DiaryImage();
+				diaryImage.setDiaryId(diaryId);
+				diaryImage.setFilename(savename);
+	            diaryService.uploadImage(diaryImage); // 이미지 정보를 DB에 저장하는 서비스 메서드 호출
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+				System.out.println("파일 작성 에러에러");
+			}
+			//파일 작성했으면 이거랑 다이어리 아이디 가져가서 db에 저장해야 함
+			//diaryService.uploadFile(savefile, diaryId);
+		}
+		
 		return "redirect:/diaries";
 	}
 }

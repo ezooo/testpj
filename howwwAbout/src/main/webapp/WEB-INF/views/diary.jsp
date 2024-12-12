@@ -22,6 +22,7 @@
 		System.out.println("diary에 보여줄 이미지가 있습니다.");
 %>
 <img src="/howAbout/resources/images/<%=diary.getFilename()%>" style="width: 20%" /> 
+<img src="/howAbout/resources/images/<%=diary.getFilename()%>" style="width: 20%" />
 <%
 	}
 %>	

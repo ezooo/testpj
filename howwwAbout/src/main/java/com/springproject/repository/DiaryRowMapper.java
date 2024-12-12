@@ -18,7 +18,7 @@ public class DiaryRowMapper implements RowMapper<Diary>
 		diary.setUserId(rs.getString(2));
 		diary.setVisit_date(rs.getString(3));
 		diary.setVisit_diary(rs.getString(4));
-		diary.setFilename(rs.getString(5));
+		//diary.setFilename(rs.getString(5));
 		
 		return diary;
 	}

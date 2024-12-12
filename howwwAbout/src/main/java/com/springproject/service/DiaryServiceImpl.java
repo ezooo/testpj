@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springproject.domain.Diary;
+import com.springproject.domain.DiaryImage;
 import com.springproject.repository.DiaryRepository;
 
 @Service	//저는 서비스에요
@@ -59,5 +60,12 @@ public class DiaryServiceImpl implements DiaryService
 	public Diary getOnediary(Long diaryId) 
 	{
 		return diaryRepository.getOnediary(diaryId);
+	}
+
+	@Override
+	public void uploadImage(DiaryImage diaryImage) 
+	{
+		System.out.println("DiaryServiceImpl - uploadImage in - 레파지토리 함수 호출");
+		diaryRepository.uploadImage(diaryImage);
 	}
 }

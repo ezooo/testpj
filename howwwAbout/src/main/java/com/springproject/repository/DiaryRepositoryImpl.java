@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.springproject.domain.Diary;
+import com.springproject.domain.DiaryImage;
 import com.springproject.domain.Member;
 import com.springproject.exception.DiaryIdException;
 
@@ -48,8 +49,12 @@ public class DiaryRepositoryImpl implements DiaryRepository
 	{	//다이어리 등록하기
 		System.out.println("DiaryRepositoryImpl setNewDiary in");
 		
-		String SQL = "insert into diary(diaryId,userId,visit_date,visit_diary,filename) values(?,?,?,?,?)";
-		template.update(SQL, diary.getDiaryId(), diary.getUserId(), diary.getVisit_date(), diary.getVisit_diary(), diary.getFilename());
+		//String SQL = "insert into diary(diaryId,userId,visit_date,visit_diary,filename) values(?,?,?,?,?)";
+		//template.update(SQL, diary.getDiaryId(), diary.getUserId(), diary.getVisit_date(), diary.getVisit_diary(), diary.getFilename());
+		
+		String SQL = "insert into diary(diaryId,userId,visit_date,visit_diary) values(?,?,?,?)";
+		template.update(SQL, diary.getDiaryId(), diary.getUserId(), diary.getVisit_date(), diary.getVisit_diary());
+		
 		System.out.println("setNewDiary 쿼리 업데이트 완료");
 		//diaryList.add(diary);
 		//System.out.println("diaryList 저장완료 "+diaryList);
@@ -159,6 +164,16 @@ public class DiaryRepositoryImpl implements DiaryRepository
 		SQL = "select * from diary where diaryId=?";
 		Diary diary = template.queryForObject(SQL, new DiaryRowMapper(), diaryId);
 		return diary;
+	}
+
+	@Override
+	public void uploadImage(DiaryImage diaryImage) 
+	{
+		System.out.println("DiaryRepositoryImpl uploadImage in");
+		SQL = "insert into diaryImage values(?,?,?)";
+		//template.queryForObject(SQL, new DiaryImageRowMapper(), diaryImage);
+		template.update(SQL, null, diaryImage.getDiaryId(), diaryImage.getFilename());
+		System.out.println("다이어리 이미지 업로드 완료");
 	}
 	
 	
