@@ -32,7 +32,7 @@ public class Diary
 	public Diary() 
 	{
 		super();
-		System.out.println("다이어리 기본생성자");
+		//System.out.println("다이어리 기본생성자");
 		//this.diaryId = System.currentTimeMillis();
 		//this.diaryId = userId + number;
 

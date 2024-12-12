@@ -146,7 +146,7 @@ public class DiaryController_copy
 		diary.setDiaryId(System.currentTimeMillis());
 		System.out.println("다이어리 아이디 주기 : "+diary.getDiaryId());
 		
-		//이미지파일넣기
+/*		//이미지파일넣기
 		MultipartFile picture = diary.getPicture();	//다이어리에서 파일 받아오기
 		String savepath = request.getServletContext().getRealPath("/resources/images/");	//저장소 경로 받아오기
 		System.out.println(savepath);
@@ -168,7 +168,7 @@ public class DiaryController_copy
 			{
 				System.out.println("submitDiaryForm 파일 작성 에러에러");
 			}
-		}
+		}*/
 		diaryService.setNewDiary(diary);	//제출받은거 등록함수에게 주기
 		return "redirect:/diaries";
 	}
@@ -190,7 +190,7 @@ public class DiaryController_copy
 		System.out.println("DiaryController - setUpdateDiary in");
 		System.out.println("이미지 파일 수정할 때랑 안할 때 다르게 작업해야 함");
 		
-		MultipartFile picture = diary.getPicture();	//다이어리에서 파일 받아오기
+/*		MultipartFile picture = diary.getPicture();	//다이어리에서 파일 받아오기
 		
 		//유효성 검사
 		if( picture!=null && !picture.isEmpty())
@@ -212,7 +212,7 @@ public class DiaryController_copy
 			{
 				System.out.println("submitDiaryForm 파일 작성 에러에러");
 			}
-		}
+		}*/
 		
 		diaryService.setUpdateDiary(diary);
 

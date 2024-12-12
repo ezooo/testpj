@@ -80,6 +80,10 @@ public class DiaryController
 		System.out.println("DiaryController getOnediary in");
 		Diary diary = diaryService.getOnediary(diaryId);
 		model.addAttribute("diary", diary);
+		
+		List<DiaryImage> diaryImages = diaryService.getdiaryImages(diaryId);
+		model.addAttribute("diaryImages",diaryImages);
+		
 		return "diary";
 	}
 
@@ -103,48 +107,51 @@ public class DiaryController
 	}
 	
 	@PostMapping("/addDiary")
-	public ResponseEntity<Long> submitDiaryForm(@ModelAttribute Diary diary, HttpServletRequest request)	//모델에 담긴 내용 받아오기
+	public String submitDiaryForm(@ModelAttribute Diary diary, 
+			@RequestParam("uploadFiles") MultipartFile[] uploadFiles, HttpServletRequest req)	//모델에 담긴 내용 받아오기
 	{	//addDiary 에서 제출한 내용 처리할 메서드
 		System.out.println("DiaryController - submitDiaryForm in");
 		//다이어리 아이디 주기
-		Member mb = (Member)request.getSession().getAttribute("member");
+		Member mb = (Member)req.getSession().getAttribute("member");
 		diary.setUserId(mb.getUserId());
 		System.out.println("유저 아이디 넣어주기 : "+diary.getUserId());
 		diary.setDiaryId(System.currentTimeMillis());
 		System.out.println("다이어리 아이디 넣어주기 : "+diary.getDiaryId());
-		System.out.println("다이어리 작성한 내용 받아왔고 userId 랑 diaryId 생성해서 set 완료");
 		
-		//이제 이미지 파일을 받아와서.. 다이어리 이미지 dto 에 집어넣어야 함
-		//근데 .. 폼에서 제출받는건 diary dto에 담겨서 오는건디..
-		
-		
-		//이미지파일넣기
-//		MultipartFile picture = diary.getPicture();	//다이어리에서 파일 받아오기
-//		String savepath = request.getServletContext().getRealPath("/resources/images/");	//저장소 경로 받아오기
-//		System.out.println(savepath);
-//		String savename = picture.getOriginalFilename();	//파일 이름 받아오기
-//		System.out.println("파일이름은 : "+savename);
-//		File savefile = new File(savepath, savename);	//변수에 저장해둔 경로+ 저장된 이름으로 새 파일 생성
-//		
-//		//유효성 검사
-//		if( picture!=null && !picture.isEmpty())
-//		{
-//			System.out.println("submitDiaryForm 사진이 있습니다. 파일 저장하기");
-//			try
-//			{
-//				picture.transferTo(savefile);	//사진을 savepath 경로에 업로드
-//				diary.setFilename(savename);	//db 연결 시 추가
-//				System.out.println("파일 업로드 완료 !");
-//			}
-//			catch(Exception e)
-//			{
-//				System.out.println("submitDiaryForm 파일 작성 에러에러");
-//			}
-//		}
 		diaryService.setNewDiary(diary);	//제출받은거 등록함수에게 주기
 		System.out.println("리파지토리 갔다가 컨트롤러 돌아옴");
-		//return "redirect:/diaries";
-		return ResponseEntity.ok(diary.getDiaryId());
+		
+			//업로드 된 파일 처리하기
+			System.out.println("DiaryController uploadfile 이미지 처리하기 in");
+			String path = "/resources/images";
+			String savepath = req.getServletContext().getRealPath(path);
+			
+			//이제 파일 하나씩 꺼내서 처리
+			for(MultipartFile multi : uploadFiles)
+			{
+				String savename = multi.getOriginalFilename();
+				System.out.println("파일이름은 : "+savename);
+				
+				File savefile = new File(savepath, savename);
+				try 
+				{
+					multi.transferTo(savefile);
+					System.out.println("파일 작성 완료");
+					
+					//diaryImageDTO 객체 생성 후 DB에 저장
+					DiaryImage diaryImage = new DiaryImage();
+					diaryImage.setDiaryId(diary.getDiaryId());
+					diaryImage.setFilename(savename);
+		            diaryService.uploadImage(diaryImage); // 이미지 정보를 DB에 저장하는 서비스 메서드 호출
+				} 
+				catch (Exception e) 
+				{
+					e.printStackTrace();
+					System.out.println("파일 작성 에러에러");
+				}
+			}
+		
+		return "redirect:/diaries/diary/"+diary.getDiaryId() ;
 	}
 	
 	@GetMapping("/updateDiary")
@@ -164,6 +171,7 @@ public class DiaryController
 		System.out.println("DiaryController - setUpdateDiary in");
 		System.out.println("이미지 파일 수정할 때랑 안할 때 다르게 작업해야 함");
 		
+		long diaryId = diary.getDiaryId();
 		MultipartFile picture = diary.getPicture();	//다이어리에서 파일 받아오기
 		
 		//유효성 검사

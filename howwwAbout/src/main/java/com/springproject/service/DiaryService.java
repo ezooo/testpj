@@ -15,5 +15,6 @@ public interface DiaryService
 	void deleteDiary(long diaryId);
 	Diary getOnediary(Long diaryId);
 	void uploadImage(DiaryImage diaryImage);
+	List<DiaryImage> getdiaryImages(Long diaryId);
 	
 }

@@ -68,4 +68,12 @@ public class DiaryServiceImpl implements DiaryService
 		System.out.println("DiaryServiceImpl - uploadImage in - 레파지토리 함수 호출");
 		diaryRepository.uploadImage(diaryImage);
 	}
+
+	@Override
+	public List<DiaryImage> getdiaryImages(Long diaryId) 
+	{
+		System.out.println("DiaryServiceImpl - getdiaryImages in - 레파지토리 함수 호출");
+		
+		return diaryRepository.getdiaryImages(diaryId);
+	}
 }

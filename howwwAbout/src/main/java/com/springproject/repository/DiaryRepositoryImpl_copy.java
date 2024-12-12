@@ -144,6 +144,11 @@ public class DiaryRepositoryImpl_copy implements DiaryRepository
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public List<DiaryImage> getdiaryImages(Long diaryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }

@@ -156,6 +156,8 @@ public class DiaryRepositoryImpl implements DiaryRepository
 		SQL = "delete from diary where diaryId=?";
 		template.update(SQL,diaryId);
 	}
+	
+	
 
 	@Override
 	public Diary getOnediary(Long diaryId) 
@@ -174,6 +176,17 @@ public class DiaryRepositoryImpl implements DiaryRepository
 		//template.queryForObject(SQL, new DiaryImageRowMapper(), diaryImage);
 		template.update(SQL, null, diaryImage.getDiaryId(), diaryImage.getFilename());
 		System.out.println("다이어리 이미지 업로드 완료");
+	}
+
+	@Override
+	public List<DiaryImage> getdiaryImages(Long diaryId) 
+	{
+		System.out.println("DiaryRepositoryImpl getdiaryImages in");
+		SQL = "select * from diaryimage where diaryId=?";
+		System.out.println("diaryId : "+diaryId);
+		List<DiaryImage> diaryImages = template.query(SQL, new DiaryImageRowMapper(), new Object[] {diaryId});
+		System.out.println(diaryImages.isEmpty());
+		return diaryImages;
 	}
 	
 	
