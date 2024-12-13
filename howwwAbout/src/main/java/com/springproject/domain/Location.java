@@ -16,7 +16,6 @@ public class Location
 	private String fileurl2;
 	private String fileurl3;
 	private String fileurl4;
-	private String fileurl5;
 	private int num;
 
 	public String getData_title() {
@@ -97,12 +96,7 @@ public class Location
 	public void setFileurl4(String fileurl4) {
 		this.fileurl4 = fileurl4;
 	}
-	public String getFileurl5() {
-		return fileurl5;
-	}
-	public void setFileurl5(String fileurl5) {
-		this.fileurl5 = fileurl5;
-	}
+
 	public int getNum() {
 		return num;
 	}

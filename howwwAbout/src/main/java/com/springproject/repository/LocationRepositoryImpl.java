@@ -31,7 +31,7 @@ public class LocationRepositoryImpl implements LocationRepository
 		SQL = "insert into location values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		template.update(SQL, lt.getString("data_title"), lt.getString("user_address"), lt.getString("lattitude"), lt.getString("logitude"), 
 				lt.getString("insttnm"), lt.getString("category_name1"), lt.getString("category_name2"), lt.getString("data_content"), lt.getString("telno"), 
-				lt.getString("fileurl1"), lt.getString("fileurl2"), lt.getString("fileurl3"), lt.getString("fileurl4"), lt.getString("fileurl5"), null);
+				lt.getString("fileurl1"), lt.getString("fileurl3"), lt.getString("fileurl4"), lt.getString("fileurl5"), null);
 	}
 
 	@Override
@@ -97,10 +97,9 @@ public class LocationRepositoryImpl implements LocationRepository
 	public void createLocation(Location lt) 
 	{
 		System.out.println("LocationRepositoryImpl createLocation in");
-		SQL = "insert into location values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		SQL = "insert into location values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		template.update(SQL, lt.getData_title(), lt.getUser_address(), lt.getLattitude(), lt.getLogitude(), lt.getInsttnm(), lt.getCategory_name1(), 
-				lt.getCategory_name2(), lt.getData_content(), lt.getTelno(), lt.getFileurl1(), null, lt.getFileurl3(), lt.getFileurl4(), lt.getFileurl5(),
-				null);
+				lt.getCategory_name2(), lt.getData_content(), lt.getTelno(), lt.getFileurl1(), null, lt.getFileurl3(), lt.getFileurl4(), null);
 	}
 
 	@Override
@@ -127,11 +126,11 @@ public class LocationRepositoryImpl implements LocationRepository
 	{
 		System.out.println("LocationRepositoryImpl submitUpdateLocation in");
 		SQL = "update location set data_title=?, user_address=?, lattitude=?, logitude=?, insttnm=?, category_name1=?, category_name2=?,"
-				+ " data_content=?, telno=?, fileurl1=?, fileurl3=?, fileurl4=?, fileurl5=?"
+				+ " data_content=?, telno=?, fileurl1=?, fileurl2=?, fileurl3=?, fileurl4=?"
 				+ " where num=?";
 		System.out.println("수정할 제목 : "+lt.getData_title()+", 수정할 카테고리 : "+lt.getCategory_name1()+", 수정할 넘버 : "+lt.getNum());
 		template.update(SQL, lt.getData_title(), lt.getUser_address(), lt.getLattitude(), lt.getLogitude(), lt.getInsttnm(), lt.getCategory_name1(), 
-				lt.getCategory_name2(), lt.getData_content(), lt.getTelno(), lt.getFileurl1(), lt.getFileurl3(), lt.getFileurl4(), lt.getFileurl5(), 
+				lt.getCategory_name2(), lt.getData_content(), lt.getTelno(), lt.getFileurl1(), lt.getFileurl2(), lt.getFileurl3(), lt.getFileurl4(), 
 				lt.getNum());
 	}
 
@@ -142,7 +141,5 @@ public class LocationRepositoryImpl implements LocationRepository
 		
 		SQL= "delete from location where lattitude=? and logitude=?";
 		template.update(SQL, lat, log);
-		
 	}
-
 }

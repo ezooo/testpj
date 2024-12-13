@@ -2,6 +2,7 @@ package com.springproject.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.security.auth.message.callback.PrivateKeyCallback.Request;
@@ -80,10 +81,8 @@ public class DiaryController
 		System.out.println("DiaryController getOnediary in");
 		Diary diary = diaryService.getOnediary(diaryId);
 		model.addAttribute("diary", diary);
-		
-		List<DiaryImage> diaryImages = diaryService.getdiaryImages(diaryId);
-		model.addAttribute("diaryImages",diaryImages);
-		
+		//List<DiaryImage> diaryImages = diaryService.getdiaryImages(diaryId);
+		//model.addAttribute("diaryImages",diaryImages);
 		return "diary";
 	}
 
@@ -107,49 +106,83 @@ public class DiaryController
 	}
 	
 	@PostMapping("/addDiary")
-	public String submitDiaryForm(@ModelAttribute Diary diary, 
-			@RequestParam("uploadFiles") MultipartFile[] uploadFiles, HttpServletRequest req)	//모델에 담긴 내용 받아오기
+	public String submitDiaryForm(@ModelAttribute Diary diary,
+			@RequestParam("uploadFile") MultipartFile[] multifiles, 
+			HttpServletRequest req)	//모델에 담긴 내용 받아오기
 	{	//addDiary 에서 제출한 내용 처리할 메서드
 		System.out.println("DiaryController - submitDiaryForm in");
 		//다이어리 아이디 주기
 		Member mb = (Member)req.getSession().getAttribute("member");
 		diary.setUserId(mb.getUserId());
-		System.out.println("유저 아이디 넣어주기 : "+diary.getUserId());
+		System.out.println("유저 아이디 넣어주기 : "+ diary.getUserId());
 		diary.setDiaryId(System.currentTimeMillis());
-		System.out.println("다이어리 아이디 넣어주기 : "+diary.getDiaryId());
+		System.out.println("다이어리 아이디 넣어주기 : "+ diary.getDiaryId());
 		
-		diaryService.setNewDiary(diary);	//제출받은거 등록함수에게 주기
-		System.out.println("리파지토리 갔다가 컨트롤러 돌아옴");
+		diary.setVisit_date(req.getParameter("visit_date"));
+		diary.setVisit_location(req.getParameter("visit_location"));
+		diary.setVisit_diary(req.getParameter("visit_diary"));
 		
-			//업로드 된 파일 처리하기
-			System.out.println("DiaryController uploadfile 이미지 처리하기 in");
-			String path = "/resources/images";
-			String savepath = req.getServletContext().getRealPath(path);
-			
-			//이제 파일 하나씩 꺼내서 처리
-			for(MultipartFile multi : uploadFiles)
+		//이미지 처리....
+		String[] files = new String[4];	//나중에 파일이름 짓고나면 여기에 저장할 것
+
+		//공통으로 쓸 것 : 저장경로
+		String path = "/resources/images";
+		String savepath = req.getServletContext().getRealPath(path);
+		System.out.println(savepath);
+		//공통2 : 새 파일 작성할 변수
+		File savefile;
+		
+		for(int i = 0; i<multifiles.length; i++)
+		{
+			if(multifiles[i] != null && !(multifiles[i].isEmpty()) )
 			{
-				String savename = multi.getOriginalFilename();
-				System.out.println("파일이름은 : "+savename);
+				System.out.println("addDiary "+i +"번째 이미지가 있습니다.");
+				// 실제 파일이름 받아오기
+				String file_name = multifiles[i].getOriginalFilename();
+				System.out.println(i+"번째 " +file_name);
+				// 근데 이거 확장자명이 4자리 일수도 있음 : 확장자명을 내가 줘야 함
+				// 스플릿 써서 . 앞까지 잘라냄
+				String[] namearr = file_name.split("\\.");
+				System.out.println(namearr);
+				String filename = namearr[0];
+				System.out.println(i +"번째 파일명은 : "+filename);
 				
-				File savefile = new File(savepath, savename);
+				// 저장을 위한 파일이름 지어주기
+				String savename = diary.getDiaryId()+filename+".png" ;
+				System.out.println("savename : "+savename);
+				
+				// 파일 작성하기
+				savefile = new File(savepath, savename);
 				try 
 				{
-					multi.transferTo(savefile);
-					System.out.println("파일 작성 완료");
-					
-					//diaryImageDTO 객체 생성 후 DB에 저장
-					DiaryImage diaryImage = new DiaryImage();
-					diaryImage.setDiaryId(diary.getDiaryId());
-					diaryImage.setFilename(savename);
-		            diaryService.uploadImage(diaryImage); // 이미지 정보를 DB에 저장하는 서비스 메서드 호출
+					multifiles[i].transferTo(savefile);
+					System.out.println("addDiary 에서 이미지 저장완료");
 				} 
 				catch (Exception e) 
 				{
+					System.out.println("addDiary 에서 이미지 저장 에러에러");
 					e.printStackTrace();
-					System.out.println("파일 작성 에러에러");
 				}
+				
+				// 이제 파일명만 저장하면 되는데
+				// 위에 있는 파일명 배열에 도로 넣어보자
+				files[i] = savename ;
+				System.out.println("새로운 이미지 이름 덮어쓰기 완료 : "+i);
 			}
+			else
+			{
+				String savename = "00000000diary.png";
+				files[i] = savename ;
+			}
+		}
+		// for문 끝나고나면 이제 배열에 있는거 하나씩 꺼내서 dto 파일이름 저장하기
+		diary.setFilename0(files[0]);
+		diary.setFilename1(files[1]);
+		diary.setFilename2(files[2]);
+		diary.setFilename3(files[3]);
+		
+		diaryService.setNewDiary(diary);	//제출받은거 등록함수에게 주기
+		System.out.println("리파지토리 갔다가 컨트롤러 돌아옴");
 		
 		return "redirect:/diaries/diary/"+diary.getDiaryId() ;
 	}
@@ -166,35 +199,95 @@ public class DiaryController
 	}
 	
 	@PostMapping("/updateDiary")
-	public String setUpdateDiary(@ModelAttribute Diary diary, HttpServletRequest request)
+	public String setUpdateDiary(@ModelAttribute Diary diary, 
+			@RequestParam("uploadFile") MultipartFile[] multifiles, HttpServletRequest req)
 	{
 		System.out.println("DiaryController - setUpdateDiary in");
-		System.out.println("이미지 파일 수정할 때랑 안할 때 다르게 작업해야 함");
 		
 		long diaryId = diary.getDiaryId();
-		MultipartFile picture = diary.getPicture();	//다이어리에서 파일 받아오기
 		
-		//유효성 검사
-		if( picture!=null && !picture.isEmpty())
+//		MultipartFile picture = diary.getPicture();	//다이어리에서 파일 받아오기
+//		
+//		//유효성 검사
+//		if( picture!=null && !picture.isEmpty())
+//		{
+//			System.out.println("submitDiaryForm 사진이 있습니다.");
+//			String savepath = request.getServletContext().getRealPath("/resources/images/");	//저장소 경로 받아오기
+//			System.out.println(savepath);
+//			String savename = picture.getOriginalFilename();	//파일 이름 받아오기
+//			System.out.println("파일이름은 : "+savename);
+//			File savefile = new File(savepath, savename);	//변수에 저장해둔 경로+ 저장된 이름으로 새 파일 생성
+//			System.out.println("submitDiaryForm 파일 저장하기");
+//			try
+//			{
+//				picture.transferTo(savefile);	//사진을 savepath 경로에 업로드
+//				diary.setFilename(savename);
+//				System.out.println("submitDiaryForm 파일 업로드 완료 !");
+//			}
+//			catch(Exception e)
+//			{
+//				System.out.println("submitDiaryForm 파일 작성 에러에러");
+//			}
+//		}
+		
+		//이미지 처리....
+		String[] files = new String[4];	//나중에 파일이름 짓고나면 여기에 저장할 것
+
+		//공통으로 쓸 것 : 저장경로
+		String path = "/resources/images";
+		String savepath = req.getServletContext().getRealPath(path);
+		System.out.println(savepath);
+		//공통2 : 새 파일 작성할 변수
+		File savefile;
+		
+		for(int i = 0; i<multifiles.length; i++)
 		{
-			System.out.println("submitDiaryForm 사진이 있습니다.");
-			String savepath = request.getServletContext().getRealPath("/resources/images/");	//저장소 경로 받아오기
-			System.out.println(savepath);
-			String savename = picture.getOriginalFilename();	//파일 이름 받아오기
-			System.out.println("파일이름은 : "+savename);
-			File savefile = new File(savepath, savename);	//변수에 저장해둔 경로+ 저장된 이름으로 새 파일 생성
-			System.out.println("submitDiaryForm 파일 저장하기");
-			try
+			if(multifiles[i] != null && !(multifiles[i].isEmpty()) )
 			{
-				picture.transferTo(savefile);	//사진을 savepath 경로에 업로드
-				diary.setFilename(savename);
-				System.out.println("submitDiaryForm 파일 업로드 완료 !");
+				System.out.println("addDiary "+i +"번째 이미지가 있습니다.");
+				// 실제 파일이름 받아오기
+				String file_name = multifiles[i].getOriginalFilename();
+				System.out.println(i+"번째 " +file_name);
+				// 근데 이거 확장자명이 4자리 일수도 있음 : 확장자명을 내가 줘야 함
+				// 스플릿 써서 . 앞까지 잘라냄
+				String[] namearr = file_name.split("\\.");
+				System.out.println(namearr);
+				String filename = namearr[0];
+				System.out.println(i +"번째 파일명은 : "+filename);
+				
+				// 저장을 위한 파일이름 지어주기
+				String savename = diary.getDiaryId()+filename+".png" ;
+				System.out.println("savename : "+savename);
+				
+				// 파일 작성하기
+				savefile = new File(savepath, savename);
+				try 
+				{
+					multifiles[i].transferTo(savefile);
+					System.out.println("addDiary 에서 이미지 저장완료");
+				} 
+				catch (Exception e) 
+				{
+					System.out.println("addDiary 에서 이미지 저장 에러에러");
+					e.printStackTrace();
+				}
+				
+				// 이제 파일명만 저장하면 되는데
+				// 위에 있는 파일명 배열에 도로 넣어보자
+				files[i] = savename ;
+				System.out.println("새로운 이미지 이름 덮어쓰기 완료 : "+i);
 			}
-			catch(Exception e)
+			else
 			{
-				System.out.println("submitDiaryForm 파일 작성 에러에러");
+				String savename = "00000000diary.png";
+				files[i] = savename ;
 			}
 		}
+		// for문 끝나고나면 이제 배열에 있는거 하나씩 꺼내서 dto 파일이름 저장하기
+		diary.setFilename0(files[0]);
+		diary.setFilename1(files[1]);
+		diary.setFilename2(files[2]);
+		diary.setFilename3(files[3]);
 		
 		diaryService.setUpdateDiary(diary);
 

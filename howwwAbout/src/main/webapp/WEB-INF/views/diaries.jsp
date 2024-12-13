@@ -30,12 +30,12 @@ if(mb != null)
 %>
 	<div>
 		<a href="diaries/diary/<%= diary.getDiaryId()%>">
-		<p><%= diary.getVisit_date() %> &nbsp; 방문장소 : </p>
+		<p><%= diary.getVisit_date() %> &nbsp;&raquo; <%= diary.getVisit_location()%> </p>
 		<%
-		if(diary.getFilename() != null)
+		if(diary.getFilename0() != null)
 		{
 		%>
-		<div style="width: 20%"> <img src="/howAbout/resources/images/<%=diary.getFilename()%>" style="width: 100%" /> </div>
+		<div style="width: 20%"> <img src="/howAbout/resources/images/<%=diary.getFilename0()%>" style="width: 100%" /> </div>
 		<%
 		}
 		%>	

@@ -12,13 +12,16 @@ public class DiaryRowMapper implements RowMapper<Diary>
 	@Override
 	public Diary mapRow(ResultSet rs, int rowNum) throws SQLException 
 	{
-		System.out.println("DiaryRowMapper mapRow in");
 		Diary diary = new Diary();	//db에 보내기위해서 묶을 객체
 		diary.setDiaryId(rs.getLong(1));
 		diary.setUserId(rs.getString(2));
 		diary.setVisit_date(rs.getString(3));
-		diary.setVisit_diary(rs.getString(4));
-		//diary.setFilename(rs.getString(5));
+		diary.setVisit_location(rs.getString(4));
+		diary.setVisit_diary(rs.getString(5));
+		diary.setFilename0(rs.getString(6));
+		diary.setFilename1(rs.getString(7));
+		diary.setFilename2(rs.getString(8));
+		diary.setFilename3(rs.getString(9));
 		
 		return diary;
 	}

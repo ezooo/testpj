@@ -12,24 +12,23 @@
 <body>
 <%
 	Diary diary = (Diary)request.getAttribute("diary");
-	ArrayList<DiaryImage> diaryImages = (ArrayList<DiaryImage>)request.getAttribute("diaryImages");
+	//ArrayList<DiaryImage> diaryImages = (ArrayList<DiaryImage>)request.getAttribute("diaryImages");
 %>
 <%@ include file="main.jsp" %>
 
 <p>방문일 : <%= diary.getVisit_date() %> </p>
-<p>방문장소 :  </p>
+<p>방문장소 : <%= diary.getVisit_location() %> </p>
 <p>메모 : <%= diary.getVisit_diary() %> </p>
 <%
-if(diaryImages != null)
+String[] filenames = {diary.getFilename0(), diary.getFilename1(), diary.getFilename2(), diary.getFilename3()};
+
+for(int i=0; i<filenames.length; i++)
 {
-	for(DiaryImage di : diaryImages)
+	if(filenames[i] != null)
 	{
-		if(di.getFilename() != null)
-		{
 %>
-	<img src="/howAbout/resources/images/<%=di.getFilename()%>" style="width: 40%" /> 
+	<img src="/howAbout/resources/images/<%=filenames[i]%>" style="width: 40%" /> 
 <%
-		}
 	}
 }
 %>	

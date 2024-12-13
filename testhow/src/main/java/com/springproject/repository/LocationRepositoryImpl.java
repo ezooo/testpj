@@ -28,10 +28,10 @@ public class LocationRepositoryImpl implements LocationRepository
 	public void addLocationAPI(JSONObject lt) 
 	{
 		System.out.println("LocationRepositoryImpl addLocationAPI in");
-		SQL = "insert into location values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		SQL = "insert into location values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		template.update(SQL, lt.getString("data_title"), lt.getString("user_address"), lt.getString("lattitude"), lt.getString("logitude"), 
 				lt.getString("insttnm"), lt.getString("category_name1"), lt.getString("category_name2"), lt.getString("data_content"), lt.getString("telno"), 
-				lt.getString("fileurl1"), lt.getString("fileurl2"), lt.getString("fileurl3"), lt.getString("fileurl4"), lt.getString("fileurl5"));
+				lt.getString("fileurl1"), lt.getString("fileurl2"), lt.getString("fileurl3"), lt.getString("fileurl4"), lt.getString("fileurl5"), null);
 	}
 
 	@Override

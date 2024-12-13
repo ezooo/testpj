@@ -15,13 +15,19 @@
 %>
 <%@ include file="main.jsp" %>
 <br>
-<form:form modelAttribute="diary" method="post" enctype="multipart/form-data">
-	<form:input path="diaryId" value="<%=diary.getDiaryId() %>" type="hidden" />	
-	<p>방문일 : <form:input path="visit_date" name="visit_date" value="<%=diary.getVisit_date() %>" /> </p>
-	<p>메모 : <form:input path="visit_diary" name="visit_diary" value="<%=diary.getVisit_diary() %>" /> </p>
-	<p>사진 : <form:input path="picture"  type="file" name="picture"/> </p>
-	<p><input type="submit" value="제출"> </p>
-</form:form>
+<form action="/howAbout/diaries/updateDiary" method="post" enctype="multipart/form-data">
+	<input name="diaryId" value="<%=diary.getDiaryId() %>" type="hidden" />
+	<p>방 문 일 : <input type="date" name="visit_date" value="<%=diary.getVisit_date() %>" required /> </p>
+	<p>방문 장소 : <input type="text" name="visit_location" value="<%=diary.getVisit_location() %>" required /> </p>
+	<p>메   모 : <input type="text" name="visit_diary" value="<%=diary.getVisit_diary() %>"/> </p>
 
+	<p> 사진 수정을 원하시면 새 파일을 업로드 하세요. </p>
+	<p> <input type="file" name="uploadFile"/> </p>
+	<p> <input type="file" name="uploadFile"/> </p>
+	<p> <input type="file" name="uploadFile"/> </p>
+	<p> <input type="file" name="uploadFile"/> </p>
+	
+	<p><input type="submit" value="제출"> </p>
+</form>
 </body>
 </html>
