@@ -55,9 +55,9 @@ public class DiaryRepositoryImpl implements DiaryRepository
 		//String SQL = "insert into diary(diaryId,userId,visit_date,visit_diary) values(?,?,?,?)";
 		//template.update(SQL, diary.getDiaryId(), diary.getUserId(), diary.getVisit_date(), diary.getVisit_diary());
 		
-		SQL = "insert into diary values(?,?,?,?,?,?,?,?,?)";
+		SQL = "insert into diary values(?,?,?,?,?,?,?,?,?,?)";
 		template.update(SQL, diary.getDiaryId(), diary.getUserId(), diary.getVisit_date(), diary.getVisit_location(), diary.getVisit_diary(), 
-				diary.getFilename0(), diary.getFilename1(), diary.getFilename2(), diary.getFilename3());
+				diary.getFilename0(), diary.getFilename1(), diary.getFilename2(), diary.getFilename3(), diary.getIsopen());
 		
 		System.out.println("setNewDiary 쿼리 업데이트 완료");
 		//diaryList.add(diary);
@@ -71,7 +71,7 @@ public class DiaryRepositoryImpl implements DiaryRepository
 		
 		SQL = "select * from diary";
 		List<Diary> diaries = template.query(SQL, new DiaryRowMapper());	//sql을 
-		
+		System.out.println("getAllDiary" +diaries);
 		return diaries;
 	}
 

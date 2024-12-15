@@ -10,12 +10,12 @@ public class Diary
 	private String visit_date;
 	private String visit_location;
 	private String visit_diary;
-	private MultipartFile picture1;
-
+	//private MultipartFile picture1;
 	private String filename0;
 	private String filename1;
 	private String filename2;
 	private String filename3;
+	private String isopen;
 	//private String diaryId;	//다이어리 수정 삭제하려니까 이거 필요함.. 이게 pk 인듯
 	//private int number = 0;
 	//private LocalDateTime diaryId;
@@ -142,4 +142,14 @@ public class Diary
 	public void setFilename0(String filename0) {
 		this.filename0 = filename0;
 	}
+
+	public String getIsopen() {
+		return isopen;
+	}
+
+	public void setIsopen(String isopen) {
+		this.isopen = isopen;
+	}
+
+
 }

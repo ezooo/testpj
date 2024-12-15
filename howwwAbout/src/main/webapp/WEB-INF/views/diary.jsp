@@ -31,7 +31,10 @@ for(int i=0; i<filenames.length; i++)
 <%
 	}
 }
-%>	
+%>
+<p>
+	<% if(diary.getIsopen().equals("true")){ %> 공개 <% } else { %> 비공개 <% } %>
+</p>	
 <p> <a href="/howAbout/diaries/updateDiary?id=<%=diary.getDiaryId()%>">수정하기</a>&nbsp;|&nbsp;<a href="/howAbout/diaries/deleteDiary?id=<%=diary.getDiaryId()%>">삭제하기</a> </p>
 
 </body>

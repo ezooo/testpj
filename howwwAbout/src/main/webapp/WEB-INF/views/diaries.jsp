@@ -40,6 +40,7 @@ if(mb != null)
 		}
 		%>	
 		</a>
+		<p>	<% if(diary.getIsopen().equals("true")){ %> 공개글 <% } else { %> 비공개 <% } %> </p>
 	</div>
 <%
 	}
