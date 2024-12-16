@@ -11,7 +11,7 @@ public interface LocationService
 	void addLocationAPI(JSONObject location);
 	List<String> getAlltitle();
 	List<Location> getAllLocation();
-	Location getOneLocation(String title);
+	Location getOneLocation(int num);
 	List<Location> getLocationOfCategory(String category);
 	List<Location> getAllCategory();
 	void createLocation(Location location);

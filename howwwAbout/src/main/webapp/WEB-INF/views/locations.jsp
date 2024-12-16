@@ -21,8 +21,8 @@
 	for(Location lt : locations)
 	{
 %>
-<%	String title = URLEncoder.encode(lt.getData_title(),"UTF-8").replace("+", "%20");	//한글을 파라미터로 주기 위해 인코딩 %>
-<p><a href="/howAbout/location/onelocation/<%= title %>"> <%= lt.getData_title() %> </a></p>
+<%	//String title = URLEncoder.encode(lt.getData_title(),"UTF-8").replace("+", "%20");	//한글을 파라미터로 주기 위해 인코딩 %>
+<p><a href="/howAbout/location/onelocation/<%= lt.getNum() %>"> <%= lt.getData_title() %> </a></p>
 <img alt="사진없당" src="<%= lt.getFileurl1() %>" />
 <hr>
 <%

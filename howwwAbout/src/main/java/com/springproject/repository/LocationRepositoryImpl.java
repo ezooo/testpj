@@ -28,10 +28,24 @@ public class LocationRepositoryImpl implements LocationRepository
 	public void addLocationAPI(JSONObject lt) 
 	{
 		System.out.println("LocationRepositoryImpl addLocationAPI in");
+		// 이미지 주소 가공하기
+		String fileurl1 = lt.getString("fileurl1");
+		if(fileurl1.isBlank()) { fileurl1 ="/howAbout/resources/images/00000000image.png"; }
+		String fileurl2 = lt.getString("fileurl3");
+		if(fileurl2.isBlank()) 
+		{
+			System.out.println("2번 이미지없다");
+			fileurl2 ="/howAbout/resources/images/00000000image.png";	
+		}
+		String fileurl3 = lt.getString("fileurl4");
+		if(fileurl3.isBlank()) { fileurl3 ="/howAbout/resources/images/00000000image.png"; }
+		String fileurl4 = lt.getString("fileurl5");
+		if(fileurl4.isBlank()) { fileurl4 ="/howAbout/resources/images/00000000image.png"; }
+		
 		SQL = "insert into location values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		template.update(SQL, lt.getString("data_title"), lt.getString("user_address"), lt.getString("lattitude"), lt.getString("logitude"), 
 				lt.getString("insttnm"), lt.getString("category_name1"), lt.getString("category_name2"), lt.getString("data_content"), lt.getString("telno"), 
-				lt.getString("fileurl1"), lt.getString("fileurl3"), lt.getString("fileurl4"), lt.getString("fileurl5"), null);
+				fileurl1, fileurl2, fileurl3, fileurl4, null);
 	}
 
 	@Override
@@ -57,11 +71,11 @@ public class LocationRepositoryImpl implements LocationRepository
 
 	
 	@Override
-	public Location getOneLocation(String title) 
+	public Location getOneLocation(int num) 
 	{
 		System.out.println("LocationRepositoryImpl getOneLocation in");
-		SQL = "select * from location where data_title=?";
-		Location location = template.queryForObject(SQL, new LocationRowMapper(), new Object[] {title});
+		SQL = "select * from location where num=?";
+		Location location = template.queryForObject(SQL, new LocationRowMapper(), new Object[] {num});
 		return location;
 	}
 
@@ -99,7 +113,7 @@ public class LocationRepositoryImpl implements LocationRepository
 		System.out.println("LocationRepositoryImpl createLocation in");
 		SQL = "insert into location values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		template.update(SQL, lt.getData_title(), lt.getUser_address(), lt.getLattitude(), lt.getLogitude(), lt.getInsttnm(), lt.getCategory_name1(), 
-				lt.getCategory_name2(), lt.getData_content(), lt.getTelno(), lt.getFileurl1(), null, lt.getFileurl3(), lt.getFileurl4(), null);
+				lt.getCategory_name2(), lt.getData_content(), lt.getTelno(), lt.getFileurl1(), lt.getFileurl2(), lt.getFileurl3(), lt.getFileurl4(), null);
 	}
 
 	@Override

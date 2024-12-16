@@ -46,7 +46,7 @@ public class LocationController
 		
 		//api 요청 할 주소
 		String apiUrl = "http://apis.data.go.kr/6480000/gyeongnamtournature/gyeongnamtournaturelist?"
-			+ "serviceKey=axdk7ixVxHHdRzI6x1lL6%2FCGVvu%2BsCRNby2Z9thO7g6TdPJCowoZhR0q4PDgM59dCD9YX5EcHqKp0T%2BcSJoNXw%3D%3D&numOfRows=30&pageNo=2&resultType=json"; // 호출할 API URL
+			+ "serviceKey=axdk7ixVxHHdRzI6x1lL6%2FCGVvu%2BsCRNby2Z9thO7g6TdPJCowoZhR0q4PDgM59dCD9YX5EcHqKp0T%2BcSJoNXw%3D%3D&numOfRows=20&pageNo=2&resultType=json"; // 호출할 API URL
 			    
 		try 
 	    {
@@ -99,9 +99,12 @@ public class LocationController
 	            	//방금 꺼낸 데이터랑 db 저장된 데이터 비교해야하므로 db 검색 함수 추가해야 함
 	            	//data_title 만 가져와서 비교하도록 설정하기 String List 받아야 함
 	            	List<String> titleList = locationService.getAlltitle();
+	            	   	
+	            	
 	            	if(titleList.contains(location.getString("data_title")))
 	            	{
-	            		System.out.println("addLocationAPI 중복된 내용 발견 : continue");
+	            		System.out.println("addLocationAPI 같은 이름 발견..");
+	            		
 	            		continue;
 	            	}
 	            	
@@ -216,12 +219,11 @@ public class LocationController
 		return "errorLocation";
 	}
 
-	@GetMapping("/onelocation/{title}")
-	public String getOneLocation(@PathVariable String title, Model model)
+	@GetMapping("/onelocation/{num}")
+	public String getOneLocation(@PathVariable int num, Model model)
 	{
 		System.out.println("LocationController getOneLocation in");
-		System.out.println("뷰에서 인코딩해서 받아온 타이틀 : "+title);
-		Location location = locationService.getOneLocation(title);
+		Location location = locationService.getOneLocation(num);
 		if(location != null)
 		{
 			System.out.println("이름으로 장소찾기 완료 ! 뷰 페이지 반환합니다.");

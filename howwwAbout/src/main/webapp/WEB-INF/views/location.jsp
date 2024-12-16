@@ -18,12 +18,12 @@
 <p> 지역분류 : <%= location.getInsttnm().substring(0, 2) %> </p>
 <p> 주  소 : <%= location.getUser_address() %> </p>
 <p> 문  의 : <%= location.getTelno() %> </p>
-<p> 설  명 : <%= location.getData_content() %> </p>
+<p> <%= location.getData_content() %> </p>
 <div class="container">
-	<img alt="image" src="<% if(location.getFileurl1() != null && location.getFileurl1() !=""){location.getFileurl1();} else{%>/resources/images/00000000.image.png<%} %>" style="width:25%" />
-	<img alt="image" src="<% if(location.getFileurl2() != null && !(location.getFileurl2().isEmpty()) ){location.getFileurl2();} else{%>/resources/images/00000000.image.png<%} %>" style="width:25%" />
-	<img alt="image" src="<%= location.getFileurl3() %>" style="width:25%" />
-	<img alt="image" src="<% if(location.getFileurl4() != null && location.getCategory_name1() !=""){location.getCategory_name1();}  %>" style="width:25%" />
+	<img alt="image" src="<%= location.getFileurl1() %>" style="width:24%" />
+	<img alt="image" src="<%= location.getFileurl2() %>" style="width:24%" />
+	<img alt="image" src="<%= location.getFileurl3() %>" style="width:24%" />
+	<img alt="image" src="<%= location.getFileurl4() %>" style="width:24%" />
 </div>
 <p> <a href="/howAbout/location/update?lat=<%=location.getLattitude()%>&log=<%=location.getLogitude()%>">수정</a>
 	 | <a href="/howAbout/location/delete?lat=<%=location.getLattitude()%>&log=<%=location.getLogitude()%>">삭제</a></p>

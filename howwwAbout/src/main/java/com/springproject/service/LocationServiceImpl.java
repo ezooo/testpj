@@ -40,10 +40,10 @@ public class LocationServiceImpl implements LocationService
 	}
 
 	@Override
-	public Location getOneLocation(String title) 
+	public Location getOneLocation(int num) 
 	{
 		//System.out.println("LocationServiceImpl getOneLocation in");
-		Location location = locationRepository.getOneLocation(title);
+		Location location = locationRepository.getOneLocation(num);
 		return location;
 	}
 

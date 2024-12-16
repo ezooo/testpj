@@ -28,9 +28,9 @@
 	<p>내용 : <form:input path="data_content" name="data_content" value="<%= lt.getData_content() %>" /> </p>
 	<p>대표연락처 : <form:input path="telno" name="telno" value="<%= lt.getTelno() %>" /> </p>
 	<p>이미지 주소 1 : <form:input path="fileurl1" name="fileurl1" value="<%= lt.getFileurl1() %>" /> </p>
-	<p>이미지 주소 2 : <form:input path="fileurl3" name="fileurl3" value="<%= lt.getFileurl3() %>" /> </p>
-	<p>이미지 주소 3 : <form:input path="fileurl4" name="fileurl4" value="<%= lt.getFileurl4() %>" /> </p>
-	<p>이미지 주소 4 : <form:input path="fileurl5" name="fileurl5" value="<%= lt.getFileurl5() %>" /> </p>
+	<p>이미지 주소 2 : <form:input path="fileurl2" name="fileurl2" value="<%= lt.getFileurl2() %>" /> </p>
+	<p>이미지 주소 3 : <form:input path="fileurl3" name="fileurl3" value="<%= lt.getFileurl3() %>" /> </p>
+	<p>이미지 주소 4 : <form:input path="fileurl4" name="fileurl4" value="<%= lt.getFileurl4() %>" /> </p>
 	<p> <input type="submit" value="수정하기" /> </p>
 </form:form>
 </body>

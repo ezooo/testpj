@@ -26,7 +26,7 @@ public class LocationRowMapper implements RowMapper<Location>
 		lt.setFileurl2(rs.getString(11));
 		lt.setFileurl3(rs.getString(12));
 		lt.setFileurl4(rs.getString(13));
-		lt.setNum(rs.getInt(15));
+		lt.setNum(rs.getInt(14));
 		
 		return lt;
 	}
