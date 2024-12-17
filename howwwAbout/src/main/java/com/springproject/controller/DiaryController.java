@@ -121,6 +121,7 @@ public class DiaryController
 		diary.setVisit_date(req.getParameter("visit_date"));
 		diary.setVisit_location(req.getParameter("visit_location"));
 		diary.setVisit_diary(req.getParameter("visit_diary"));
+		diary.setIsopen(req.getParameter("isopen"));
 		
 		//이미지 처리....
 		String[] files = new String[4];	//나중에 파일이름 짓고나면 여기에 저장할 것

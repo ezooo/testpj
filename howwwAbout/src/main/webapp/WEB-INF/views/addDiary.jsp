@@ -23,6 +23,13 @@
 	<p> <input type="file" name="uploadFile"/> </p>
 	<p> <input type="file" name="uploadFile"/> </p>
 	
+	<p> 
+	<select name="isopen" required>
+		<option value="true">공개</option>
+		<option value="false">비공개</option>	
+	</select>
+	</p>
+	
 	<p><input type="submit" value="제출"> </p>
 </form>
 

@@ -13,6 +13,7 @@ public class DiaryRowMapper implements RowMapper<Diary>
 	public Diary mapRow(ResultSet rs, int rowNum) throws SQLException 
 	{
 		Diary diary = new Diary();	//db에 보내기위해서 묶을 객체
+		System.out.println("다이어리 로우매퍼 들어옴");
 		diary.setDiaryId(rs.getLong(1));
 		diary.setUserId(rs.getString(2));
 		diary.setVisit_date(rs.getString(3));
@@ -22,8 +23,8 @@ public class DiaryRowMapper implements RowMapper<Diary>
 		diary.setFilename1(rs.getString(7));
 		diary.setFilename2(rs.getString(8));
 		diary.setFilename3(rs.getString(9));
+		diary.setIsopen(rs.getString(10));
 		
 		return diary;
 	}
-	
 }
