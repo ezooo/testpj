@@ -18,5 +18,5 @@ public interface LocationRepository
 	Location findLocation(String[] find);
 	void submitUpdateLocation(Location location);
 	void deleteLocation(String lat, String log);
-
+	List<Location> findLocationByTitle(String title);
 }

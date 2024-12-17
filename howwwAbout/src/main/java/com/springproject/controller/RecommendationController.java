@@ -41,7 +41,7 @@ public class RecommendationController
 		//6. 뷰에 가져가서 뿌려줘야하니까 반환받은 어레이리스트 모델에 담아줘야 함 : 그래야 꺼낼 수 있다.
 		model.addAttribute("recommendationList", recommendationList);
 		
-		return "recommendations";	//2. 이동할 뷰까지 작성해놓기
+		return "recommendation/recommendations";	//2. 이동할 뷰까지 작성해놓기
 	}
 	
 	// CREATE
@@ -52,7 +52,7 @@ public class RecommendationController
 		// 이 컨트롤러는 게시글 입력창으로 보내주는거 + 보낼 때 모델에 담으라고 모델도 보내줌
 		// 폼으로 입력받고 돌아오면 가지고 온 내용을 model 에 넣어서 리파지토리 함수에 줘야 함
 		model.addAttribute("recommendation", new Recommendation());	//이걸 안하니까 에러가 나
-		return "addRecommendation";
+		return "recommendation/addRecommendation";
 	}
 	@PostMapping("/addRecommend")
 	public String addSubmitRecommendation(@ModelAttribute Recommendation recommendation, Model model)
@@ -100,7 +100,7 @@ public class RecommendationController
 			{
 				System.out.println(" 추천 게시글 잘 찾아서 컨트롤러로 돌아옴");
 				model.addAttribute("recommendation",recommendation);	//뷰에 가서 꺼내려면 담아야 함
-				return "recommendation";
+				return "recommendation/recommendation";
 			}
 		}
 		catch(Exception e)
@@ -122,7 +122,7 @@ public class RecommendationController
 		Recommendation recommendation = recommendationService.getRecommend(recommendId);
 		model.addAttribute("recommendation",recommendation);
 		System.out.println("수정할 게시글 찾ㅇ아옴. 수정페이지로 감");
-		return "updateRecommendation";
+		return "recommendation/updateRecommendation";
 	}
 	
 	@PostMapping("/recommendation/update/{recommendId}")

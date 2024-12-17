@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.springproject.domain.Diary;
-import com.springproject.domain.DiaryImage;
 import com.springproject.domain.Member;
 import com.springproject.repository.MemberRepository;
 import com.springproject.service.DiaryService;
@@ -200,41 +199,5 @@ public class DiaryController_ajax
 		return "redirect:/diaries";
 	}
 
-	@PostMapping("/uploadfile")
-	public String uploadfile(@RequestParam("diaryId") Long diaryId, @RequestParam("uploadFile") MultipartFile[] uploadFile, HttpServletRequest req)
-	{
-		System.out.println("DiaryController uploadfile in");
-		//업로드 된 파일 처리하기
-		String path = "/resources/images";
-		String savepath = req.getServletContext().getRealPath(path);
-		
-		//이제 파일 하나씩 꺼내서 처리
-		for(MultipartFile multi : uploadFile)
-		{
-			String savename = multi.getOriginalFilename();
-			System.out.println("파일이름은 : "+savename);
-			
-			File savefile = new File(savepath, savename);
-			try 
-			{
-				multi.transferTo(savefile);
-				System.out.println("파일 작성 완료");
-				
-				//diaryImageDTO 객체 생성 후 DB에 저장
-				DiaryImage diaryImage = new DiaryImage();
-				diaryImage.setDiaryId(diaryId);
-				diaryImage.setFilename(savename);
-	            diaryService.uploadImage(diaryImage); // 이미지 정보를 DB에 저장하는 서비스 메서드 호출
-			} 
-			catch (Exception e) 
-			{
-				e.printStackTrace();
-				System.out.println("파일 작성 에러에러");
-			}
-			//파일 작성했으면 이거랑 다이어리 아이디 가져가서 db에 저장해야 함
-			//diaryService.uploadFile(savefile, diaryId);
-		}
-		
-		return "redirect:/diaries";
-	}
+
 }

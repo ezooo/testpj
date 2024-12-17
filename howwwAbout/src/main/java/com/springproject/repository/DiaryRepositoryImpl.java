@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.springproject.domain.Diary;
-import com.springproject.domain.DiaryImage;
 import com.springproject.domain.Member;
 import com.springproject.exception.DiaryIdException;
 
@@ -39,9 +38,6 @@ public class DiaryRepositoryImpl implements DiaryRepository
 		System.out.println("DiaryRepositoryImpl 생성자 함수 호출 - 다이어리 담을 맵 만들기");
 		//diaryList = new HashMap<String, Diary>();	
 		//diaryIdList = new HashMap<String, List<Diary>>();
-		Diary diary1 = new Diary("11", "11", "11");
-		
-		diaryList.add(diary1);
 	}
 	
 	@Override
@@ -55,9 +51,9 @@ public class DiaryRepositoryImpl implements DiaryRepository
 		//String SQL = "insert into diary(diaryId,userId,visit_date,visit_diary) values(?,?,?,?)";
 		//template.update(SQL, diary.getDiaryId(), diary.getUserId(), diary.getVisit_date(), diary.getVisit_diary());
 		
-		SQL = "insert into diary values(?,?,?,?,?,?,?,?,?,?)";
-		template.update(SQL, diary.getDiaryId(), diary.getUserId(), diary.getVisit_date(), diary.getVisit_location(), diary.getVisit_diary(), 
-				diary.getFilename0(), diary.getFilename1(), diary.getFilename2(), diary.getFilename3(), diary.getIsopen());
+		SQL = "insert into diary values(?,?,?,?,?,?,?,?,?,?,?)";
+		template.update(SQL, diary.getDiaryId(), diary.getUserId(), diary.getVisit_date(), diary.getVisit_location(), diary.getAddress(), 
+				diary.getVisit_diary(), diary.getFilename0(), diary.getFilename1(), diary.getFilename2(), diary.getFilename3(), diary.getIsopen());
 		
 		System.out.println("setNewDiary 쿼리 업데이트 완료");
 		//diaryList.add(diary);
@@ -69,7 +65,7 @@ public class DiaryRepositoryImpl implements DiaryRepository
 	{
 		System.out.println("DiaryRepositoryImpl getAllDiary in");
 		
-		SQL = "select * from diary";
+		SQL = "select * from diary where isopen='true'";
 		List<Diary> diaries = template.query(SQL, new DiaryRowMapper());	//sql을 
 		System.out.println("getAllDiary" +diaries);
 		return diaries;
@@ -80,22 +76,9 @@ public class DiaryRepositoryImpl implements DiaryRepository
 	{
 		System.out.println("DiaryRepositoryImpl getMyDiary in");
 		// 회원 아이디에 맞는 다이어리만 가져와야 함
-		// 지금 로그인 한 회원 아이디 받아오는 법 ?
-		myDiary = new ArrayList<Diary>();
+		SQL = "select * from diary where userId=?";
+		List<Diary> myDiary = template.query(SQL, new DiaryRowMapper(), new Object[] {userId});
 		
-		diaryList = getAllDiary();	//이걸 해야 데이터베이스에 저장된 다이어리를 가져오지..
-		
-		System.out.println("getMyDiary 받아온 유저 아이디 : "+userId);
-		for(Diary diary : diaryList)
-		{
-			//System.out.println("다이어리 for 문 "+i+"번째 다이어리 userId : "+ diary.getUserId());
-			//내 다이어리 아니면 userid
-			if(diary.getUserId().equals(userId))
-			{
-				System.out.println("내 다이어리 입니다.");
-				myDiary.add(diary);
-			}
-		}
 		System.out.println("내 다이어리 찾기 완료");
 		return myDiary;
 	}
@@ -136,8 +119,8 @@ public class DiaryRepositoryImpl implements DiaryRepository
 		}
 		
 		System.out.println("수정할 다이어리 아이디 : "+diary.getDiaryId());
-		SQL = "update diary set visit_date=?, visit_location=?, visit_diary=? where diaryId=?";
-		template.update(SQL, diary.getVisit_date(), diary.getVisit_location(), diary.getVisit_diary(), diary.getDiaryId());
+		SQL = "update diary set visit_date=?, visit_location=?, address=?, visit_diary=?, isopen=? where diaryId=?";
+		template.update(SQL, diary.getVisit_date(), diary.getVisit_location(), diary.getAddress(), diary.getVisit_diary(), diary.getIsopen(), diary.getDiaryId());
 		System.out.println("이미지 제외하고 수정완료");
 		
 		System.out.println("setUpdateDiary 파일 이미지도 수정하기");
@@ -202,27 +185,5 @@ public class DiaryRepositoryImpl implements DiaryRepository
 		Diary diary = template.queryForObject(SQL, new DiaryRowMapper(), diaryId);
 		return diary;
 	}
-
-	@Override
-	public void uploadImage(DiaryImage diaryImage) 
-	{
-		System.out.println("DiaryRepositoryImpl uploadImage in");
-		SQL = "insert into diaryImage values(?,?,?)";
-		//template.queryForObject(SQL, new DiaryImageRowMapper(), diaryImage);
-		template.update(SQL, null, diaryImage.getDiaryId(), diaryImage.getFilename());
-		System.out.println("다이어리 이미지 업로드 완료");
-	}
-
-	@Override
-	public List<DiaryImage> getdiaryImages(Long diaryId) 
-	{
-		System.out.println("DiaryRepositoryImpl getdiaryImages in");
-		SQL = "select * from diaryimage where diaryId=?";
-		System.out.println("diaryId : "+diaryId);
-		List<DiaryImage> diaryImages = template.query(SQL, new DiaryImageRowMapper(), new Object[] {diaryId});
-		System.out.println(diaryImages.isEmpty());
-		return diaryImages;
-	}
-	
 	
 }

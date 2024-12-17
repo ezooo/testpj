@@ -1,16 +1,12 @@
 package com.springproject.repository;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.sql.DataSource;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import com.springproject.domain.Diary;
 import com.springproject.domain.Location;
 
 @Repository
@@ -112,7 +108,7 @@ public class LocationRepositoryImpl implements LocationRepository
 	{
 		System.out.println("LocationRepositoryImpl createLocation in");
 		SQL = "insert into location values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-		template.update(SQL, lt.getData_title(), lt.getUser_address(), lt.getLattitude(), lt.getLogitude(), lt.getInsttnm(), lt.getCategory_name1(), 
+		template.update(SQL, lt.getData_title(), lt.getUser_address(), lt.getLatitude(), lt.getLongitude(), lt.getInsttnm(), lt.getCategory_name1(), 
 				lt.getCategory_name2(), lt.getData_content(), lt.getTelno(), lt.getFileurl1(), lt.getFileurl2(), lt.getFileurl3(), lt.getFileurl4(), null);
 	}
 
@@ -124,7 +120,7 @@ public class LocationRepositoryImpl implements LocationRepository
 		System.out.println(lat);
 		String log = find[1];
 		
-		SQL = "select * from location where lattitude=? and logitude=?";
+		SQL = "select * from location where latitude=? and longitude=?";
 		Location location = template.queryForObject(SQL, new LocationRowMapper(), lat, log);
 		if(location != null)
 		{
@@ -139,11 +135,11 @@ public class LocationRepositoryImpl implements LocationRepository
 	public void submitUpdateLocation(Location lt) 
 	{
 		System.out.println("LocationRepositoryImpl submitUpdateLocation in");
-		SQL = "update location set data_title=?, user_address=?, lattitude=?, logitude=?, insttnm=?, category_name1=?, category_name2=?,"
+		SQL = "update location set data_title=?, user_address=?, latitude=?, longitude=?, insttnm=?, category_name1=?, category_name2=?,"
 				+ " data_content=?, telno=?, fileurl1=?, fileurl2=?, fileurl3=?, fileurl4=?"
 				+ " where num=?";
 		System.out.println("수정할 제목 : "+lt.getData_title()+", 수정할 카테고리 : "+lt.getCategory_name1()+", 수정할 넘버 : "+lt.getNum());
-		template.update(SQL, lt.getData_title(), lt.getUser_address(), lt.getLattitude(), lt.getLogitude(), lt.getInsttnm(), lt.getCategory_name1(), 
+		template.update(SQL, lt.getData_title(), lt.getUser_address(), lt.getLatitude(), lt.getLongitude(), lt.getInsttnm(), lt.getCategory_name1(), 
 				lt.getCategory_name2(), lt.getData_content(), lt.getTelno(), lt.getFileurl1(), lt.getFileurl2(), lt.getFileurl3(), lt.getFileurl4(), 
 				lt.getNum());
 	}
@@ -153,7 +149,16 @@ public class LocationRepositoryImpl implements LocationRepository
 	{
 		System.out.println("LocationRepositoryImpl deleteLocation in");
 		
-		SQL= "delete from location where lattitude=? and logitude=?";
+		SQL= "delete from location where latitude=? and longitude=?";
 		template.update(SQL, lat, log);
+	}
+
+	@Override
+	public List<Location> findLocationByTitle(String title) 
+	{
+		System.out.println("LocationRepositoryImpl findLocationByTitle in");
+		//SQL = "select data_title, user_address from location where data_title like '%?%'";
+		SQL = "select data_title, user_address from location where data_title like ?";
+		return template.query(SQL, new LocationFindRowMapper(), new Object[] {"%" + title + "%"});
 	}
 }

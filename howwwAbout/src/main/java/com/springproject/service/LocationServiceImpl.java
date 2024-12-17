@@ -93,4 +93,10 @@ public class LocationServiceImpl implements LocationService
 		locationRepository.deleteLocation(lat, log);
 	}
 
+	@Override
+	public List<Location> findLocationByTitle(String title) 
+	{
+		return locationRepository.findLocationByTitle(title);
+	}
+
 }

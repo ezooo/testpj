@@ -36,11 +36,11 @@ public class RecommendationRepositoryImpl_copy implements RecommendationReposito
 		super();
 		System.out.println("RecommendationRepositoryImpl 기본생성자 진입");
 		// 6. recommend 객체 생성해서 일단 기본으로 호출할거
-		Recommendation recommendation1 = new Recommendation("장소추천1", "용지호수", 11111111);
-		Recommendation recommendation2 = new Recommendation("공원 추천", "올림픽 공원 가봐유", 22222222);
-		recommendationList.add(recommendation1);
-		recommendationList.add(recommendation2);
-		System.out.println("일단 보여줄거 어레이리스트에 담기 완료. 생성자 탈출");
+//		Recommendation recommendation1 = new Recommendation("장소추천1", "용지호수", 11111111);
+//		Recommendation recommendation2 = new Recommendation("공원 추천", "올림픽 공원 가봐유", 22222222);
+//		recommendationList.add(recommendation1);
+//		recommendationList.add(recommendation2);
+//		System.out.println("일단 보여줄거 어레이리스트에 담기 완료. 생성자 탈출");
 	}
 
 	@Override	// 2. 게시글 전체 보여주기

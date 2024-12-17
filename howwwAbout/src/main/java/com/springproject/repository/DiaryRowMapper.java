@@ -18,12 +18,13 @@ public class DiaryRowMapper implements RowMapper<Diary>
 		diary.setUserId(rs.getString(2));
 		diary.setVisit_date(rs.getString(3));
 		diary.setVisit_location(rs.getString(4));
-		diary.setVisit_diary(rs.getString(5));
-		diary.setFilename0(rs.getString(6));
-		diary.setFilename1(rs.getString(7));
-		diary.setFilename2(rs.getString(8));
-		diary.setFilename3(rs.getString(9));
-		diary.setIsopen(rs.getString(10));
+		diary.setAddress(rs.getString(5));
+		diary.setVisit_diary(rs.getString(6));
+		diary.setFilename0(rs.getString(7));
+		diary.setFilename1(rs.getString(8));
+		diary.setFilename2(rs.getString(9));
+		diary.setFilename3(rs.getString(10));
+		diary.setIsopen(rs.getString(11));
 		
 		return diary;
 	}

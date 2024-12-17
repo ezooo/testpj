@@ -459,4 +459,78 @@ public class controller
 		//}
 	}
 	
+	@GetMapping("/kkoo")
+	public void kkoo(Model model)
+	{
+		System.out.println("카카오 주소 테스트 인");
+		String REST_API_KEY = "d1b75ca528c7355eb5a8b379d289c649";
+
+		BufferedReader io = new BufferedReader(new InputStreamReader(System.in));
+//		BufferedReader ioo;
+		//주소를 입력받아야 해요
+		while(true)
+		{
+			try 
+			{
+				System.out.println("주소를 입력하세요.");
+				String address = io.readLine();
+
+				System.out.println("입력받음");
+				String addr = URLEncoder.encode(address, "UTF-8");
+				String requrl = "https://dapi.kakao.com/v2/local/search/address.json?query="+addr;
+				System.out.println("주소는 : "+requrl);
+				//요청주소 확보했으면 네이버 서버와 연결해야 함 : 커넥션 객체 이용해야함
+				//그 전에 주소를 url 클래스에 담는다 : 
+				URL url = new URL(requrl);
+				HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+				conn.setRequestMethod("GET");
+				//필요한 아이디와 비밀번호를 헤더에 파라미터로 삽입
+				conn.setRequestProperty("Authorization", "KakaoAK " + REST_API_KEY);
+				conn.setRequestProperty("Content-Type", "application/json");
+				
+				//이걸 또 버퍼에 넣어서 읽어와
+				BufferedReader br;
+				//응답코드 확인
+				int responseCode = conn.getResponseCode();
+				if(responseCode==200)
+				{
+					System.out.println("응답코드 정상");
+					br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+				}
+				else
+				{
+					System.out.println("응답코드 error");
+					br = new BufferedReader(new InputStreamReader(conn.getErrorStream(), "UTF-8"));
+				}
+				//한줄씩 읽어와서 내용이 있으면 스트링버퍼에 append 할 것 : 필요한거 : 한줄씩 읽기위한 스트링과 내용담을 스트링 버퍼
+				String line;
+				StringBuffer sb = new StringBuffer();
+				while( (line = br.readLine())!= null )
+				{
+					sb.append(line);
+				}
+				br.close();
+				
+				JSONTokener tokener = new JSONTokener(sb.toString());
+				JSONObject object = new JSONObject(tokener);
+				System.out.println(object);
+				//가공하기
+				//가져다 쓸 것 : 주소, 위도, 경도
+				JSONArray documents = object.getJSONArray("documents");
+				JSONObject ob = documents.getJSONObject(0);
+				String user_address = ob.getString("address_name");
+				String lattitude = ob.getString("y");
+				String logitude = ob.getString("x");
+				System.out.println("주소 : "+user_address);
+				System.out.println("위도 : "+lattitude);
+				System.out.println("경도 : "+logitude);
+			} 
+			catch (IOException e) 
+			{
+				System.out.println("위도경도 연결 에러에러");
+				e.printStackTrace();
+			}
+		}
+	}
+	
 }

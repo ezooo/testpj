@@ -15,8 +15,8 @@ public class LocationRowMapper implements RowMapper<Location>
 		Location lt = new Location();
 		lt.setData_title(rs.getString(1));
 		lt.setUser_address(rs.getString(2));
-		lt.setLattitude(rs.getString(3));
-		lt.setLogitude(rs.getString(4));
+		lt.setLatitude(rs.getString(3));
+		lt.setLongitude(rs.getString(4));
 		lt.setInsttnm(rs.getString(5));
 		lt.setCategory_name1(rs.getString(6));
 		lt.setCategory_name2(rs.getString(7));

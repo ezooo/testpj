@@ -5,8 +5,8 @@ public class Location
 	
 	private String data_title;	//이름
 	private String user_address;	//주소
-	private String lattitude;	//위도
-	private String logitude;	//경도
+	private String latitude;	//위도
+	private String longitude;	//경도
 	private String insttnm;	//기관명
 	private String category_name1;	//ex.섬과 바다
 	private String category_name2;	//ex.남해군
@@ -30,18 +30,7 @@ public class Location
 	public void setUser_address(String user_address) {
 		this.user_address = user_address;
 	}
-	public String getLattitude() {
-		return lattitude;
-	}
-	public void setLattitude(String lattitude) {
-		this.lattitude = lattitude;
-	}
-	public String getLogitude() {
-		return logitude;
-	}
-	public void setLogitude(String logitude) {
-		this.logitude = logitude;
-	}
+
 	public String getInsttnm() {
 		return insttnm;
 	}
@@ -102,6 +91,18 @@ public class Location
 	}
 	public void setNum(int num) {
 		this.num = num;
+	}
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
 	}
 	
 	

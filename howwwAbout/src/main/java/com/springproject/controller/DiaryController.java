@@ -1,33 +1,23 @@
 package com.springproject.controller;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Date;
 import java.util.List;
-
-import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.springproject.domain.Diary;
-import com.springproject.domain.DiaryImage;
 import com.springproject.domain.Member;
-import com.springproject.repository.MemberRepository;
 import com.springproject.service.DiaryService;
 
 @Controller	//저는 컨트롤러에요
@@ -43,8 +33,18 @@ public class DiaryController
 	public String showDiary(Model model, HttpServletRequest request)
 	{
 		System.out.println("다이어리 보여주기");
-		//로그인 되어있을 때 다이어리 보여주기
-		//String sessionid = request.getSession(false).getId();
+		
+		List<Diary> list = diaryService.getAllDiary();
+		model.addAttribute("diaryList", list);
+
+		return "diary/diaries";
+	}
+	
+	@GetMapping("/my")
+	public String showMyDiary(Model model, HttpServletRequest request)
+	{
+		System.out.println("내 다이어리 가기");
+
 		String sessionid;
 		
 		if(request.getSession(false) != null)
@@ -65,14 +65,14 @@ public class DiaryController
 					List<Diary> list = diaryService.getMyDiary(userId);
 					
 					model.addAttribute("diaryList", list);
-					return "diaries";
+					return "diary/mydiaries";
 				}
 				System.out.println("세션은 있는데 로그인 안됐음");
-				return "diary_beforeLogin";
+				return "redirect:/login";
 			}
 		}
 		System.out.println("로그인 안되어있다 : 다이어리 구조만 보여주기");
-		return "diary_beforeLogin";
+		return "redirect:/login";
 	}
 
 	@GetMapping("/diary/{diaryId}")
@@ -83,7 +83,7 @@ public class DiaryController
 		model.addAttribute("diary", diary);
 		//List<DiaryImage> diaryImages = diaryService.getdiaryImages(diaryId);
 		//model.addAttribute("diaryImages",diaryImages);
-		return "diary";
+		return "diary/diary";
 	}
 
 	
@@ -102,7 +102,7 @@ public class DiaryController
 			//model.addAttribute("member", new Member());
 			return "redirect:/login";
 		}
-		return "addDiary";
+		return "diary/addDiary";
 	}
 	
 	@PostMapping("/addDiary")
@@ -120,6 +120,7 @@ public class DiaryController
 		
 		diary.setVisit_date(req.getParameter("visit_date"));
 		diary.setVisit_location(req.getParameter("visit_location"));
+		diary.setAddress(req.getParameter("address"));
 		diary.setVisit_diary(req.getParameter("visit_diary"));
 		diary.setIsopen(req.getParameter("isopen"));
 		
@@ -196,17 +197,15 @@ public class DiaryController
 		Diary diaryById = diaryService.getDiaryById(diaryId);
 		System.out.println("다이어리 찾아옴 수정페이지로 이동.. 하기전에 다이어리 정보 모델에 넣기");
 		model.addAttribute("diaryById",diaryById);
-		return "updateDiary";
+		return "diary/updateDiary";
 	}
 	
 	@PostMapping("/updateDiary")
-	public String setUpdateDiary(@ModelAttribute Diary diary, 
+	public String submitUpdateDiary(@ModelAttribute Diary diary, 
 			@RequestParam("uploadFile") MultipartFile[] multifiles, HttpServletRequest req)
 	{
-		System.out.println("DiaryController - setUpdateDiary in");
-		
-		long diaryId = diary.getDiaryId();
-		
+		System.out.println("DiaryController - submitUpdateDiary in");
+
 //		MultipartFile picture = diary.getPicture();	//다이어리에서 파일 받아오기
 //		
 //		//유효성 검사
@@ -292,7 +291,7 @@ public class DiaryController
 		
 		diaryService.setUpdateDiary(diary);
 
-		return "redirect:/diaries";
+		return "redirect:/diaries/diary/"+diary.getDiaryId();
 	}
 	
 	@GetMapping("/deleteDiary")
@@ -302,41 +301,5 @@ public class DiaryController
 		return "redirect:/diaries";
 	}
 
-	@PostMapping("/uploadfile")
-	public String uploadfile(@RequestParam("diaryId") Long diaryId, @RequestParam("uploadFile") MultipartFile[] uploadFile, HttpServletRequest req)
-	{
-		System.out.println("DiaryController uploadfile in");
-		//업로드 된 파일 처리하기
-		String path = "/resources/images";
-		String savepath = req.getServletContext().getRealPath(path);
-		
-		//이제 파일 하나씩 꺼내서 처리
-		for(MultipartFile multi : uploadFile)
-		{
-			String savename = multi.getOriginalFilename();
-			System.out.println("파일이름은 : "+savename);
-			
-			File savefile = new File(savepath, savename);
-			try 
-			{
-				multi.transferTo(savefile);
-				System.out.println("파일 작성 완료");
-				
-				//diaryImageDTO 객체 생성 후 DB에 저장
-				DiaryImage diaryImage = new DiaryImage();
-				diaryImage.setDiaryId(diaryId);
-				diaryImage.setFilename(savename);
-	            diaryService.uploadImage(diaryImage); // 이미지 정보를 DB에 저장하는 서비스 메서드 호출
-			} 
-			catch (Exception e) 
-			{
-				e.printStackTrace();
-				System.out.println("파일 작성 에러에러");
-			}
-			//파일 작성했으면 이거랑 다이어리 아이디 가져가서 db에 저장해야 함
-			//diaryService.uploadFile(savefile, diaryId);
-		}
-		
-		return "redirect:/diaries";
-	}
+	
 }

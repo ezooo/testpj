@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.springproject.domain.Location;
 import com.springproject.service.LocationService;
@@ -35,7 +36,7 @@ public class LocationController
 	@RequestMapping
 	public String locationin()
 	{
-		return "locationPreview";
+		return "location/locationPreview";
 	}
 	
 	@RequestMapping("/addapi")
@@ -201,7 +202,7 @@ public class LocationController
 		
 		
 		System.out.println("로케이션 저장완료");
-		return "location";
+		return "location/location";
 	}
 
 	@GetMapping("/locations")
@@ -214,9 +215,9 @@ public class LocationController
 		{
 			model.addAttribute("locations", locations);
 			
-			return "locations";
+			return "location/locations";
 		}
-		return "errorLocation";
+		return "location/errorLocation";
 	}
 
 	@GetMapping("/onelocation/{num}")
@@ -228,10 +229,10 @@ public class LocationController
 		{
 			System.out.println("이름으로 장소찾기 완료 ! 뷰 페이지 반환합니다.");
 			model.addAttribute("location",location);
-			return "location";			
+			return "location/location";			
 		}
 		System.out.println("장소찾기 실패.. ");
-		return "errorLocation";
+		return "location/errorLocation";
 	}
 
 //	@GetMapping("/category/{category}")
@@ -258,10 +259,10 @@ public class LocationController
 			System.out.println("로케이션 카테고리 찾기 성공 !");
 			model.addAttribute("locations",locations);
 			model.addAttribute("category", category);
-			return "locationOfcategory";
+			return "location/locationOfcategory";
 		}
 		System.out.println("로케이션 카테고리 못 찾음...");
-		return "errorLocation";
+		return "location/errorLocation";
 	}
 
 	@GetMapping("/locations2")
@@ -273,10 +274,10 @@ public class LocationController
 		{
 			System.out.println("getAllCategory 카테고리 분류 성공 !");
 			model.addAttribute("categoryList",categoryList);
-			return "locations2";
+			return "location/locations2";
 		}
 		System.out.println("getAllCategory 카테고리 분류 fail...");
-		return "errorLocation";
+		return "location/errorLocation";
 	}
 
 	@GetMapping("/create")
@@ -284,7 +285,7 @@ public class LocationController
 	{
 		System.out.println("장소 추가하기 뷰 이동");
 		
-		return "createLocation";
+		return "location/createLocation";
 	}
 	
 	@PostMapping("/create")
@@ -308,9 +309,9 @@ public class LocationController
 			model.addAttribute("location",location);
 			//model.addAttribute("num", location.getNum());	//primary key 인 num값은 수정할 수 없도록 하기위해서 따로 담아서 이동
 			
-			return "updateLocation";
+			return "location/updateLocation";
 		}
-		return "errorLocation";
+		return "location/errorLocation";
 	}
 	
 	@PostMapping("/update")
@@ -349,4 +350,15 @@ public class LocationController
 		System.out.println("로케이션 삭제 완료");
 		return "redirect:/location/locations2";
 	}
+
+	@GetMapping("/findLocation")
+	@ResponseBody	//json 형식으로 응답하기 위한 코드
+	public List<Location> findLocations(@RequestParam String title)
+	{
+		System.out.println("LocationController findLocations in");
+		List<Location> find = locationService.findLocationByTitle(title);
+		System.out.println(find + " 찾아옴");
+		return find;
+	}
+	
 }

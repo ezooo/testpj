@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.springproject.domain.Diary;
-import com.springproject.domain.DiaryImage;
 import com.springproject.domain.Member;
 import com.springproject.exception.DiaryIdException;
 
@@ -38,9 +37,6 @@ public class DiaryRepositoryImpl_copy implements DiaryRepository
 		System.out.println("DiaryRepositoryImpl 생성자 함수 호출 - 다이어리 담을 맵 만들기");
 		//diaryList = new HashMap<String, Diary>();	
 		//diaryIdList = new HashMap<String, List<Diary>>();
-		Diary diary1 = new Diary("11", "11", "11");
-		
-		diaryList.add(diary1);
 	}
 	
 //	@Override
@@ -139,16 +135,6 @@ public class DiaryRepositoryImpl_copy implements DiaryRepository
 		return null;
 	}
 
-	@Override
-	public void uploadImage(DiaryImage diaryImage) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public List<DiaryImage> getdiaryImages(Long diaryId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	
 }
