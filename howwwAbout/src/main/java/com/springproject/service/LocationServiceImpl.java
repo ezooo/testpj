@@ -99,4 +99,16 @@ public class LocationServiceImpl implements LocationService
 		return locationRepository.findLocationByTitle(title);
 	}
 
+	@Override
+	public String[] getAPIContents(String jsonaddr) 
+	{
+		return locationRepository.getAPIContents(jsonaddr);
+	}
+
+	@Override
+	public List<String> getAlladdr() 
+	{
+		return locationRepository.getAlladdr();
+	}
+
 }

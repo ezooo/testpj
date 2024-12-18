@@ -47,7 +47,7 @@ public class LocationController
 		
 		//api 요청 할 주소
 		String apiUrl = "http://apis.data.go.kr/6480000/gyeongnamtournature/gyeongnamtournaturelist?"
-			+ "serviceKey=axdk7ixVxHHdRzI6x1lL6%2FCGVvu%2BsCRNby2Z9thO7g6TdPJCowoZhR0q4PDgM59dCD9YX5EcHqKp0T%2BcSJoNXw%3D%3D&numOfRows=20&pageNo=2&resultType=json"; // 호출할 API URL
+			+ "serviceKey=axdk7ixVxHHdRzI6x1lL6%2FCGVvu%2BsCRNby2Z9thO7g6TdPJCowoZhR0q4PDgM59dCD9YX5EcHqKp0T%2BcSJoNXw%3D%3D&numOfRows=50&pageNo=1&resultType=json"; // 호출할 API URL
 			    
 		try 
 	    {
@@ -96,18 +96,41 @@ public class LocationController
 	            	JSONObject location = item.getJSONObject(i);
 	            	System.out.println("location "+i+"번째 꺼냄 : "+location);
 	            	
+	            	//주소 가공하기
+	            	String jsonaddr = location.getString("user_address");
+	            	//이걸 함수에 실어보내서 api 요청함 --> 가공된 주소와 위도경도 받아오기
+	            	String[] contents = locationService.getAPIContents(jsonaddr);
+	            	//for 문 돌려서 꺼내기 --> 안돌려도됨..
+	            	//System.out.println("주소가공한거 리턴받음 : "+contents[0]);
+//	            	location.append("user_address", contents[0]);
+//	            	location.append("lattitude", contents[1]);
+//	            	location.append("logitude", contents[2]);
+	            	//제이슨객체에 값을 할당할 때는 append 말고 put 을 쓴다고 함 (파이썬에서는 직접 값 할당)
+	            	if(contents!=null && contents.length!=0)	//카카오에서 주소를 못 찾으면 리스트가 비어서 옴 : 에러남 : 유효성 검사 할 것!
+	            	{
+	            		location.put("user_address", contents[0]);
+	            		location.put("lattitude", contents[1]);
+	            		location.put("logitude", contents[2]);
+	            	}
+	            	
 	            	//중복데이터는 받아오지 않도록 처리하기 위해 if문 돌릴건데
 	            	//방금 꺼낸 데이터랑 db 저장된 데이터 비교해야하므로 db 검색 함수 추가해야 함
 	            	//data_title 만 가져와서 비교하도록 설정하기 String List 받아야 함
 	            	List<String> titleList = locationService.getAlltitle();
-	            	   	
+	            	List<String> addrList = locationService.getAlladdr(); 	
 	            	
 	            	if(titleList.contains(location.getString("data_title")))
 	            	{
 	            		System.out.println("addLocationAPI 같은 이름 발견..");
-	            		
-	            		continue;
+	            		if(addrList.contains(location.getString("user_address")))
+	            		{
+	            			System.out.println("addLocationAPI 주소도 같음 중복 !! ");
+	            			continue;
+	            		}
+	            		System.out.println("주소는 다른 듯");
 	            	}
+	            	System.out.println("장소이름은 : "+location.getString("data_title"));
+	            	System.out.println("주소는 : "+location.getString("user_address"));
 	            	
 	            	locationService.addLocationAPI(location);
 	            }
@@ -235,19 +258,6 @@ public class LocationController
 		return "location/errorLocation";
 	}
 
-//	@GetMapping("/category/{category}")
-//	public String getLocationOfCategory(@PathVariable String category, @ModelAttribute ArrayList<Location> locations)
-//	{
-//		System.out.println("LocationController getLocationCategory in");
-//		locations = (ArrayList<Location>) locationService.getLocationOfCategory(category);
-//		if(locations != null)
-//		{
-//			System.out.println("로케이션 카테고리 찾기 성공 !");
-//			return "locationOfcategory";
-//		}
-//		System.out.println("로케이션 카테고리 못 찾음...");
-//		return "errorLocation";
-//	}
 	
 	@GetMapping("/category/{category}")
 	public String getLocationOfCategory(@PathVariable String category, Model model)

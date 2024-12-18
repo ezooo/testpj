@@ -1,9 +1,16 @@
 package com.springproject.repository;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 import javax.sql.DataSource;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -160,5 +167,95 @@ public class LocationRepositoryImpl implements LocationRepository
 		//SQL = "select data_title, user_address from location where data_title like '%?%'";
 		SQL = "select data_title, user_address from location where data_title like ?";
 		return template.query(SQL, new LocationFindRowMapper(), new Object[] {"%" + title + "%"});
+	}
+
+	@Override
+	public String[] getAPIContents(String jsonaddr) 
+	{	//공공데이터에서 받아 온 주소, 위도, 경도 가공을 위한 함수
+		System.out.println("LocationRepositoryImpl getAPIContents in");
+		System.out.println("받아온 주소는 : "+jsonaddr);
+		//step 13. 리턴할 문자열 만들기
+		String[] result = null;
+		
+		try 
+		{
+			//여기서 카카오api 호출해서 json 객체 받아와야 함
+			//step 1. 요청할 주소
+			String addr = URLEncoder.encode(jsonaddr, "UTF-8");
+			String apiUrl = "https://dapi.kakao.com/v2/local/search/address.json?query="+addr;
+			//step 2. 내 키
+			String REST_API_KEY = "d1b75ca528c7355eb5a8b379d289c649";
+			//step 3. 주소를 url 클래스에 담기 (url 객체 생성)
+			//HttpURLConnection 객체는 URL로부터 네트워크 연결을 생성. URL 클래스는 네트워크에 요청을 보내기 위한 주소를 정의하는 데 필요한 모든 정보를 제공.
+			URL url = new URL(apiUrl);
+			//step 4. 주소 담았으면 이걸 커넥션 객체에 주기 : url클래스의 openConnection() 으로 연결 열기
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			//step 5. 요청 방식 설정
+			conn.setRequestMethod("GET");
+			//step 6. 키 값을 헤더에 추가 : 이건 api마다 요구하는 코드가 다름
+			conn.setRequestProperty("Authorization", "KakaoAK " + REST_API_KEY);
+			//step 7. json 객체 읽기위한 버퍼 리더 변수생성
+			BufferedReader br;
+			//step 8. 커넥션 객체 응답코드 확인
+			int respCode = conn.getResponseCode();
+			//step 9. 응답코드가 정상이면 br 에 응답을 가져와 담고, 아니면 에러담기
+			if(respCode==200)
+			{
+				System.out.println("getAPIContents 응답코드 정상");
+				br = new BufferedReader( new InputStreamReader(conn.getInputStream()) );
+			}
+			else
+			{
+				System.out.println("getAPIContents 응답코드 에러에러");
+				br = new BufferedReader( new InputStreamReader(conn.getErrorStream()) );
+			}
+			//step 10. 버퍼 리더에 담아놓은거 한 줄씩 꺼내서 스트링버퍼에 저장하기
+			StringBuffer sb = new StringBuffer();
+			String line;	//스트링 버퍼에 담기 전에 한 줄씩 꺼내서 담을 것
+			while( (line=br.readLine())!= null )
+			{
+				sb.append(line);
+			}
+			//step 11. 다 꺼내서 담았으면 버퍼리더 닫기
+			br.close();
+			
+			//step 12. 
+			JSONTokener tokener = new JSONTokener(sb.toString());
+			JSONObject object = new JSONObject(tokener);
+			System.out.println(object);
+			//가공하기
+			//가져다 쓸 것 : 주소, 위도, 경도
+			JSONArray documents = object.getJSONArray("documents");
+			if(documents!=null && !(documents.isEmpty()) )
+			{
+				JSONObject ob = documents.getJSONObject(0);
+//			String user_address = ob.getString("address_name");
+//			String lattitude = ob.getString("y");
+//			String logitude = ob.getString("x");
+//			System.out.println("주소 : "+user_address);
+//			System.out.println("위도 : "+lattitude);
+//			System.out.println("경도 : "+logitude);
+				result = new String[3];
+				result[0]= ob.getString("address_name");
+				result[1]= ob.getString("y");
+				result[2]= ob.getString("x");
+			}
+		} 
+		catch (Exception e) 
+		{
+			System.out.println("LocationRepositoryImpl getAPIContents catch 에러에러");
+			e.printStackTrace();
+		}
+		System.out.println("LocationRepositoryImpl getAPIContents 종료. 리턴합니다.");
+		return result;
+	}
+
+	@Override
+	public List<String> getAlladdr() 
+	{
+		System.out.println("LocationRepositoryImpl getAPIContents in");
+		SQL = "select user_address from location";
+		
+		return template.query(SQL, new LocationTitleRowMapper());
 	}
 }

@@ -19,4 +19,6 @@ public interface LocationService
 	void submitUpdateLocation(Location location);
 	void deleteLocation(String lat, String log);
 	List<Location> findLocationByTitle(String title);
+	String[] getAPIContents(String jsonaddr);
+	List<String> getAlladdr();
 }
