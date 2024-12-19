@@ -7,7 +7,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -275,7 +277,7 @@ public class LocationController
 		return "location/errorLocation";
 	}
 
-	@GetMapping("/locations2")
+	@GetMapping("/locationCategory")
 	public String getAllCategory(Model model)
 	{
 		System.out.println("LocationController getAllCategory in");
@@ -284,12 +286,37 @@ public class LocationController
 		{
 			System.out.println("getAllCategory 카테고리 분류 성공 !");
 			model.addAttribute("categoryList",categoryList);
-			return "location/locations2";
+			return "location/locationCategory";
 		}
 		System.out.println("getAllCategory 카테고리 분류 fail...");
 		return "location/errorLocation";
 	}
 
+	@GetMapping("/locationArea")
+	public String getAllArea(Model model)
+	{
+		System.out.println("LocationController getAllArea in");
+		ArrayList<String> areaList = (ArrayList<String>) locationService.getAllArea();
+		if(areaList != null)
+		{
+			System.out.println("getAllArea 카테고리 분류 성공 !");
+			model.addAttribute("areaList",areaList);
+			return "location/locationArea";
+		}
+		System.out.println("getAllArea 카테고리 분류 fail...");
+		return "location/errorLocation";
+	}
+	
+	@GetMapping("/area/{area}")
+	public String getLocationOfArea(@PathVariable String area, Model model)
+	{
+		System.out.println("LocationController getLocationOfArea in");
+		List<Location> locationOfArea = locationService.getLocationOfArea(area);
+		model.addAttribute("locationOfArea", locationOfArea);
+		model.addAttribute(area);
+		return "location/locationOfArea";
+	}
+	
 	@GetMapping("/create")
 	public String createLocation(@ModelAttribute Location location)
 	{
@@ -369,6 +396,27 @@ public class LocationController
 		List<Location> find = locationService.findLocationByTitle(title);
 		System.out.println(find + " 찾아옴");
 		return find;
+	}
+	
+//	@PostMapping("/locationTitles")
+//	@ResponseBody	//json 형식으로 응답하기 위한 코드
+//	public Map<String, List<String>> getLocationTitles()
+//	{
+//		System.out.println("LocationController getLocationTitles in");
+//		List<String> titles = locationService.getAlltitle();
+//		Map<String, List<String>> locationTitles = new HashMap<String, List<String>>();
+//		locationTitles.put("titles", titles);
+//		return locationTitles;
+//	}
+	
+	@PostMapping("/locationTitles")
+	@ResponseBody	//json 형식으로 응답하기 위한 코드
+	public List<Location> getLocationTitles()
+	{
+		System.out.println("LocationController getLocationTitles in");
+		List<Location> locationTitles = locationService.getAllLocation();
+
+		return locationTitles;
 	}
 	
 }

@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
 
@@ -56,7 +57,7 @@ public class LocationRepositoryImpl implements LocationRepository
 	{
 		System.out.println("LocationRepositoryImpl getAlltitle in");
 		
-		SQL = "select data_title from location";
+		SQL = "select data_title from location order by data_title asc";
 		List<String> titleList= template.query(SQL, new LocationTitleRowMapper());
 		
 		return titleList;
@@ -66,7 +67,7 @@ public class LocationRepositoryImpl implements LocationRepository
 	public List<Location> getAllLocation() 
 	{
 		System.out.println("LocationRepositoryImpl getAllLocation in");
-		SQL = "select * from location";
+		SQL = "select * from location order by data_title asc";
 		List<Location> locations = template.query(SQL, new LocationRowMapper());
 		
 		return locations;
@@ -165,7 +166,7 @@ public class LocationRepositoryImpl implements LocationRepository
 	{
 		System.out.println("LocationRepositoryImpl findLocationByTitle in");
 		//SQL = "select data_title, user_address from location where data_title like '%?%'";
-		SQL = "select data_title, user_address from location where data_title like ?";
+		SQL = "select data_title, user_address from location where data_title like ? order by data_title asc";
 		return template.query(SQL, new LocationFindRowMapper(), new Object[] {"%" + title + "%"});
 	}
 
@@ -257,5 +258,22 @@ public class LocationRepositoryImpl implements LocationRepository
 		SQL = "select user_address from location";
 		
 		return template.query(SQL, new LocationTitleRowMapper());
+	}
+
+	@Override
+	public List<String> getAllArea() 
+	{
+		System.out.println("LocationRepositoryImpl getAllArea in");
+		SQL = "select distinct substr(insttnm,1,2) from location order by substr(insttnm,1,2)";
+		List<String> areaList = template.query(SQL, new LocationTitleRowMapper());
+		return areaList;
+	}
+
+	@Override
+	public List<Location> getLocationOfArea(String area) 
+	{
+		System.out.println("LocationRepositoryImpl getLocationOfArea in");
+		SQL = "select * from location where substr(insttnm,1,2)=?";
+		return template.query(SQL, new LocationRowMapper(), area);
 	}
 }

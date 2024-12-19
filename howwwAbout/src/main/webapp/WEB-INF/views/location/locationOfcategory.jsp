@@ -15,7 +15,7 @@
 	ArrayList<Location> locations = (ArrayList<Location>)request.getAttribute("locations");
 	String category = (String)request.getAttribute("category");
 %>
-	카테고리 :  <%=category %> &nbsp;&nbsp;<span><a href="/howAbout/location/locations2">&raquo;전체 카테고리 보기</a></span>
+	카테고리 :  <%=category %> &nbsp;&nbsp;<span><a href="/howAbout/location/locationCategory">&raquo;전체 카테고리 보기</a></span>
 <hr>
 <%
 	for(Location lt : locations)

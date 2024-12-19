@@ -14,8 +14,8 @@
 %>
 <%= location.getData_title() %> 안내 페이지입니다.
 <p> 카테고리 : <%= location.getCategory_name1() %> &raquo; <a href="/howAbout/location/category/<%= location.getCategory_name1() %>">해당 카테고리 더보기</a> </p>
+<p> 지  역 : <%= location.getInsttnm().substring(0, 2) %> &raquo; <a href="/howAbout/location/area/<%= location.getInsttnm().substring(0, 2) %>">해당 지역 더보기</a></p>
 <hr>
-<p> 지역분류 : <%= location.getInsttnm().substring(0, 2) %> </p>
 <p> 주  소 : <%= location.getUser_address() %> </p>
 <p> 문  의 : <%= location.getTelno() %> </p>
 <p> <%= location.getData_content() %> </p>

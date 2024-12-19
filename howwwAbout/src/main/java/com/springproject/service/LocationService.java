@@ -1,5 +1,6 @@
 package com.springproject.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -21,4 +22,6 @@ public interface LocationService
 	List<Location> findLocationByTitle(String title);
 	String[] getAPIContents(String jsonaddr);
 	List<String> getAlladdr();
+	List<String> getAllArea();
+	List<Location> getLocationOfArea(String area);
 }

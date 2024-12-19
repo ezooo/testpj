@@ -15,7 +15,8 @@
 <%
 	ArrayList<Location> locations = (ArrayList<Location>)request.getAttribute("locations");
 %>
-저장된 로케이션 모두 보여주기  &nbsp;&nbsp;<span><a href="/howAbout/location/locations2">&raquo;전체 카테고리 보기</a></span>
+저장된 로케이션 모두 보여주기  &nbsp;&nbsp;<span><a href="/howAbout/location/locationCategory">&raquo;전체 카테고리 보기</a></span>
+					&nbsp;&nbsp;<span><a href="/howAbout/location/locationArea">&raquo;전체 지역 보기</a></span>
 <hr><hr>
 <%
 	for(Location lt : locations)
