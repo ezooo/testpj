@@ -10,13 +10,16 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="atitude"/>
+		<item key="selection" value=""/>
 		<list key="findhistory">
+			<item value="locations2"/>
+			<item value="location2"/>
 			<item value="attitude"/>
 			<item value="ogitude"/>
 			<item value="Logitude"/>
 		</list>
 		<list key="replacehistory">
+			<item value="locationCategory"/>
 			<item value="atitude"/>
 			<item value="ongitude"/>
 		</list>

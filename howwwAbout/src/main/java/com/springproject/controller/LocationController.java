@@ -331,7 +331,7 @@ public class LocationController
 		System.out.println("LocationController submitCreateLocation in");
 		locationService.createLocation(location);
 		
-		return "redirect:/location/locations2";
+		return "redirect:/location";
 	}
 
 	@GetMapping("/update")
@@ -364,19 +364,21 @@ public class LocationController
 //			System.out.println("dto에 num 셋 완료");
 //		}
 		
-		String title = location.getData_title();
-		String title2=null;
-		try 
-		{
-			title2 = URLEncoder.encode(title, "UTF-8").replace("+", "%20");
-		} 
-		catch (UnsupportedEncodingException e) 
-		{
-			e.printStackTrace();
-		}
+//		String title = location.getData_title();
+//		String title2=null;
+//		try 
+//		{
+//			title2 = URLEncoder.encode(title, "UTF-8").replace("+", "%20");
+//		} 
+//		catch (UnsupportedEncodingException e) 
+//		{
+//			e.printStackTrace();
+//		}
+		int num = location.getNum();
 		locationService.submitUpdateLocation(location);
 		System.out.println("LocationController submitUpdateLocation 수정완료");
-		return "redirect:/location/onelocation/"+title2 ;
+		//return "redirect:/location/onelocation/"+title2 ;
+		return "redirect:/location/onelocation/"+num ;
 	}
 
 	@GetMapping("/delete")
@@ -385,7 +387,7 @@ public class LocationController
 		System.out.println("LocationController deleteLocation in");
 		locationService.deleteLocation(lat, log);
 		System.out.println("로케이션 삭제 완료");
-		return "redirect:/location/locations2";
+		return "redirect:/location";
 	}
 
 	@GetMapping("/findLocation")
@@ -419,4 +421,10 @@ public class LocationController
 		return locationTitles;
 	}
 	
+	@GetMapping("/searchLocation/{title}/{address}")
+	public String searchLocation(@PathVariable("title") String title, @PathVariable("address") String address)
+	{
+		System.out.println("LocationController searchLocation in");
+		return "location/location";
+	}
 }
