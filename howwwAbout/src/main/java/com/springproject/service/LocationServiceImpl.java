@@ -124,4 +124,10 @@ public class LocationServiceImpl implements LocationService
 		return locationRepository.getLocationOfArea(area);
 	}
 
+	@Override
+	public int searchOneLocationNum(String title, String address) 
+	{
+		return locationRepository.searchOneLocationNum(title, address);
+	}
+
 }

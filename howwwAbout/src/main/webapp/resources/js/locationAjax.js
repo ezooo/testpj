@@ -134,8 +134,12 @@ function lookup()
 				//console.log("검색되는중");
 				searchLocationResults.style.display="block";
 				resultItem.style.display="block";
+				console.log("이제 결과아이템 커서 바꾸기");
 				resultItem.style.cursor = "pointer"; // 클릭 가능 표시
-				resultItem.onclick = () => searchLocation(location.data_title, location.user_address); // 클릭 시 선택
+				var textbox = resultItem.textContent.split(" >> ");
+				console.log(textbox);
+				resultItem.onclick = () =>
+					 searchOneLocation(textbox[0] , textbox[1]); // 클릭 시 선택
 			}
 			else
 			{
@@ -146,17 +150,17 @@ function lookup()
 }
 
 // 장소 선택하면 컨트롤러로 보내서 해당 장소 보여주기
-function searchLocation(title, address)
+function searchOneLocation(title, address)
 {
 	$.ajax
 	(
 		{
-			url : "howAbout/location/searchLocation/title/address",
-			type : "get",
+			url : "/howAbout/location/searchOneLocation/"+title+"/"+address,
+			type : "POST",
 			contentType : "application/json",
 			success : function(data)
 				{
-					
+					window.location.href = "/howAbout/location/onelocation/"+data;
 				},
 			error : function(errorThrown){ alert("이동 실패"); }
 		}

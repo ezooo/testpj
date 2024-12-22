@@ -24,4 +24,6 @@ public interface LocationService
 	List<String> getAlladdr();
 	List<String> getAllArea();
 	List<Location> getLocationOfArea(String area);
+//	Location searchOneLocation(String title, String address);
+	int searchOneLocationNum(String title, String address);
 }

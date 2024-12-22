@@ -276,4 +276,16 @@ public class LocationRepositoryImpl implements LocationRepository
 		SQL = "select * from location where substr(insttnm,1,2)=?";
 		return template.query(SQL, new LocationRowMapper(), area);
 	}
+
+
+	@Override
+	public int searchOneLocationNum(String title, String address) 
+	{
+		System.out.println("LocationRepositoryImpl searchOneLocationNum in");
+		SQL = "select num from location where data_title=? and user_address=?";
+		
+		return template.queryForObject(SQL, Integer.class, title, address);
+	}
+
+	
 }
