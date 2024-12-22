@@ -1,5 +1,6 @@
 package com.springproject.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -97,6 +98,30 @@ public class LocationServiceImpl implements LocationService
 	public List<Location> findLocationByTitle(String title) 
 	{
 		return locationRepository.findLocationByTitle(title);
+	}
+
+	@Override
+	public String[] getAPIContents(String jsonaddr) 
+	{
+		return locationRepository.getAPIContents(jsonaddr);
+	}
+
+	@Override
+	public List<String> getAlladdr() 
+	{
+		return locationRepository.getAlladdr();
+	}
+
+	@Override
+	public List<String> getAllArea() 
+	{
+		return locationRepository.getAllArea();
+	}
+
+	@Override
+	public List<Location> getLocationOfArea(String area) 
+	{
+		return locationRepository.getLocationOfArea(area);
 	}
 
 }

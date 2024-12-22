@@ -18,5 +18,4 @@ public class LocationFindRowMapper implements RowMapper<Location>
 		
 		return lt;
 	}
-
 }
