@@ -115,6 +115,8 @@ search.addEventListener('input', lookup);
 //search.addEventListener('keyup', lookup);
 function lookup()
 {
+	//var resultbox = ;
+	
 	var text = search.value.toLowerCase(); // 소문자로 변환하여 대소문자 구분 없이 비교
 	console.log(text);
 	if(text===null || text.trim()==="")
@@ -124,6 +126,7 @@ function lookup()
 	}
 	else
 	{
+		var textboxes = [];
 		for(var i=0; i<searchLocationResults.childElementCount; i++)
 		{
 			var resultItem = searchLocationResults.children[i];
@@ -137,9 +140,14 @@ function lookup()
 				console.log("이제 결과아이템 커서 바꾸기");
 				resultItem.style.cursor = "pointer"; // 클릭 가능 표시
 				var textbox = resultItem.textContent.split(" >> ");
-				console.log(textbox);
-				resultItem.onclick = () =>
-					 searchOneLocation(textbox[0] , textbox[1]); // 클릭 시 선택
+				//console.log("textbox : "+textbox);
+
+				// 클로저 문제를 피하기 위해 IIFE를 사용
+				(function(textbox) 
+					{
+				       resultItem.onclick = () => searchOneLocation(textbox[0], textbox[1]); // 클릭 시 선택
+				 	})(textbox);
+				
 			}
 			else
 			{
@@ -152,11 +160,13 @@ function lookup()
 // 장소 선택하면 컨트롤러로 보내서 해당 장소 보여주기
 function searchOneLocation(title, address)
 {
+	console.log("searchOneLocation 들어옴 title : "+title+" / address : "+address);
 	$.ajax
 	(
 		{
 			url : "/howAbout/location/searchOneLocation/"+title+"/"+address,
 			type : "POST",
+			dataType : "json",
 			contentType : "application/json",
 			success : function(data)
 				{

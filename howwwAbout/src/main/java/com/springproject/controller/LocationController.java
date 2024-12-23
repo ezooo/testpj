@@ -422,11 +422,12 @@ public class LocationController
 	}
 	
 	@PostMapping("/searchOneLocation/{title}/{address}")
+	@ResponseBody
 	public Integer searchOneLocation(@PathVariable("title") String title, @PathVariable("address") String address)
 	{
 		System.out.println("LocationController searchOneLocation in");
-		System.out.println("받아온 파라미터 title : "+title);
-		System.out.println("받아온 파라미터 address : "+address);
+		System.out.println("받아온 파라미터 title : " + title);
+		System.out.println("받아온 파라미터 address : " + address);
 		//이 제목과 주소 가지고 장소 하나 찾아와야 함
 //		Location lt = locationService.searchOneLocation(title, address);
 //		int num = lt.getNum();
