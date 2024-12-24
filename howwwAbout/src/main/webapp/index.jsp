@@ -12,12 +12,13 @@
 	현재 날씨 : <input type="text" id="weatherNow">
 	기온 : <input type="text" id="tempNow">
 </p>
+
 </body>
 
 <script>
 function howsWeather()
 {	// 데이터 가공 처리는 컨트롤러에서 할거임
-	fetch("/howAbout/weather/call")
+	fetch("/howAbout/weather/callWeek")
 	.then( console.log("컨트롤러 잘 다녀옴") );
 }
 </script>
