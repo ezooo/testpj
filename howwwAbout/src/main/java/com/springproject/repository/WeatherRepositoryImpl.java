@@ -27,6 +27,10 @@ public class WeatherRepositoryImpl implements WeatherRepository
 		
 		sql = "insert into WeatherOfWeek values(?,?,?,?,?,?,?,?)";
 		template.update(sql, ww.getBasedate(), ww.getWf4Am(), ww.getWf5Am(), ww.getWf6Am(), ww.getWf7Am(), ww.getWf8(), ww.getWf9(), ww.getWf10());
+		
+		// 기준일 데이터만 남기고 삭제하기
+		sql = "delete from WeatherOfWeek where basedate not in(?)";
+		template.update(sql, ww.getBasedate());
 	}
 
 

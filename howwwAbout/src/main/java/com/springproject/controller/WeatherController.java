@@ -3,6 +3,7 @@ package com.springproject.controller;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Calendar;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,16 +35,36 @@ public class WeatherController
 		
 		WeatherOfWeek weather = new WeatherOfWeek();
 		//String regId = "11H20000";	//부산, 울산, 경상남도	//고정이라서 변수 쓸 필요 X
-		String tt = ""+LocalDate.now()+"";
+		String tt;
+		String today;
+		String baseDate;
+		LocalTime sixAM = LocalTime.of(6, 0);
 		
-		String today = tt.replaceAll("-", "");
+		if(LocalTime.now().isAfter(sixAM))
+		{
+			// 현재 시간이 06시가 넘었으면 오늘 날짜로 api 호출 가능
+			System.out.println("오전 6시 넘었다");
+			tt = ""+LocalDate.now()+"";
+
+		}
+		else
+		{
+			// 현재 시간이 06시 안 넘었으면 받아올 수 없다 : 어제 날짜로 api 호출해야함
+			System.out.println("오전 6시 안 넘었다. 어제날짜 호출");
+			tt = ""+LocalDate.now().minusDays(1)+"";
+			
+		}
+		today = tt.replaceAll("-", "");
+		baseDate = today+"0600";
+		// 그리고 이거 아무리봐도 ajax 로 처리해야함.. ㅎ
+		
 		System.out.println("today : "+today);
-		String baseDate = today+"0600";
 		System.out.println("기준일 : "+baseDate);
 		
+		
+		// 중기 육상 예보 받아오기
 		try 
 		{
-			// 중기 육상 예보 받아오기
 			 StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1360000/MidFcstInfoService/getMidLandFcst"); /*URL*/
 		     urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "="+clientKey); /*Service Key*/
 		     urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
@@ -106,14 +127,7 @@ public class WeatherController
 	        // 3일 후 예상최저기온(℃) taMin3, 3일 후 예상최고기온(℃) taMax3 이라고 해놓고 키는 또 4부터 시작함
 	        System.out.println("3일 후 예상 최고 기온 : "+item.getJSONObject(0).getInt("taMax4"));
 	        
-	        //jackson 쓰는법
-//	        ObjectMapper om = new ObjectMapper();
-//	        for()
-//	        {	
-//	        	String aaa = item.getJSONObject(i).toString();
-//	        	WeatherWeek ww = new WeatherWeek();
-//	        	ww = om.readValue(aaa, WeatherWeek.class);
-//	        }
+	        
 		} 
 		catch (Exception e) 
 		{
