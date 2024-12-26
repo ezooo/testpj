@@ -1,3 +1,7 @@
+<%@page import="com.google.gson.Gson"%>
+<%@page import="com.springproject.domain.WeatherOfWeek"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="org.springframework.ui.Model"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -73,9 +77,14 @@ body {
 </style>
 </head>
 <body>
+<%
+	WeatherOfWeek weatherOfWeek = (WeatherOfWeek)request.getAttribute("weatherOfWeek");
+	Gson gson = new Gson();
+	String weatherJson = gson.toJson(weatherOfWeek);
+%>
 	<div>
 		<div><a href="${pageContext.request.contextPath}/calendar?year=${preYear}&month=${preMonth}"><button>이전 달</button></a></div>
-		<div>${year}년 ${month}월</div>
+		<div id="monthDiv" > <span id="spanYear">${year}</span>년 <span id="spanMonth">${month}</span>월</div>
 		<div><a href="${pageContext.request.contextPath}/calendar?year=${nextYear}&month=${nextMonth}"><button>다음 달</button></a></div>
 	</div>
 	<div class="calendar">
@@ -87,8 +96,19 @@ body {
 		<div class="header">금</div>
 		<div class="header">토</div>
 			<c:forEach var="i" begin="0" end="41">
-				<div class="dates">${dates[i]}</div>
+				<div class="dates" >	
+					<span id="dates${i}">${dates[i]}</span>
+					<p id="todaybox${i}"></p>
+					<p id="todaytemp${i}"></p>
+				</div>
 			</c:forEach>
 	</div>
 </body>
+<script type="text/javascript">
+	var weatherJson = JSON.parse('<%= weatherJson %>');	//
+	console.log(weatherJson);
+</script>
+
+<script src="/howAbout/resources/js/weatherfunc.js"></script>
+
 </html>

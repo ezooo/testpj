@@ -8,19 +8,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.springproject.domain.WeatherOfWeek;
 import com.springproject.service.CalendarServiceImpl;
+import com.springproject.service.WeatherService;
 
 @Controller
 public class CalendarController {
 	@Autowired
 	private CalendarServiceImpl calendarService;
 	
+	@Autowired
+	private WeatherService weatherService;
+	
 	@GetMapping("/calendar")
 	public String getCalendar(@RequestParam(required = false) Integer year,
 							  @RequestParam(required = false) Integer month,
-							  Model model) {
+							  Model model) 
+	{
 		Map<String, Object> response = calendarService.getCalendarYearMonth(year, month);
 		year = (Integer) response.get("year");
 		month = (Integer) response.get("month");
@@ -34,6 +41,11 @@ public class CalendarController {
 		model.addAttribute("nextYear",response.get("nextYear"));
 		model.addAttribute("nextMonth",response.get("nextMonth"));
 		model.addAttribute("dates",dates);
+		
+		WeatherOfWeek weatherOfWeek = weatherService.getWeatherOfWeek();
+		System.out.println("weatherOfWeek : "+weatherOfWeek.getWf4Am());
+		model.addAttribute("weatherOfWeek",weatherOfWeek);
+		
 		return "Calendar";
 	}
 }

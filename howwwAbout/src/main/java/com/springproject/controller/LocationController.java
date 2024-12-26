@@ -335,11 +335,11 @@ public class LocationController
 	}
 
 	@GetMapping("/update")
-	public String updateLocation(@RequestParam("lat") String lat, @RequestParam("log") String log, Model model)
+	public String updateLocation(@RequestParam("num") int num, Model model)
 	{
 		System.out.println("LocationController updateLocation in : 폼으로 이동");
-		String[] find = {lat, log};
-		Location location = locationService.findLocation(find);
+		//String[] find = {lat, log};
+		Location location = locationService.getOneLocation(num);
 		//int num = location.getNum();
 		if(location != null)
 		{

@@ -18,4 +18,10 @@ public class WeatherServiceImpl implements WeatherService
 		weatherRepository.setWeatherOfWeek(ww);
 	}
 
+	@Override
+	public WeatherOfWeek getWeatherOfWeek() 
+	{
+		return weatherRepository.getWeatherOfWeek();
+	}
+
 }

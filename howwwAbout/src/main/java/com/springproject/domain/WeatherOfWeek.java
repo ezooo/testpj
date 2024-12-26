@@ -1,11 +1,19 @@
 package com.springproject.domain;
 
+
+
+import java.time.LocalDate;
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.Gson;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WeatherOfWeek 
 {
+	private String basedate;
+	
 	@JsonProperty("wf4Am")
 	private String wf4Am;
 	
@@ -83,6 +91,14 @@ public class WeatherOfWeek
 	public void setWf10(String wf10) {
 		this.wf10 = wf10;
 	}
+
+	public String getBasedate() {
+		return basedate;
+	}
+
+	public void setBasedate(String basedate) {
+		this.basedate = basedate;
+	}
 	
 //	@JsonProperty("taMin4")
 //	private int taMin4;
@@ -119,5 +135,10 @@ public class WeatherOfWeek
 //	@JsonProperty("taMax10")
 //	private int taMax10;
 	
+	public String toJson()
+	{
+		Gson gson = new Gson();
+		return gson.toJson(this);
+	}
 	
 }

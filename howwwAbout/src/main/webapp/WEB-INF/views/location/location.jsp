@@ -25,8 +25,8 @@
 	<img alt="image" src="<%= location.getFileurl3() %>" style="width:24%" />
 	<img alt="image" src="<%= location.getFileurl4() %>" style="width:24%" />
 </div>
-<p> <a href="/howAbout/location/update?lat=<%=location.getLatitude()%>&log=<%=location.getLongitude()%>">수정</a>
-	 | <a href="/howAbout/location/delete?lat=<%=location.getLatitude()%>&log=<%=location.getLongitude()%>">삭제</a></p>
+<p> <a href="/howAbout/location/update?num=<%=location.getNum()%>">수정</a>
+	 | <a href="/howAbout/location/delete?num=<%=location.getNum()%>">삭제</a></p>
 <p> <a href="/howAbout/location">location 홈으로</a> </p>
 </body>
 </html>

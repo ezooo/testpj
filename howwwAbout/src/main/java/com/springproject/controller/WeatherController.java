@@ -69,6 +69,7 @@ public class WeatherController
 	        String itemmm = item.getJSONObject(0).toString();
 	        WeatherOfWeek ww = new WeatherOfWeek();
 	        ww = om.readValue(itemmm, WeatherOfWeek.class);
+	        ww.setBasedate(tt);
 	        
 	        //weather 에 저장해서 database 보내기
 	        weatherService.setWeatherOfWeek(ww);
@@ -82,6 +83,8 @@ public class WeatherController
 		
 		//기온 불러오기
 		System.out.println("이제 기온 불러오기");
+		//weatherarea code 다 받아와서 리스트에 넣고 리스트 크기만큼 돌면서 api 호출 --> db 저장하기
+		// vs 그냥 멤버의 주소 받아와서 그 주소에 맞는 api 만 호출해서 뿌려주기
 		String regId = "11H20301";
 		try 
 		{
