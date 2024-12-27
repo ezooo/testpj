@@ -11,6 +11,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Calendar</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <style>
 body {
         font-family: Arial, sans-serif;
@@ -77,11 +78,6 @@ body {
 </style>
 </head>
 <body>
-<%
-	WeatherOfWeek weatherOfWeek = (WeatherOfWeek)request.getAttribute("weatherOfWeek");
-	Gson gson = new Gson();
-	String weatherJson = gson.toJson(weatherOfWeek);
-%>
 	<div>
 		<div><a href="${pageContext.request.contextPath}/calendar?year=${preYear}&month=${preMonth}"><button>이전 달</button></a></div>
 		<div id="monthDiv" > <span id="spanYear">${year}</span>년 <span id="spanMonth">${month}</span>월</div>
@@ -104,11 +100,6 @@ body {
 			</c:forEach>
 	</div>
 </body>
-<script type="text/javascript">
-	var weatherJson = JSON.parse('<%= weatherJson %>');	//
-	console.log(weatherJson);
-</script>
-
 <script src="/howAbout/resources/js/weatherfunc.js"></script>
 
 </html>

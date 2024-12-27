@@ -11,23 +11,33 @@ import org.springframework.stereotype.Service;
 @Service
 public class CalendarServiceImpl implements CalendarService{
 	public List<Integer> getCalendarDates(int year, int month){
-		System.out.println("getCalendarDates 입장");
-		List<Integer> dates = new ArrayList<>(); //달력에 출력할 날짜 담는 List
-		
-		LocalDate firstDayOfMonth = LocalDate.of(year, month, 1); //해당 달의 첫 날짜
-		System.out.println("firstDayOfMonth : "+firstDayOfMonth);
-		
-		int firstDayOfWeek= firstDayOfMonth.getDayOfWeek().getValue(); //요일(int)만 추출(월:1 일:7)
-		System.out.println("firstDayOfWeek : "+firstDayOfWeek);
-		LocalDate startDate = firstDayOfMonth.minusDays(firstDayOfWeek % 7);
-		System.out.println("startDate : "+startDate);
-		for(int i = 0; i<42; i++) {
-			LocalDate currentDate = startDate.plusDays(i);
-			dates.add(currentDate.getDayOfMonth()); //currentDate의 일 부분만 추출해서 추가
-		}
-		System.out.println("currentDate 추가 완료 ");
-		return dates;
-	}
+	      System.out.println("getCalendarDates 입장");
+	      List<Integer> dates = new ArrayList<>(); //달력에 출력할 날짜 담는 List
+	      
+	      LocalDate firstDayOfMonth = LocalDate.of(year, month, 1); //해당 달의 첫 날짜
+	      System.out.println("firstDayOfMonth : "+firstDayOfMonth);
+	      
+	      int firstDayOfWeek= firstDayOfMonth.getDayOfWeek().getValue(); //요일(int)만 추출(월:1 일:7)
+	      System.out.println("firstDayOfWeek : "+firstDayOfWeek);
+	      
+	      LocalDate startDate = firstDayOfMonth.minusDays(firstDayOfWeek % 7);
+	      System.out.println("startDate : "+startDate);
+	      
+	      for(int i = 0; i<42; i++) {
+	         LocalDate currentDate = startDate.plusDays(i);
+	         System.out.println(currentDate);
+	         
+	         if(currentDate.getMonthValue() != month) { dates.add(0); }
+	         else {
+	            dates.add(currentDate.getDayOfMonth()); //currentDate의 일 부분만 추출해서 추가
+	         }
+	         
+	         
+	      }
+	      System.out.println("currentDate 추가 완료 ");
+	      return dates;
+	   }
+
 	public Map<String, Object> getCalendarYearMonth(Integer year, Integer month) {
 		System.out.println("getCalendarYearMonth 입장");
 		if(year==null||month==null) {
@@ -63,6 +73,7 @@ public class CalendarServiceImpl implements CalendarService{
 		response.put("preMonth",preMonth);
 		response.put("nextYear",nextYear);
 		response.put("nextMonth",nextMonth);
+		
 		
 		return response;
 	}

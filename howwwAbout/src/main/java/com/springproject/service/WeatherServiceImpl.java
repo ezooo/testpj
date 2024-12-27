@@ -24,4 +24,10 @@ public class WeatherServiceImpl implements WeatherService
 		return weatherRepository.getWeatherOfWeek();
 	}
 
+	@Override
+	public String getRegCode(String areaname) 
+	{
+		return weatherRepository.getRegCode(areaname);
+	}
+
 }

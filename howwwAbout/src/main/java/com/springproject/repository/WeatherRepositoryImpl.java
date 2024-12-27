@@ -42,6 +42,20 @@ public class WeatherRepositoryImpl implements WeatherRepository
 		WeatherOfWeek weatherOfWeek = template.queryForObject(sql, new WeatherOfWeekRowMapper());
 		return weatherOfWeek;
 	}
+
+
+	@Override
+	public String getRegCode(String areaname) 
+	{
+		System.out.println("WeatherRepositoryImpl getRegCode in");
+		sql = "select areacode from weatherarea where areaname=?";
+		String areacode = template.queryForObject(sql, String.class, areaname);
+		if(areacode!= null)
+		{
+			return areacode;
+		}
+		return "11H20301";
+	}
 	
 	
 	
