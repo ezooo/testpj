@@ -61,7 +61,8 @@ public class DiaryRepositoryImpl implements DiaryRepository
 	{
 		System.out.println("DiaryRepositoryImpl getAllDiary in");
 		
-		SQL = "select * from diary where isopen='true'";
+		//SQL = "select * from diary where isopen='true'";
+		SQL = "select * from diary where isopen='true' order by RAND() LIMIT 5";
 		List<Diary> diaries = template.query(SQL, new DiaryRowMapper());	//sql을 
 		System.out.println("getAllDiary" +diaries);
 		return diaries;
